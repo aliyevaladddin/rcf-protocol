@@ -1,0 +1,9 @@
+# RCF Ignore List
+.git
+__pycache__
+.venv
+node_modules
+sdk/
+brain/
+tmp/
+plain

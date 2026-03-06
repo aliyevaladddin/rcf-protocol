@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rcf-cli"
+version = "0.1.0"
+authors = [
+  { name="Aladdin Aliyev", email="aladdin@aliyev.site" },
+]
+description = "A command-line tool for RCF protocol compliance verification."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.scripts]
+rcf-cli = "rcf_cli.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rcf_cli*"]

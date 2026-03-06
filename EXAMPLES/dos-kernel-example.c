@@ -9,7 +9,12 @@
 #include <linux/kernel.h>
 
 /* 
+ * ==============================================================================
+ * NOTICE: This file is protected under RCF-PL v1.1
+ * Restricted Correlation Framework — https://rcf.aliyev.site
+ * 
  * [RCF:NOTICE][RCF:PUBLIC]
+ * ==============================================================================
  * Basic module initialization. Publicly documentable.
  */
 int init_module(void) {

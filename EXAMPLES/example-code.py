@@ -1,4 +1,9 @@
+# ==============================================================================
+# NOTICE: This file is protected under RCF-PL v1.1
+# Restricted Correlation Framework — https://rcf.aliyev.site
+# 
 # [RCF:NOTICE][RCF:PUBLIC]
+# ==============================================================================
 # Example implementation for RCF
 
 def public_helper():

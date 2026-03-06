@@ -34,7 +34,13 @@ rcf-protocol/                           ← Repository root
 ├── GOVERNANCE/                          ← Protocol governance
 │   ├── GOVERNANCE.md                    ← Governance process
 │   ├── VERSIONING.md                    ← Versioning policy
-│   └── CHANGELOG.md                     ← Change history
+│   ├── CHANGELOG.md                     ← Change history
+│   └── RELEASE-NOTES.md                 ← Release details
+│
+├── sdk/                                 ← SDK and CLI tools
+│   └── python/                          ← Python implementation
+│       ├── rcf_cli/                     ← Package source
+│       └── pyproject.toml               ← Packaging config
 │
 └── EXAMPLES/                            ← Usage examples
     ├── example-notice.md                ← NOTICE.md example

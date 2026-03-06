@@ -55,6 +55,30 @@ RCF is specialized for dOS environments (like **Aurora Access**). See the [**dOS
 
 ---
 
+## 🛠️ RCF CLI Tool (Python SDK)
+
+We provide a Python-based scanner to verify compliance in your projects.
+
+### Installation
+```bash
+cd sdk/python
+pip install .
+```
+
+### Usage
+```bash
+# Scan a directory for RCF compliance
+rcf-cli .
+
+# Generate a JSON report
+rcf-cli . --format json
+
+# Show summary only
+rcf-cli . --summary
+```
+
+---
+
 ## 📂 Repository Structure
 
 | Directory | Description | Key Documents |
