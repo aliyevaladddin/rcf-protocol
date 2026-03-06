@@ -37,7 +37,7 @@ jobs:
       - name: Publish to GitHub Packages
         run: |
           cd sdk/python
-          python -m twine upload --repository-url https://maven.pkg.github.com/${{ github.repository }} dist/*
+          python -m twine upload --repository-url https://pypi.pkg.github.com/${{ github.repository }} dist/*
         env:
           TWINE_USERNAME: ${{ github.actor }}
           TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
