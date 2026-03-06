@@ -1,0 +1,46 @@
+rcf-protocol/                           ← Repository root
+│
+├── README.md                             ← Main file (overview)
+├── LICENSE                               ← RCF-PL v1.1 license text
+│
+├── SPECIFICATION/                        ← Technical documentation
+│   ├── RCF-SPEC.md                      ← Full protocol specification
+│   ├── RCF-CORE.md                      ← Core concepts
+│   ├── RCF-ENFORCEMENT.md               ← Technical enforcement measures
+│   ├── RCF-COMPLIANCE.md                ← Compliance checklist
+│   └── RCF-DOS-ADOPTION.md              ← dOS-specific adoption guide
+│
+├── LEGAL/                               ← Legal documentation
+│   ├── LEGAL.md                         ← Legal framework
+│   ├── DEFINITIONS.md                   ← Terminology glossary
+│   ├── ENFORCEMENT.md                   ← Enforcement procedures
+│   └── JURISDICTION.md                  ← International applicability
+│
+├── IMPLEMENTATION/                      ← Practical implementation
+│   ├── CODE-MARKERS.md                  ← Code markers guide
+│   ├── TECHNICAL-MEASURES.md            ← Technical measures
+│   ├── API-GUIDELINES.md                ← API design guidelines
+│   └── TEMPLATES/                       ← Templates for copying
+│       ├── NOTICE.template              ← NOTICE.md template
+│       ├── NOTICE-DOS.template          ← dOS-specific NOTICE.md template
+│       ├── HEADER.template              ← File header template
+│       └── LICENSE.template             ← LICENSE template
+│
+├── ADOPTION/                            ← Adoption guides
+│   ├── ADOPTION-GUIDE.md                ← How to adopt RCF
+│   ├── MIGRATION.md                     ← Migration from other licenses
+│   └── FAQ.md                           ← Frequently asked questions
+│
+├── GOVERNANCE/                          ← Protocol governance
+│   ├── GOVERNANCE.md                    ← Governance process
+│   ├── VERSIONING.md                    ← Versioning policy
+│   └── CHANGELOG.md                     ← Change history
+│
+└── EXAMPLES/                            ← Usage examples
+    ├── example-notice.md                ← NOTICE.md example
+    ├── example-license.md               ← LICENSE example
+    ├── example-code.py                  ← RCF-marked code example
+    └── dos-kernel-example.c             ← dOS-specific kernel example
+
+Copyright (c) 2026 Aladdin Aliyev. All rights reserved.
+RCF Protocol License Version 1.1

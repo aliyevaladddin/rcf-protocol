@@ -1,0 +1,28 @@
+# NOTICE: Restricted Correlation Framework (RCF) v1.1
+
+Project: [PROJECT_NAME]
+Author: [AUTHOR_NAME]
+License: RCF-PL v1.1
+
+---
+
+## IMPORTANT: READ BEFORE ACCESSING CODE
+
+This project is protected under the **Restricted Correlation Framework (RCF)**.
+
+### 1. ALLOWED (Visibility Rights)
+- You may read, audit, and study the source code manually.
+- You may use the project for personal, non-commercial research.
+
+### 2. PROHIBITED (Usage Restrictions)
+- **NO AI TRAINING:** You may not use this code to train or fine-tune AI/ML models.
+- **NO METHODOLOGY STEALING:** You may not replicate the core algorithms in other products.
+- **NO AUTOMATION:** No automated scraping or harvesting of this repository.
+
+### 3. VIOLATIONS
+Any unauthorized use results in the **immediate termination** of all rights granted under RCF.
+
+For authorization requests: [CONTACT_EMAIL]
+
+---
+**© 2026 [AUTHOR_NAME]**

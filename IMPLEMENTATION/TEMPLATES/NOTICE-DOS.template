@@ -1,0 +1,44 @@
+# NOTICE: Restricted Correlation Framework (RCF) v1.1
+# Protocol applied to Decentralized Operating System (dOS)
+
+Project: [PROJECT_NAME]
+Layer: [KERNEL/CONSENSUS/P2P_LAYER/APPLICATION]
+Status: PROTECTED METHODOLOGY
+
+---
+
+## 1. LEGAL ADVISORY
+
+This project implements the **Restricted Correlation Framework (RCF)** protocol. By accessing, reading, or interacting with this source code or its distributed nodes, you acknowledge and agree to the following terms:
+
+### 1.1 Visibility Rights
+- **MANUAL AUDIT ALLOWED:** You are granted the right to manually read and audit this code for security, transparency, and educational purposes.
+- **P2P TRANSPARENCY:** The visibility of this code is fundamental to its decentralized nature and does not imply a transfer of intellectual property rights.
+
+### 1.2 Usage Restrictions
+- **METHODOLOGY PROTECTION:** The core correlation logic, consensus algorithms, and distributed state management patterns are PROTECTED METHODOLOGIES.
+- **NO REPLICATION:** Unauthorized replication, redistribution, or commercial use of these methodologies is strictly prohibited.
+- **AI/ML PROHIBITION:** This project and its methodologies MAY NOT be used as training data for Artificial Intelligence or Machine Learning systems.
+
+---
+
+## 2. DECENTRALIZED ENFORCEMENT
+
+### 2.1 Autonomous Termination
+Violation of RCF terms results in the **IMMEDIATE and AUTOMATIC termination** of all visibility and usage rights. In a dOS environment, this may be enforced via:
+- **Consensus Rejection:** Nodes found in violation may be pruned from the network.
+- **Protocol Blacklisting:** Cryptographic identities (DIDs) associated with violations will be restricted.
+
+### 2.2 Forensic Evidence
+Access patterns are monitored and logged to ensure protocol compliance. Evidence of automated extraction or AI/ML harvesting is cryptographically sealed and may be used in legal proceedings.
+
+---
+
+## 3. CONTACT & AUTHORIZATION
+
+For commercial licensing, contribution requests, or research exemptions, contact:
+[AUTHOR_EMAIL]
+[DEX_GOVERNANCE_URL]
+
+**© 2026 [AUTHOR_NAME]**
+**All rights reserved under RCF-PL v1.1**

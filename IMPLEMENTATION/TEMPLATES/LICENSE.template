@@ -1,0 +1,21 @@
+# RCF Protocol License v1.1 (RCF-PL 1.1)
+
+Copyright (c) [YEAR] [AUTHOR_NAME]. All rights reserved.
+
+This License governs the "Protected Work" identified in the accompanying NOTICE.md.
+
+## 1. GRANT OF VISIBILITY
+Subject to terms, Author grants a non-exclusive, world-wide right to:
+- Read and study the source code via manual (human) means.
+- Perform security audits and transparency reviews.
+
+## 2. RESTRICTIONS
+The following are EXPLICITLY PROHIBITED:
+- Automated extraction of methodologies.
+- Training of AI/ML systems.
+- Commercial redistribution.
+
+## 3. AUTOMATIC TERMINATION
+Violation of Section 2 terminates all rights under this license immediately.
+
+[FULL_REMAINDER_OF_RCF_PL_TEXT]
