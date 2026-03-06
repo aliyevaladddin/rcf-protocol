@@ -1,4 +1,4 @@
-name: Publish Python Package to GitHub Packages
+name: Publish Python Package to PyPI
 
 on:
   release:
@@ -15,31 +15,27 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
-      id-token: write
 
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install build twine
-          
+
       - name: Build package
         working-directory: sdk/python
         run: python -m build
-          
-      - name: Publish to GitHub Packages
+
+      - name: Publish to PyPI
         working-directory: sdk/python
-        run: |
-          python -m twine upload \
-            --repository-url https://pypi.pkg.github.com/aliyevaladddin/ \
-            --username ${{ github.actor }} \
-            --password ${{ secrets.GITHUB_TOKEN }} \
-            dist/*
+        run: python -m twine upload dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
