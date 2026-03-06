@@ -16,6 +16,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
+
     steps:
       - uses: actions/checkout@v4
       
@@ -30,14 +32,14 @@ jobs:
           pip install build twine
           
       - name: Build package
-        run: |
-          cd sdk/python
-          python -m build
+        working-directory: sdk/python
+        run: python -m build
           
       - name: Publish to GitHub Packages
+        working-directory: sdk/python
         run: |
-          cd sdk/python
-          python -m twine upload --repository-url https://pypi.pkg.github.com/${{ github.repository }} dist/*
-        env:
-          TWINE_USERNAME: ${{ github.actor }}
-          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          python -m twine upload \
+            --repository-url https://pypi.pkg.github.com/aliyevaladddin/ \
+            --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            dist/*
