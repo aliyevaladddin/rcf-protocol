@@ -3,6 +3,12 @@ name: Publish Python Package to GitHub Packages
 on:
   release:
     types: [created]
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'sdk/python/**'
+      - '.github/workflows/publish-package.yml'
 
 jobs:
   publish:
