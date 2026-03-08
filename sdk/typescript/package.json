@@ -1,6 +1,6 @@
 {
   "name": "rcf-protocol",
-  "version": "1.1",
+  "version": "1.1.0",
   "description": "RCF Protocol SDK for TypeScript/JavaScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/aliyevaladddin/rcf-protocol.git"
   },
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/cli/index.ts",
