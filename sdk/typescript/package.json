@@ -1,6 +1,6 @@
 {
   "name": "rcf-protocol",
-  "version": "1.1.0",
+  "version": "1.1",
   "description": "RCF Protocol SDK for TypeScript/JavaScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
-    "commander": "^11.1.0",
+    "commander": "^11.1",
     "glob": "^10.3.10"
   },
   "devDependencies": {

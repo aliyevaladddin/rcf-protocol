@@ -1,6 +1,6 @@
 {
   "name": "rcf-protocol",
-  "version": "1.1.0",
+  "version": "1.1",
   "description": "RCF Protocol SDK for TypeScript/JavaScript",
   "homepage": "https://rcf.aliyev.site",
   "repository": {
@@ -27,7 +27,7 @@
     "prepublishOnly": "npm run build && npm test"
   },
   "dependencies": {
-    "commander": "^11.1.0",
+    "commander": "^11.1",
     "chalk": "^5.3.0",
     "glob": "^10.3.10"
   },
