@@ -59,18 +59,34 @@ RCF is specialized for dOS environments (like **Aurora Access**). See the [**dOS
 
 ---
 
-## 🛠️ RCF CLI Tool (Python SDK)
+## 🛠️ RCF CLI Tools (NPM & PyPI)
 
-We provide a Python-based scanner to verify compliance in your projects.
+We provide official Command Line Interfaces to verify compliance in your projects, available in both TypeScript/Node.js and Python ecosystems.
 
-### Installation
+### 🟨 Node.js (NPM)
+
+Install the TypeScript/JavaScript package globally to use the CLI from anywhere:
 ```bash
-cd sdk/python
-pip install .
+npm install -g rcf-protocol
+```
+Or use it instantly via npx:
+```bash
+npx rcf-protocol .
 ```
 
-### Usage
+### 🐍 Python (PyPI)
+
+Install the Python SDK globally or in your virtual environment:
 ```bash
+pip install rcf-cli
+```
+
+### 🚀 Usage
+
+```bash
+# Initialize RCF protections in your project (generates NOTICE.md & .rcfignore)
+rcf-cli init --project "MyApp" --author "Your Name"
+
 # Scan a directory for RCF compliance
 rcf-cli .
 
