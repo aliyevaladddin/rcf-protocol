@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: rcf-cli
-Version: 0.1.0
+Version: 1.1.1
 Summary: A command-line tool for RCF protocol compliance verification.
 Author-email: Aladdin Aliyev <aladdin@aliyev.site>
 Classifier: Programming Language :: Python :: 3
