@@ -2,9 +2,9 @@
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
-[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_1.1-red.svg?style=flat-square)](https://rcf.aliyev.site)
+[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_1.1.3-red.svg?style=flat-square)](https://rcf.aliyev.site)
 
-**Version:** 1.1  
+**Version:** 1.1.3
 **Status:** Active Specification  
 **Category:** Author-Defined Licensing Protocol  
 **Website:** [rcf.aliyev.site](https://rcf.aliyev.site)
