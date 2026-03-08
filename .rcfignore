@@ -7,3 +7,9 @@ sdk/
 brain/
 tmp/
 plain
+# Python generated files
+*.egg-info/
+*.egg
+__pycache__/
+dist/
+build/
