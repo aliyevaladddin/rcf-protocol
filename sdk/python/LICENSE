@@ -1,0 +1,184 @@
+RESTRICTED CORRELATION FRAMEWORK PROTOCOL LICENSE
+Version 1.1.1, Effective Date: 2026
+
+Copyright (c) 2026 Aladdin Aliyev
+All rights reserved.
+
+================================================================================
+PREAMBLE
+================================================================================
+
+This License governs the use of the Restricted Correlation Framework (RCF) 
+Protocol and any works protected under this License. RCF establishes a new 
+category of intellectual property protection that distinguishes between 
+visibility rights and usage rights.
+
+By accessing, viewing, or otherwise engaging with any RCF-protected work, 
+you acknowledge and agree to be bound by the terms of this License.
+
+================================================================================
+DEFINITIONS
+================================================================================
+
+"RCF Protocol" means the licensing framework, specifications, and 
+methodologies described in the RCF specification documents.
+
+"Protected Work" means any software, documentation, methodology, or other 
+intellectual property bearing RCF notices or markers.
+
+"Author" means the creator or owner of the Protected Work who has elected 
+to apply RCF protection.
+
+"Visibility" means the act of reading, viewing, or manually examining the 
+Protected Work without automated assistance.
+
+"Automated Extraction" means any use of software, scripts, AI/ML systems, 
+or other automated means to analyze, process, extract, or replicate 
+elements of the Protected Work.
+
+"Correlation Methodology" means the specific techniques, algorithms, 
+patterns, or logic used to analyze, correlate, or derive insights from data.
+
+================================================================================
+GRANTED RIGHTS — VISIBILITY
+================================================================================
+
+Subject to compliance with this License, the Author grants you a limited, 
+non-exclusive, non-transferable right to:
+
+1. MANUAL VIEWING
+   — Read and manually examine the Protected Work
+   — Study the Protected Work for personal education and research
+   — Create mental models and personal notes (non-automated)
+
+2. RESPONSIBLE DISCLOSURE
+   — Report security vulnerabilities or bugs to the Author
+   — Follow responsible disclosure practices
+
+3. REFERENCE AND CITATION
+   — Cite the Protected Work in academic or professional publications
+   — Reference the Protected Work with proper attribution
+
+================================================================================
+PROHIBITED ACTIVITIES — USAGE RESTRICTIONS
+================================================================================
+
+WITHOUT EXPRESS WRITTEN AUTHORIZATION, you MAY NOT:
+
+1. AI/ML TRAINING AND DATASET GENERATION
+   — Use the Protected Work to train artificial intelligence or machine 
+     learning models
+   — Include the Protected Work in training datasets
+   — Use AI/ML systems to analyze or replicate the Protected Work's 
+     methodologies
+
+2. AUTOMATED EXTRACTION
+   — Employ scripts, bots, scrapers, or automated tools to extract content
+   — Perform mass downloading, mirroring, or archiving
+   — Use static or dynamic analysis tools for automated comprehension
+
+3. METHODOLOGY REPLICATION
+   — Reproduce, reimplement, or recreate the Correlation Methodology
+   — Create derivative works based on the Protected Work's unique approaches
+   — Document or publish the internal logic of the Protected Work
+
+4. COMMERCIAL EXPLOITATION
+   — Use the Protected Work for commercial purposes, including but not limited 
+     to: SaaS offerings, consulting services, paid integrations, or 
+     commercial products
+   — Monetize access to or use of the Protected Work
+   — Bundle the Protected Work with commercial offerings
+
+5. MASS OPERATIONS
+   — Perform mass scanning, scraping, or automated access
+   — Distribute tools designed to circumvent RCF protections
+   — Enable third parties to violate this License
+
+================================================================================
+SELF-ENFORCEMENT CLAUSE
+================================================================================
+
+This License is SELF-ENFORCING. Any violation automatically and immediately 
+terminates all rights granted under this License, without requirement for 
+prior notice or warning.
+
+Upon termination:
+- All access rights are revoked retroactively
+- Any copies in your possession must be destroyed
+- Legal remedies under applicable intellectual property law may be pursued
+
+The Author reserves the right to pursue all available legal remedies 
+without limitation.
+
+================================================================================
+RESEARCH AND EDUCATIONAL EXCEPTIONS
+================================================================================
+
+Research and educational use is PERMITTED subject to the following 
+conditions:
+
+1. The use is genuinely non-commercial and academic
+2. No automated extraction or AI/ML processing is employed
+3. The Correlation Methodology is not replicated or published
+4. Proper attribution is provided
+5. The research does not enable violations by third parties
+
+Institutional review board (IRB) approval or equivalent ethical review 
+is recommended for research involving Protected Works.
+
+================================================================================
+TECHNICAL COMPLIANCE
+================================================================================
+
+Protected Works MAY implement technical measures to enforce this License, 
+including but not limited to:
+
+- Rate limiting and access controls
+- Behavioral analysis for automation detection
+- Code obfuscation or dynamic loading
+- Watermarking and fingerprinting
+
+Circumvention of technical measures constitutes License violation.
+
+================================================================================
+JURISDICTION AND GOVERNING LAW
+================================================================================
+
+This License shall be governed by and construed in accordance with the laws 
+of [Jurisdiction TBD], without regard to conflict of law principles.
+
+Disputes shall be resolved through binding arbitration in [Location TBD] 
+unless otherwise agreed in writing.
+
+================================================================================
+MISCELLANEOUS
+================================================================================
+
+SEVERABILITY: If any provision is unenforceable, remaining provisions 
+continue in effect.
+
+NO WAIVER: Failure to enforce any provision does not constitute waiver 
+of future enforcement.
+
+ENTIRE AGREEMENT: This License constitutes the entire agreement between 
+parties concerning the Protected Work.
+
+================================================================================
+CONTACT AND AUTHORIZATION REQUESTS
+================================================================================
+
+For authorization requests, licensing inquiries, or compliance questions:
+
+[Contact Information TBD]
+
+================================================================================
+
+BY ACCESSING ANY RCF-PROTECTED WORK, YOU ACKNOWLEDGE THAT YOU HAVE READ, 
+UNDERSTOOD, AND AGREE TO BE BOUND BY THIS LICENSE.
+
+IF YOU DO NOT AGREE, YOU MUST IMMEDIATELY CEASE ALL ACCESS AND DESTROY 
+ANY COPIES IN YOUR POSSESSION.
+
+================================================================================
+Copyright (c) 2026 Aladdin Aliyev. All rights reserved.
+RCF Protocol License Version 1.1
