@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/aliyevaladddin/rcf-protocol.git"
   },
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "RCF",
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/cli/index.ts",
