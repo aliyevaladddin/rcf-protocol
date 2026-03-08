@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { ComplianceValidator } from '../src/core/ComplianceValidator';
 import { ParseResult } from '../src/core/types';
 
