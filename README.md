@@ -60,6 +60,8 @@ Independent developers and small studios are vulnerable to IP theft and unauthor
 - **Offer**: "AI is extracting your code. We will implement the RCF-protocol, mark your proprietary assets, and provide cryptographic audit capabilities."
 - **Action**: Use the `rcf-cli audit` tool to generate an immutable `RCF-AUDIT-REPORT.json` containing SHA-256 hashes of all protected methodologies, creating a verifiable snapshot of ownership.
 
+> **Note:** The `audit` command is a **Premium Feature** that requires an `RCF-AUDIT` License Key.
+
 ---
 
 ## 🚀 Quick Start
@@ -105,6 +107,11 @@ rcf-cli init --project "MyApp" --author "Your Name"
 
 # Scan a directory for RCF compliance
 rcf-cli .
+
+# Generate a premium RCF-Audit cryptographic report (Requires License Key)
+rcf-cli audit . --license-key RCF-AUDIT-XXXXXX
+# Or via environment variable:
+# RCF_LICENSE_KEY=RCF-AUDIT-XXXXXX rcf-cli audit .
 
 # Generate a JSON report
 rcf-cli . --format json

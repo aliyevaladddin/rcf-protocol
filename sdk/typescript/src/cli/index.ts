@@ -55,8 +55,19 @@ program
 
 program
   .command('audit [directory]')
-  .description('Generate an RCF Audit Report')
-  .action(async (directory = '.') => {
+  .description('Generate an RCF Audit Report (Premium Feature)')
+  .option('-k, --license-key <key>', 'RCF Audit License Key')
+  .action(async (directory = '.', options) => {
+    const licenseKey = options.licenseKey || process.env.RCF_LICENSE_KEY;
+    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
+
+    if (!licenseKey || !licenseKey.startsWith('RCF-AUDIT-') || !uuidRegex.test(licenseKey.replace('RCF-AUDIT-', ''))) {
+      console.log(chalk.red("❌ RCF-PL ERROR: The 'audit' command is a premium feature."));
+      console.log(chalk.yellow("   Please provide a valid RCF-AUDIT license key via -k/--license-key or RCF_LICENSE_KEY env variable."));
+      console.log(chalk.blue("   Visit https://rcf.aliyev.site to obtain a license."));
+      process.exit(1);
+    }
+
     const parser = new MarkerParser();
     const results = await parser.scan(directory);
 

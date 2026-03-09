@@ -3,6 +3,7 @@ import sys
 import json
 import os
 import hashlib
+import re
 from datetime import datetime
 from rcf_cli.scanner import RCFScanner
 
@@ -44,6 +45,15 @@ For full protocol details, visit: https://rcf.aliyev.site
     print(f"🎉 RCF Protocol successfully initialized for '{project_name}'.")
 
 def audit_project(args):
+    license_key = args.license_key or os.environ.get("RCF_LICENSE_KEY")
+    uuid_regex = re.compile(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$')
+    
+    if not license_key or not license_key.startswith("RCF-AUDIT-") or not uuid_regex.match(license_key.replace("RCF-AUDIT-", "")):
+        print("❌ RCF-PL ERROR: The 'audit' command is a premium feature.")
+        print("   Please provide a valid RCF-AUDIT license key via --license-key or RCF_LICENSE_KEY env variable.")
+        print("   Visit https://rcf.aliyev.site to obtain a license.")
+        sys.exit(1)
+
     scanner = RCFScanner(args.path)
     results = scanner.scan_directory()
     
@@ -84,9 +94,10 @@ def main():
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "audit":
-        parser = argparse.ArgumentParser(description="Generate an RCF Audit Report")
+        parser = argparse.ArgumentParser(description="Generate an RCF Audit Report (Premium Feature)")
         parser.add_argument("audit", help="Audit command")
         parser.add_argument("path", nargs="?", default=".", help="Path to audit")
+        parser.add_argument("--license-key", help="RCF Audit License Key")
         args = parser.parse_args()
         audit_project(args)
         return
