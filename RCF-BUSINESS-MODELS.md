@@ -21,7 +21,13 @@ Both the Python and TypeScript SDK Command Line Interfaces (CLIs) have been upda
 - This report traverses the codebase, identifies any files with RCF markers (e.g., `PUBLIC`, `PROTECTED`, `RESTRICTED`), and calculates their **SHA-256 cryptographic hashes**.
 - This acts as an immutable proof-of-work/ownership snapshot for independent developers.
 
-> **Monetization Note:** The `audit` command has been implemented as a **Premium Feature**. Users must provide a valid license key (e.g., via `--license-key = RCF-AUDIT-...`) for the tool to function, enabling direct monetization of the CLI tool itself.
+> **Monetization Note:** The `audit` command has been implemented as a **Premium Feature**. Users must provide a valid license key (e.g., via `--license-key = RCF-AUDIT-...`) for the tool to function.
+> 
+> **Pricing Plans:**
+> - **RCF-Audit Personal:** $19 (one-time per project)
+> - **RCF-Audit Professional:** $99/year (unlimited)
+> 
+> Direct monetization of the CLI tool itself enables a sustainable ecosystem for independent protection consultants.
 
 ### 4. Verification Check
 - Python `pytest` suite for the CLI scanner ran successfully without regressions.

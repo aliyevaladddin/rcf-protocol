@@ -60,6 +60,12 @@ Independent developers and small studios are vulnerable to IP theft and unauthor
 - **Offer**: "AI is extracting your code. We will implement the RCF-protocol, mark your proprietary assets, and provide cryptographic audit capabilities."
 - **Action**: Use the `rcf-cli audit` tool to generate an immutable `RCF-AUDIT-REPORT.json` containing SHA-256 hashes of all protected methodologies, creating a verifiable snapshot of ownership.
 
+> **Pricing:** 
+> - **RCF-Audit Personal:** $19 (one-time per project)
+> - **RCF-Audit Professional:** $99/year (unlimited)
+> 
+> Visit [rcf.aliyev.site](https://rcf.aliyev.site) to obtain a license.
+
 > **Note:** The `audit` command is a **Premium Feature** that requires an `RCF-AUDIT` License Key.
 
 ---

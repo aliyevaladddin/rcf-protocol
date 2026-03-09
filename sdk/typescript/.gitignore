@@ -1,3 +1,10 @@
 node_modules/
 dist/
 .DS_Store
+PAYMENTS.md
+LICENSE_KEYS.txt
+*.license
+*.key
+.env
+RCF-AUDIT-REPORT.json
+RCF-AUDIT-REPORT.json

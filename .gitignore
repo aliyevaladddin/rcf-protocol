@@ -1,7 +1,10 @@
-dist/
+# Payments and Licenses
 PAYMENTS.md
 LICENSE_KEYS.txt
 *.license
 *.key
 .env
 RCF-AUDIT-REPORT.json
+
+# OS specific
+.DS_Store
