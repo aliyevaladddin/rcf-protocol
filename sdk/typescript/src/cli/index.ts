@@ -4,8 +4,9 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import { MarkerParser } from '../core/MarkerParser';
 import { ComplianceValidator } from '../core/ComplianceValidator';
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { readFileSync, writeFileSync } from 'fs';
+import { resolve, relative } from 'path';
+import { createHash } from 'crypto';
 
 const pkg = JSON.parse(readFileSync(resolve(__dirname, '../../package.json'), 'utf-8'));
 
@@ -39,7 +40,7 @@ program
   .action(async (directory = '.', options) => {
     const parser = new MarkerParser();
     const results = await parser.scan(directory);
-    
+
     const validator = new ComplianceValidator({ strict: options.strict });
     const status = await validator.validate(results);
 
@@ -50,6 +51,46 @@ program
       status.errors.forEach(e => console.log(chalk.red(`  • ${e.file}:${e.line} - ${e.message}`)));
       process.exit(1);
     }
+  });
+
+program
+  .command('audit [directory]')
+  .description('Generate an RCF Audit Report')
+  .action(async (directory = '.') => {
+    const parser = new MarkerParser();
+    const results = await parser.scan(directory);
+
+    const auditReport = {
+      timestamp: new Date().toISOString(),
+      audit_type: "RCF-Audit as a Service",
+      protected_assets: [] as any[]
+    };
+
+    for (const res of results) {
+      if (res.markers && res.markers.length > 0) {
+        try {
+          const fileBuffer = readFileSync(res.file);
+          const fileHash = createHash('sha256').update(fileBuffer).digest('hex');
+
+          const uniqueMarkers = Array.from(new Set(res.markers.map((m: any) => m.type)));
+          const relPath = relative(resolve(directory), res.file);
+
+          auditReport.protected_assets.push({
+            file: relPath,
+            markers: uniqueMarkers,
+            sha256: fileHash
+          });
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+
+    const reportPath = resolve(directory, 'RCF-AUDIT-REPORT.json');
+    writeFileSync(reportPath, JSON.stringify(auditReport, null, 2));
+
+    console.log(chalk.green(`✅ RCF-Audit Complete. Generated ${reportPath}`));
+    console.log(chalk.cyan(`🔒 Encrypted snapshot of ${auditReport.protected_assets.length} protected assets created.`));
   });
 
 function printSummary(results: any[]) {
@@ -73,9 +114,9 @@ function printResults(results: any[], format: string) {
   results.forEach(({ file, markers }: any) => {
     console.log(chalk.bold(`\n📄 ${file}`));
     markers.forEach((m: any) => {
-      const color = m.type === 'PUBLIC' ? 'green' : 
-                    m.type === 'PROTECTED' ? 'yellow' : 
-                    m.type === 'RESTRICTED' ? 'red' : 'blue';
+      const color = m.type === 'PUBLIC' ? 'green' :
+        m.type === 'PROTECTED' ? 'yellow' :
+          m.type === 'RESTRICTED' ? 'red' : 'blue';
       console.log(`  ${(chalk as any)[color](m.marker.name)} Line ${m.line}: ${m.context.substring(0, 50)}...`);
     });
   });

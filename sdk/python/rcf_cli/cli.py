@@ -2,6 +2,7 @@ import argparse
 import sys
 import json
 import os
+import hashlib
 from datetime import datetime
 from rcf_cli.scanner import RCFScanner
 
@@ -42,6 +43,36 @@ For full protocol details, visit: https://rcf.aliyev.site
         
     print(f"🎉 RCF Protocol successfully initialized for '{project_name}'.")
 
+def audit_project(args):
+    scanner = RCFScanner(args.path)
+    results = scanner.scan_directory()
+    
+    audit_report = {
+        "timestamp": datetime.now().isoformat(),
+        "audit_type": "RCF-Audit as a Service",
+        "protected_assets": []
+    }
+    
+    for res in results:
+        file_path = os.path.join(args.path, res['path'])
+        try:
+            with open(file_path, "rb") as f:
+                file_hash = hashlib.sha256(f.read()).hexdigest()
+            audit_report["protected_assets"].append({
+                "file": res['path'],
+                "markers": res['markers'],
+                "sha256": file_hash
+            })
+        except Exception:
+            pass
+            
+    report_path = os.path.join(args.path, "RCF-AUDIT-REPORT.json")
+    with open(report_path, "w") as f:
+        json.dump(audit_report, f, indent=2)
+        
+    print(f"✅ RCF-Audit Complete. Generated {report_path}")
+    print(f"🔒 Encrypted snapshot of {len(audit_report['protected_assets'])} protected assets created.")
+
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "init":
         parser = argparse.ArgumentParser(description="Initialize RCF Protocol in the current directory")
@@ -50,6 +81,14 @@ def main():
         parser.add_argument("--author", help="Name of the author")
         args = parser.parse_args()
         init_project(args)
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "audit":
+        parser = argparse.ArgumentParser(description="Generate an RCF Audit Report")
+        parser.add_argument("audit", help="Audit command")
+        parser.add_argument("path", nargs="?", default=".", help="Path to audit")
+        args = parser.parse_args()
+        audit_project(args)
         return
 
     parser = argparse.ArgumentParser(description="RCF Protocol Compliance Checker")

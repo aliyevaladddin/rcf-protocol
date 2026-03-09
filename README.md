@@ -46,6 +46,22 @@ RCF use semantic markers to define protection levels at the block or file level:
 
 ---
 
+## 💎 RCF Business Models
+
+RCF enables new paradigms for monetization and asset protection while maintaining ecosystem openness.
+
+### 1. Protected Core — Open Edge
+The "**Protected Core — Open Edge**" model allows you to distribute open, accessible tools while monetizing the execution engine:
+- **Open SDK ([RCF:PUBLIC])**: Provide a free, open-source SDK for developers to build extensions, plugins, or integrations (e.g., smart home plugins).
+- **Protected Core ([RCF:RESTRICTED])**: The core execution engine (e.g., A-VM) remains restricted. To run the extensions quickly and securely, users or enterprise clients must purchase **License Keys** for the restricted core.
+
+### 2. RCF-Audit as a Service
+Independent developers and small studios are vulnerable to IP theft and unauthorized AI extraction. **RCF-Audit as a Service** lets you act as a protection consultant:
+- **Offer**: "AI is extracting your code. We will implement the RCF-protocol, mark your proprietary assets, and provide cryptographic audit capabilities."
+- **Action**: Use the `rcf-cli audit` tool to generate an immutable `RCF-AUDIT-REPORT.json` containing SHA-256 hashes of all protected methodologies, creating a verifiable snapshot of ownership.
+
+---
+
 ## 🚀 Quick Start
 
 ### For Project Authors (Adopting RCF)

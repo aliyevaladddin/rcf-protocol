@@ -7,6 +7,19 @@
 
 #include <linux/module.h>
 #include <linux/kernel.h>
+#include <linux/moduleparam.h>
+
+static char *rcf_license_key = "";
+module_param(rcf_license_key, charp, 0000);
+MODULE_PARM_DESC(rcf_license_key, "RCF-PL License Key for A-VM Restricted Core");
+
+int verify_license_key(const char* key) {
+    // Mock verification logic
+    if (key && key[0] != '\0') {
+        return 1; // Valid key
+    }
+    return 0; // Invalid
+}
 
 /* 
  * ==============================================================================
@@ -18,7 +31,14 @@
  * Basic module initialization. Publicly documentable.
  */
 int init_module(void) {
-    printk(KERN_INFO "dOS Kernel Module Loaded.\n");
+    printk(KERN_INFO "dOS Kernel Module Loaded. (Protected Core)\n");
+    
+    if (!verify_license_key(rcf_license_key)) {
+        printk(KERN_ERR "RCF-PL ERROR: Missing or invalid license key for RESTRICTED core execution.\n");
+        return -EPERM;
+    }
+    
+    printk(KERN_INFO "RCF-PL VALIDATED: License key accepted. Execution allowed.\n");
     return 0;
 }
 
