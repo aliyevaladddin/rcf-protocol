@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// NOTICE: This file is protected under RCF-PL v1.2.2
+// NOTICE: This file is protected under RCF-PL v1.2.4
 
 import { Command } from 'commander';
 import chalk from 'chalk';
@@ -56,7 +56,7 @@ program
 
 program
   .command('audit [directory]')
-  .description('Generate an RCF Audit Report (Premium Feature)')
+  .description('Generate an RCF Audit Report (Premium Feature). Get keys at https://rcf.aliyev.site')
   .option('-k, --license-key <key>', 'RCF Audit License Key')
   .action(async (directory = '.', options) => {
     const licenseKey = options.licenseKey || process.env.RCF_LICENSE_KEY;
