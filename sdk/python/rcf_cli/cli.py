@@ -102,7 +102,7 @@ def main():
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "audit":
-        parser = argparse.ArgumentParser(description="Generate an RCF Audit Report (Premium Feature)")
+        parser = argparse.ArgumentParser(description="Generate an RCF Audit Report (Premium Feature). Get keys at https://rcf.aliyev.site")
         parser.add_argument("audit", help="Audit command")
         parser.add_argument("path", nargs="?", default=".", help="Path to audit")
         parser.add_argument("--license-key", help="RCF Audit License Key")
