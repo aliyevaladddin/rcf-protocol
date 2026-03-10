@@ -1,8 +1,14 @@
+// NOTICE: This file is protected under RCF-PL v1.2.2
 import { ParseResult, ValidationError } from './types';
 
 interface ValidatorOptions {
   strict?: boolean;
 }
+
+/**
+ * [RCF:RESTRICTED]
+ * The ComplianceValidator class enforces strict adherence to RCF specification standards.
+ */
 
 export class ComplianceValidator {
   private strict: boolean;

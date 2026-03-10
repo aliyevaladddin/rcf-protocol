@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// NOTICE: This file is protected under RCF-PL v1.2.2
 
 import { Command } from 'commander';
 import chalk from 'chalk';

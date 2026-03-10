@@ -1,5 +1,7 @@
+// NOTICE: This file is protected under RCF-PL v1.2.2
 import { RCFMarker, RCFMarkerType } from './types';
 
+// [RCF:PUBLIC]
 export const RCF_MARKERS: Record<RCFMarkerType, RCFMarker> = {
   PUBLIC: {
     name: '[RCF:PUBLIC]',

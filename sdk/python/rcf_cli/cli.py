@@ -1,3 +1,4 @@
+# NOTICE: This file is protected under RCF-PL v1.2.2
 import argparse
 import sys
 import json
@@ -14,7 +15,7 @@ def init_project(args):
 
     notice_content = f"""# RCF-PL NOTICE
 
-This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.1**.
+This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.2.2**.
 
 Copyright (c) {year} {author_name}. All rights reserved.
 
@@ -34,7 +35,7 @@ For full protocol details, visit: https://rcf.aliyev.site
     else:
         with open(notice_path, "w") as f:
             f.write(notice_content)
-        print("✅ Generated NOTICE.md with RCF-PL v1.1 protections.")
+        print("✅ Generated NOTICE.md with RCF-PL v1.2.2 protections.")
     
     rcfignore_path = os.path.join(os.getcwd(), ".rcfignore")
     if not os.path.exists(rcfignore_path):
@@ -44,6 +45,8 @@ For full protocol details, visit: https://rcf.aliyev.site
         
     print(f"🎉 RCF Protocol successfully initialized for '{project_name}'.")
 
+# [RCF:RESTRICTED]
+# Core audit logic for generating cryptographic compliance reports.
 def audit_project(args):
     license_key = args.license_key or os.environ.get("RCF_LICENSE_KEY")
     uuid_regex = re.compile(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$')

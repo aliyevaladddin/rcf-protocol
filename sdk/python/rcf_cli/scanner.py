@@ -1,12 +1,14 @@
+# NOTICE: This file is protected under RCF-PL v1.2.2
 import os
 import re
 from pathlib import Path
 
+# [RCF:PROTECTED]
 class RCFScanner:
     """Scans files and directories for RCF protocol markers."""
     
     MARKER_PATTERN = re.compile(r'\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE)\]')
-    HEADER_PATTERN = re.compile(r'NOTICE: This file is protected under RCF-PL v1.1')
+    HEADER_PATTERN = re.compile(r'NOTICE: This file is protected under RCF-PL v1.2.2')
     
     def __init__(self, root_path, ignore_list=None):
         self.root_path = Path(root_path)

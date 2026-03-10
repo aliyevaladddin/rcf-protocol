@@ -1,6 +1,7 @@
+<!-- NOTICE: This file is protected under RCF-PL v1.2.2 -->
 # RCF-CORE — Core Concepts
 
-**Version:** 1.1  
+**Version:** 1.2.2  
 **Document Type:** Conceptual Overview  
 **Status:** Active
 
