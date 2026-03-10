@@ -6,9 +6,33 @@ LICENSE_KEYS.txt
 *.keys
 keys/
 .env
+
+# Local-only SDK docs
+sdk/README.md
+
+# Audit reports (generated)
 RCF-AUDIT-REPORT.json
-sdk/README.md
-sdk/README.md
+**/RCF-AUDIT-REPORT.json
+
+# Python build artifacts
+*.egg-info/
+*.egg
+__pycache__/
+build/
+dist/
+.venv/
+*.pyc
+*.pyo
+
+# Node.js build artifacts
+node_modules/
+dist/
+*.js.map
 
 # OS specific
 .DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
