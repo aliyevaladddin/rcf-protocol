@@ -12,8 +12,19 @@ outputs:
   report:
     description: 'Path to the generated audit report'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.license-key }}
-    - ${{ inputs.path }}
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Install RCF CLI from source
+      shell: bash
+      run: |
+        pip install ./sdk/python
+
+    - name: Run RCF Audit
+      shell: bash
+      run: |
+        rcf-cli audit "${{ inputs.path }}" --license-key "${{ inputs.license-key }}"
