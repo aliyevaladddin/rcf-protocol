@@ -21,6 +21,8 @@ npm install -D rcf-protocol
 - **Standardized Markers Check**: Identify `[RCF:PUBLIC]`, `[RCF:PROTECTED]`, `[RCF:RESTRICTED]`, and `[RCF:NOTICE]` markers in your codebase.
 - **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v1.1` header.
 - **Automated Scanning**: Quickly scan projects for compliance.
+- **RCF-Audit (Premium)**: Generate cryptographically signed compliance reports for enterprise auditing.
+
 
 ## CLI Usage
 
@@ -32,6 +34,9 @@ rcf-cli .
 
 # Scan with custom ignore list (in addition to .rcfignore)
 rcf-cli . --ignore node_modules,dist,.git
+
+# Generate an RCF-Audit Report (Requires License)
+rcf-cli audit . --license-key YOUR_RCF_AUDIT_KEY
 ```
 
 ## Markers Reference

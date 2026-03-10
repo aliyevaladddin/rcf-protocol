@@ -17,6 +17,8 @@ pip install rcf-cli
 - **Project Initialization**: Instantly generate `NOTICE.md` and `.rcfignore` files to protect your project.
 - **Automated Scanning**: Quickly scan projects for RCF compliance and extract markers.
 - **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v1.1` header.
+- **RCF-Audit (Premium)**: Generate cryptographically signed compliance reports for enterprise auditing.
+
 
 ## CLI Usage
 
@@ -39,6 +41,17 @@ rcf-cli . --format json
 
 # Print summary only
 rcf-cli . --summary
+
+### 3. Generate an RCF-Audit Report (Premium)
+
+```bash
+# Provide license key via flag
+rcf-cli audit . --license-key RCF-AUDIT-XXXX-XXXX
+
+# Or use environment variable
+export RCF_LICENSE_KEY=RCF-AUDIT-XXXX-XXXX
+rcf-cli audit .
+```
 ```
 
 ## Markers Reference
