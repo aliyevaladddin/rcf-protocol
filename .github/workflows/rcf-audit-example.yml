@@ -1,0 +1,27 @@
+name: RCF Compliance Audit
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  rcf-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run RCF Audit
+        uses: ./.github/actions/rcf-audit
+        with:
+          # This key should be added to your GitHub Secrets as RCF_LICENSE_KEY
+          license-key: ${{ secrets.RCF_LICENSE_KEY }}
+          path: '.'
+
+      - name: Upload Audit Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcf-audit-report
+          path: RCF-AUDIT-REPORT.json
