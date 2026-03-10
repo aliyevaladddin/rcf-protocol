@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v1.2.2
+# NOTICE: This file is protected under RCF-PL v1.2.3
 import argparse
 import sys
 import json
@@ -15,7 +15,7 @@ def init_project(args):
 
     notice_content = f"""# RCF-PL NOTICE
 
-This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.2.2**.
+This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.2.3**.
 
 Copyright (c) {year} {author_name}. All rights reserved.
 
@@ -35,7 +35,7 @@ For full protocol details, visit: https://rcf.aliyev.site
     else:
         with open(notice_path, "w") as f:
             f.write(notice_content)
-        print("✅ Generated NOTICE.md with RCF-PL v1.2.2 protections.")
+        print("✅ Generated NOTICE.md with RCF-PL v1.2.3 protections.")
     
     rcfignore_path = os.path.join(os.getcwd(), ".rcfignore")
     if not os.path.exists(rcfignore_path):
@@ -51,9 +51,10 @@ def audit_project(args):
     license_key = args.license_key or os.environ.get("RCF_LICENSE_KEY")
     uuid_regex = re.compile(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$')
     
-    admin_key = "RCF-AUDIT-ADMIN-KEY-GLOBAL"
+    admin_key_hash = "74bc881f2c077802d68ee7b42a2fe98988dd76c35d835b6fa14f6313f5cb9d7e"
+    provided_key_hash = hashlib.sha256(license_key.encode()).hexdigest() if license_key else ""
     
-    if license_key == admin_key:
+    if provided_key_hash == admin_key_hash:
         pass # Admin bypass
     elif not license_key or not license_key.startswith("RCF-AUDIT-") or not uuid_regex.match(license_key.replace("RCF-AUDIT-", "")):
         print("❌ RCF-PL ERROR: The 'audit' command is a premium feature.")

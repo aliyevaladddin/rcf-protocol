@@ -62,8 +62,9 @@ program
     const licenseKey = options.licenseKey || process.env.RCF_LICENSE_KEY;
     const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
-    const adminKey = 'RCF-AUDIT-ADMIN-KEY-GLOBAL';
-    const isLicenseValid = (licenseKey === adminKey) || (licenseKey && licenseKey.startsWith('RCF-AUDIT-') && uuidRegex.test(licenseKey.replace('RCF-AUDIT-', '')));
+    const adminKeyHash = '74bc881f2c077802d68ee7b42a2fe98988dd76c35d835b6fa14f6313f5cb9d7e';
+    const providedKeyHash = licenseKey ? createHash('sha256').update(licenseKey).digest('hex') : '';
+    const isLicenseValid = (providedKeyHash === adminKeyHash) || (licenseKey && licenseKey.startsWith('RCF-AUDIT-') && uuidRegex.test(licenseKey.replace('RCF-AUDIT-', '')));
 
     if (!isLicenseValid) {
       console.log(chalk.red("❌ RCF-PL ERROR: The 'audit' command is a premium feature."));
