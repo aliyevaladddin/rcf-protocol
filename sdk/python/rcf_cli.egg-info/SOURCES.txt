@@ -1,9 +1,0 @@
-pyproject.toml
-rcf_cli/__init__.py
-rcf_cli/cli.py
-rcf_cli/scanner.py
-rcf_cli.egg-info/PKG-INFO
-rcf_cli.egg-info/SOURCES.txt
-rcf_cli.egg-info/dependency_links.txt
-rcf_cli.egg-info/entry_points.txt
-rcf_cli.egg-info/top_level.txt

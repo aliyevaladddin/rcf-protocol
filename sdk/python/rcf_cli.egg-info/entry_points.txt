@@ -1,2 +1,0 @@
-[console_scripts]
-rcf-cli = rcf_cli.cli:main
