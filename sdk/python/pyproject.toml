@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rcf-cli"
-version = "1.2.0"
+version = "1.2.1"
 authors = [
   { name="Aladdin Aliyev", email="aladdin@aliyev.site" },
 ]
