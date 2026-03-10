@@ -8,3 +8,6 @@ RCF-AUDIT-REPORT.json
 
 # OS specific
 .DS_Store
+
+# Local SDK README (contains test keys)
+sdk/README.md

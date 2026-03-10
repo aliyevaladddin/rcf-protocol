@@ -61,7 +61,10 @@ program
     const licenseKey = options.licenseKey || process.env.RCF_LICENSE_KEY;
     const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/;
 
-    if (!licenseKey || !licenseKey.startsWith('RCF-AUDIT-') || !uuidRegex.test(licenseKey.replace('RCF-AUDIT-', ''))) {
+    const adminKey = 'RCF-AUDIT-ADMIN-KEY-GLOBAL';
+    const isLicenseValid = (licenseKey === adminKey) || (licenseKey && licenseKey.startsWith('RCF-AUDIT-') && uuidRegex.test(licenseKey.replace('RCF-AUDIT-', '')));
+
+    if (!isLicenseValid) {
       console.log(chalk.red("❌ RCF-PL ERROR: The 'audit' command is a premium feature."));
       console.log(chalk.yellow("   Please provide a valid RCF-AUDIT license key via -k/--license-key or RCF_LICENSE_KEY env variable."));
       console.log(chalk.blue("   Visit https://rcf.aliyev.site to obtain a license."));
