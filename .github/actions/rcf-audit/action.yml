@@ -1,0 +1,19 @@
+name: 'RCF Audit'
+description: 'Run RCF Protocol Compliance Audit'
+inputs:
+  license-key:
+    description: 'RCF Audit License Key'
+    required: true
+  path:
+    description: 'Path to audit'
+    required: false
+    default: '.'
+outputs:
+  report:
+    description: 'Path to the generated audit report'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.license-key }}
+    - ${{ inputs.path }}
