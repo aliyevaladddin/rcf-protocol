@@ -2,19 +2,19 @@
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
-[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_1.2.3-red.svg?style=flat-square)](https://rcf.aliyev.site)
+[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_1.2.6-red.svg?style=flat-square)](https://rcf.aliyev.site)
 
-**Version:** 1.2.3 (The Audit Release)
+**Version:** 1.2.6 (The Audit Release)
 **Status:** Active Specification  
 **Category:** Author-Defined Licensing Protocol  
 **Website:** [rcf.aliyev.site](https://rcf.aliyev.site)
 
 ---
 
-## 🆕 What's New in v1.2.3?
+## 🆕 What's New in v1.2.6?
 
 - 🛡️ **RCF-Audit Feature**: The `rcf-cli` now supports the `audit` command for generating cryptographically signed compliance reports.
-- 📦 **SDK Parity**: Version 1.2.3 synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`).
+- 📦 **SDK Parity**: Version 1.2.6 synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`).
 - 📝 **Documentation Update**: Detailed audit usage guides added to SDK READMEs.
 
 ---
@@ -166,4 +166,4 @@ RCF provides specialized measures for dOS to ensure kernel transparency while pr
 ---
 
 **© 2026 Aladdin Aliyev**  
-**All rights reserved under RCF Protocol License v1.2.3**
+**All rights reserved under RCF Protocol License v1.2.6**
