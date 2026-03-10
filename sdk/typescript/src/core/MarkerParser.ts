@@ -9,6 +9,10 @@ interface ParserOptions {
   ignore?: string[];
 }
 
+/**
+ * [RCF:PROTECTED]
+ * The MarkerParser class implements the core scanning logic for RCF markers.
+ */
 export class MarkerParser {
   private extensions: string[];
   private ignore: string[];
