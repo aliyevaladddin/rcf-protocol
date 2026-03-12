@@ -3,7 +3,7 @@
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
 [![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_1.2.7-red.svg?style=flat-square)](https://rcf.aliyev.site)
-
+[![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 **Version:** 1.2.7 (The Audit Release)
 **Status:** Active Specification  
 **Category:** Author-Defined Licensing Protocol  
