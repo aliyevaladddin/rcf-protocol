@@ -56,10 +56,16 @@ def audit_project(args):
     
     if provided_key_hash == admin_key_hash:
         pass # Admin bypass
-    elif not license_key or not license_key.startswith("RCF-AUDIT-") or not uuid_regex.match(license_key.replace("RCF-AUDIT-", "")):
-        print("❌ RCF-PL ERROR: The 'audit' command is a premium feature.")
-        print("   Please provide a valid RCF-AUDIT license key via --license-key or RCF_LICENSE_KEY env variable.")
+    elif not license_key:
+        print("❌ RCF-PL ERROR: License key is missing.")
+        print("   The 'audit' command is a premium feature. Please provide a license key.")
+        print("   Usage: rcf-cli audit . --license-key RCF-AUDIT-XXXXXX")
         print("   Visit https://rcf.aliyev.site to obtain a license.")
+        sys.exit(1)
+    elif not license_key.startswith("RCF-AUDIT-") or not uuid_regex.match(license_key.replace("RCF-AUDIT-", "")):
+        print("❌ RCF-PL ERROR: Invalid license key format.")
+        print("   Expected format: RCF-AUDIT-(KEY)")
+        print("")
         sys.exit(1)
 
     scanner = RCFScanner(args.path)
