@@ -23,7 +23,7 @@ int verify_license_key(const char* key) {
 
 /* 
  * ==============================================================================
- * NOTICE: This file is protected under RCF-PL v1.1
+ * NOTICE: This file is protected under RCF-PL v1.2.7
  * Restricted Correlation Framework — https://rcf.aliyev.site
  * 
  * [RCF:NOTICE][RCF:PUBLIC]
@@ -48,7 +48,7 @@ int init_module(void) {
  * 
  * VISIBILITY: Manual study for security audit is encouraged.
  * USAGE: Restricted. Replication of this logic in other dOS kernels 
- * is prohibited without explicit authorization under RCF-PL v1.1.
+ * is prohibited without explicit authorization under RCF-PL v1.2.7.
  */
 void dos_dispatch_resources(void) {
     // [PROTECTED LOGIC START]
@@ -71,6 +71,6 @@ void cleanup_module(void) {
     printk(KERN_INFO "dOS Kernel Module Unloaded.\n");
 }
 
-MODULE_LICENSE("RCF-PL v1.1");
+MODULE_LICENSE("RCF-PL v1.2.7");
 MODULE_AUTHOR("Aladdin Aliyev");
 MODULE_DESCRIPTION("RCF Example for dOS Kernel");

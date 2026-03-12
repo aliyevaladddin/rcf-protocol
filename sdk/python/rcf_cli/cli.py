@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v1.2.6
+# NOTICE: This file is protected under RCF-PL v1.2.7
 import argparse
 import sys
 import json
@@ -15,7 +15,7 @@ def init_project(args):
 
     notice_content = f"""# RCF-PL NOTICE
 
-This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.2.6**.
+This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.2.7**.
 
 Copyright (c) {year} {author_name}. All rights reserved.
 
@@ -35,7 +35,7 @@ For full protocol details, visit: https://rcf.aliyev.site
     else:
         with open(notice_path, "w") as f:
             f.write(notice_content)
-        print("✅ Generated NOTICE.md with RCF-PL v1.2.6 protections.")
+        print("✅ Generated NOTICE.md with RCF-PL v1.2.7 protections.")
     
     rcfignore_path = os.path.join(os.getcwd(), ".rcfignore")
     if not os.path.exists(rcfignore_path):

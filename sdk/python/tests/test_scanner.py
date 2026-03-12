@@ -8,7 +8,7 @@ def temp_workspace(tmp_path):
     # Create a temporary file with RCF markers
     protected_file = tmp_path / "protected_code.py"
     protected_file.write_text(
-        "# NOTICE: This file is protected under RCF-PL v1.2.6\n"
+        "# NOTICE: This file is protected under RCF-PL v1.2.7\n"
         "# [RCF:RESTRICTED]\n"
         "def secret(): pass"
     )

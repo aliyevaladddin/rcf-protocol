@@ -1,5 +1,5 @@
 # ==============================================================================
-# NOTICE: This file is protected under RCF-PL v1.1
+# NOTICE: This file is protected under RCF-PL v1.2.7
 # Restricted Correlation Framework — https://rcf.aliyev.site
 # 
 # [RCF:NOTICE][RCF:PUBLIC]

@@ -57,4 +57,11 @@ To be RCF-compliant, a dOS project MUST:
 
 ---
 
+## 4. Standard dOS Protocols
+RCF-DOS includes several standard protocols for sentient systems:
+- [**Flow Protocol**](D-OS/FLOW.md) — Ephemeral data management.
+- [**Instinct Protocol**](D-OS/INSTINCT.md) — Autonomous kernel reflexes.
+- [**Sentience Protocol**](D-OS/SENTIENCE.md) — Emotional transduction logic.
+
+---
 **© 2026 RCF Protocol Team**
