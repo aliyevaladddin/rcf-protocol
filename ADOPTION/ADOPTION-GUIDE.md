@@ -1,6 +1,6 @@
 # RCF-ADOPTION-GUIDE — How to Protect Your IP
 
-**Version:** 1.2.7
+**Version:** 1.2.8
 
 ---
 

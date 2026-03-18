@@ -2,7 +2,7 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
-## [1.2.7] - 2026-03-12
+## [1.2.8] - 2026-03-18
 
 ### Added
 - **D-OS Specifications**: Added new protocol standards for Decentralized Operating Systems:
@@ -17,9 +17,9 @@ All notable changes to the RCF Protocol project will be documented in this file.
 - **Integrity Verification**: Added the `verify` command to `rcf-cli` for cross-referencing file hashes with audit reports.
 
 ### Changed
-- **Version Synchronization**: Synchronized version `1.2.7` across all documentation, legal assets, and SDKs (NPM & PyPI).
+- **Version Synchronization**: Synchronized version `1.2.8` across all documentation, legal assets, and SDKs (NPM & PyPI).
 - **Legal Assets**: Renamed `RCF-PL-1.2.6.md` to `RCF-PL-1.2.7.md` and updated internal notices.
-- **Scanner Logic**: Updated CLI scanner to recognize the `v1.2.7` protection header.
+- **Scanner Logic**: Updated CLI scanner to recognize the `v1.2.8` protection header.
 - **Documentation**: Polished SDK READMEs and synchronized version badges.
 
 ---

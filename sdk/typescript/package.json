@@ -1,6 +1,6 @@
 {
-  "name": "rcf-protocol",
-  "version": "1.2.7",
+  "name": "@aliyevaladddin/rcf-protocol",
+  "version": "1.2.8",
   "description": "RCF Protocol SDK for TypeScript/JavaScript",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,6 +16,9 @@
     "url": "git+https://github.com/aliyevaladddin/rcf-protocol.git"
   },
   "license": "RCF",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/cli/index.ts",
