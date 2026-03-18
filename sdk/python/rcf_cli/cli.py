@@ -97,6 +97,71 @@ def audit_project(args):
     print(f"✅ RCF-Audit Complete. Generated {report_path}")
     print(f"🔒 Encrypted snapshot of {len(audit_report['protected_assets'])} protected assets created.")
 
+# [RCF:RESTRICTED]
+# Verification logic to detect tampering by comparing current hashes with the audit report.
+def verify_audit(args):
+    report_path = os.path.join(args.path, "RCF-AUDIT-REPORT.json")
+    if not os.path.exists(report_path):
+        print(f"❌ RCF-PL ERROR: Audit report not found at {report_path}")
+        print("   Please run 'rcf-cli audit' first to generate a baseline.")
+        sys.exit(1)
+
+    try:
+        with open(report_path, "r") as f:
+            report = json.load(f)
+    except Exception as e:
+        print(f"❌ RCF-PL ERROR: Failed to load audit report: {e}")
+        sys.exit(1)
+
+    print(f"--- RCF Integrity Verification ---")
+    print(f"Report Timestamp: {report.get('timestamp')}")
+    print("-" * 30)
+
+    mismatches = []
+    missing = []
+    verified_count = 0
+
+    for asset in report.get("protected_assets", []):
+        file_rel_path = asset["file"]
+        stored_hash = asset["sha256"]
+        full_path = os.path.join(args.path, file_rel_path)
+
+        if not os.path.exists(full_path):
+            missing.append(file_rel_path)
+            print(f"❌ MISSING: {file_rel_path}")
+            continue
+
+        try:
+            with open(full_path, "rb") as f:
+                current_hash = hashlib.sha256(f.read()).hexdigest()
+            
+            if current_hash == stored_hash:
+                verified_count += 1
+                if not args.summary:
+                    print(f"✅ VERIFIED: {file_rel_path}")
+            else:
+                mismatches.append(file_rel_path)
+                print(f"🚨 TAMPERED: {file_rel_path}")
+                print(f"   Expected: {stored_hash}")
+                print(f"   Actual:   {current_hash}")
+        except Exception as e:
+            print(f"⚠️ ERROR scanning {file_rel_path}: {e}")
+
+    print("-" * 30)
+    print(f"Total Assets in Report: {len(report.get('protected_assets', []))}")
+    print(f"Verified: {verified_count}")
+    
+    if missing:
+        print(f"Missing:  {len(missing)}")
+    if mismatches:
+        print(f"🚨 Mismatches Detected: {len(mismatches)}")
+
+    if mismatches or missing:
+        sys.exit(1)
+    else:
+        print("🛡️ Integrity Check Passed. No unauthorized modifications detected.")
+        sys.exit(0)
+
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "init":
         parser = argparse.ArgumentParser(description="Initialize RCF Protocol in the current directory")
@@ -114,6 +179,15 @@ def main():
         parser.add_argument("--license-key", help="RCF Audit License Key")
         args = parser.parse_args()
         audit_project(args)
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "verify":
+        parser = argparse.ArgumentParser(description="Verify project integrity against an RCF Audit Report")
+        parser.add_argument("verify", help="Verify command")
+        parser.add_argument("path", nargs="?", default=".", help="Path to verify")
+        parser.add_argument("--summary", action="store_true", help="Show summary only")
+        args = parser.parse_args()
+        verify_audit(args)
         return
 
     parser = argparse.ArgumentParser(description="RCF Protocol Compliance Checker")
