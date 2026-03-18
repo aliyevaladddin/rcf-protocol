@@ -1,6 +1,6 @@
 # RCF-ADOPTION-GUIDE — How to Protect Your IP
 
-**Version:** 1.1  
+**Version:** 1.2.7
 
 ---
 
@@ -9,7 +9,8 @@
 1. **Copy Templates:** Copy everything from `IMPLEMENTATION/TEMPLATES/`.
 2. **Define Scope:** Decide which parts of your code are "Core Methodology".
 3. **Apply Markers:** Use `[RCF:PROTECTED]` in comments.
-4. **Update README:** Link to `NOTICE.md` clearly.
+4. **Audit & Verify:** Generate an `RCF-AUDIT-REPORT.json` using `rcf-cli audit` and periodically check integrity with `rcf-cli verify`.
+5. **Update README:** Link to `NOTICE.md` clearly.
 
 ## 2. Customizing NOTICE.md
 Ensure you specify:

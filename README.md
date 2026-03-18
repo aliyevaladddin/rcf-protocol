@@ -15,7 +15,7 @@
 
 ## 🆕 What's New in v1.2.7?
 
-- 🛡️ **RCF-Audit Feature**: The `rcf-cli` now supports the `audit` command for generating cryptographically signed compliance reports.
+- 🛡️ **RCF-Audit & Verify**: The `rcf-cli` now supports `audit` for report generation and `verify` for cryptographic integrity checks (detecting binary tampering).
 - 📦 **SDK Parity**: Version 1.2.7 synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`).
 - 📝 **Documentation Update**: Detailed audit usage guides added to SDK READMEs.
 
@@ -128,6 +128,9 @@ rcf-cli .
 rcf-cli audit . --license-key RCF-AUDIT-XXXXXX
 # Or via environment variable:
 # RCF_LICENSE_KEY=RCF-AUDIT-XXXXXX rcf-cli audit .
+
+# Verify project integrity against the audit report (Detects tampering)
+rcf-cli verify .
 
 # Generate a JSON report
 rcf-cli . --format json

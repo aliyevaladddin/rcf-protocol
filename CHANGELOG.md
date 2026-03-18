@@ -10,6 +10,11 @@ All notable changes to the RCF Protocol project will be documented in this file.
     - `INSTINCT.md`: Digital Reflexes Standard.
     - `SENTIENCE.md`: Emotional Transduction Standard.
 - Added `[RCF:PROTECTED]` markers to all new specification files.
+- **ADOPTION-GUIDE**: Updated to mention audit tools:
+    3. **Apply Markers:** Use `[RCF:PROTECTED]` in comments.
+    4. **Audit & Verify:** Generate an `RCF-AUDIT-REPORT.json` using `rcf-cli audit` and periodically check integrity with `rcf-cli verify`.
+    5. **Update README:** Link to `NOTICE.md` clearly.
+- **Integrity Verification**: Added the `verify` command to `rcf-cli` for cross-referencing file hashes with audit reports.
 
 ### Changed
 - **Version Synchronization**: Synchronized version `1.2.7` across all documentation, legal assets, and SDKs (NPM & PyPI).

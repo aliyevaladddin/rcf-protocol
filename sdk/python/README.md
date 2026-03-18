@@ -18,6 +18,7 @@ pip install rcf-cli
 - **Automated Scanning**: Quickly scan projects for RCF compliance and extract markers.
 - **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v1.1` header.
 - **RCF-Audit (Premium)**: Generate cryptographically signed compliance reports for enterprise auditing.
+- **Integrity Verification**: Compare current file hashes against an audit report to detect unauthorized modifications or tampering.
 
 
 ## CLI Usage
@@ -51,6 +52,17 @@ rcf-cli audit . --license-key RCF-AUDIT-XXXX-XXXX
 # Or use environment variable
 export RCF_LICENSE_KEY=RCF-AUDIT-XXXX-XXXX
 rcf-cli audit .
+```
+
+### 4. Verify Project Integrity
+
+Compare current files with the latest audit report:
+
+```bash
+rcf-cli verify .
+
+# Show summary only
+rcf-cli verify . --summary
 ```
 ```
 
