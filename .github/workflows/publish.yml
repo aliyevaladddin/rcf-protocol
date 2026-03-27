@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@aliyevaladddin'
+          scope: 'aliyevaladddin'
       - name: Install dependencies
         run: npm install
         working-directory: sdk/typescript
