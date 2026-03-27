@@ -1,3 +1,4 @@
+// NOTICE: This file is protected under RCF-PL v1.2.8
 /*
  * dos-kernel-example.c
  * 

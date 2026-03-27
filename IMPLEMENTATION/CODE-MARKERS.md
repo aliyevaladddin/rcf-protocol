@@ -1,3 +1,4 @@
+<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
 # RCF-CODE-MARKERS — Implementation Guide
 
 **Version:** 1.1  

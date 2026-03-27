@@ -1,5 +1,5 @@
 [RCF:PROTECTED]
-NOTICE: This file is part of the RCF Protocol Suite v1.2.7.
+NOTICE: This file is protected under RCF-PL v1.2.8.
 
 # RCF-DOS-INSTINCT: Digital Reflexes Standard
 

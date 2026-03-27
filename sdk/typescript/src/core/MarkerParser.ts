@@ -1,3 +1,4 @@
+// NOTICE: This file is protected under RCF-PL v1.2.8
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { glob } from 'glob';

@@ -1,3 +1,4 @@
+<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
 # RCF Protocol Changelog
 
 All notable changes to the Restricted Correlation Framework Protocol 

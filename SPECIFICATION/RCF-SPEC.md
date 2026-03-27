@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.2.2 -->
+<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
 # RCF Specification — Restricted Correlation Framework
 
 **Version:** 1.2.2  

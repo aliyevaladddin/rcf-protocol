@@ -1,3 +1,4 @@
+<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
 [RCF:PROTECTED]
 NOTICE: This repository is protected under RCF-PL v1.2.7.
 

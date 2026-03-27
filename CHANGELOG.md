@@ -1,3 +1,4 @@
+<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
 # CHANGELOG
 
 All notable changes to the RCF Protocol project will be documented in this file.

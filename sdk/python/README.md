@@ -1,3 +1,4 @@
+<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
 # RCF Protocol — Python CLI & SDK
 
 The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol**.

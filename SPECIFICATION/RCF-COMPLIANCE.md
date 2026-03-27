@@ -1,3 +1,4 @@
+<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
 # RCF-COMPLIANCE — Compliance Verification
 
 **Version:** 1.1  
