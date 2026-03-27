@@ -12,7 +12,9 @@ sdk/README.md
 
 # Audit reports (generated)
 RCF-AUDIT-REPORT.json
-**/RCF-AUDIT-REPORT.json
+RCF-AUDIT-REPORT-V1.2.8.json
+RCF-AUDIT-REPORT*.json
+
 
 # Python build artifacts
 *.egg-info/
