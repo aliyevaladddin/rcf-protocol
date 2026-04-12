@@ -1,65 +1,146 @@
-// NOTICE: This file is protected under RCF-PL v1.2.8
-import * as fs from 'fs/promises';
-import * as path from 'path';
-import { glob } from 'glob';
-import { RCF_MARKERS, MARKER_REGEX } from './constants';
-import { ParseResult, ParsedMarker, RCFMarkerType } from './types';
+// NOTICE: This file is protected under RCF-PL v1.3
+// [RCF:PROTECTED]
 
-interface ParserOptions {
-  extensions?: string[];
-  ignore?: string[];
-}
+import { readFileSync, readdirSync, statSync } from 'fs';
+import { join, relative, extname } from 'path';
+import { MarkerType, RCFMarker, FileScanResult } from './types.js';
 
-/**
- * [RCF:PROTECTED]
- * The MarkerParser class implements the core scanning logic for RCF markers.
- */
+const MARKER_REGEX = /\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE)\]/g;
+const HEADER_REGEX = /NOTICE: This file is protected under RCF-PL v[\d.]+/;
+
+const SCANNABLE_EXTENSIONS = new Set([
+  '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs',
+  '.py', '.go', '.rs', '.java', '.cpp', '.c',
+  '.cs', '.rb', '.php', '.swift', '.kt', '.scala',
+]);
+
+const DEFAULT_IGNORE = new Set([
+  '.git', '__pycache__', '.venv', 'node_modules',
+  'dist', 'build', '.next', '.nuxt', 'coverage',
+  '.turbo', '.cache', '.parcel-cache',
+]);
+
 export class MarkerParser {
-  private extensions: string[];
-  private ignore: string[];
+  private root: string;
+  private ignoreList: Set<string>;
 
-  constructor(options: ParserOptions = {}) {
-    this.extensions = options.extensions || ['.ts', '.js', '.tsx', '.jsx', '.py'];
-    this.ignore = options.ignore || ['node_modules/**', 'dist/**', '.git/**'];
+  constructor(root = '.') {
+    this.root = root;
+    this.ignoreList = new Set(DEFAULT_IGNORE);
+    this.loadRcfIgnore();
   }
 
-  async scan(directory: string): Promise<ParseResult[]> {
-    const pattern = `**/*{${this.extensions.join(',')}}`;
-    const files = await glob(pattern, {
-      cwd: directory,
-      ignore: this.ignore,
-      absolute: true
-    });
+  private loadRcfIgnore(): void {
+    try {
+      const content = readFileSync(join(this.root, '.rcfignore'), 'utf-8');
+      for (const line of content.split('\n')) {
+        const trimmed = line.trim();
+        if (trimmed && !trimmed.startsWith('#')) {
+          this.ignoreList.add(trimmed);
+        }
+      }
+    } catch {
+      // .rcfignore is optional
+    }
+  }
 
-    const results: ParseResult[] = [];
-    for (const file of files) {
-      const markers = await this.parseFile(file);
-      if (markers.length > 0) {
-        results.push({ file, markers });
+  private shouldIgnore(filePath: string): boolean {
+    const rel = relative(this.root, filePath);
+    const parts = rel.split(/[\\/]/);
+    return parts.some(p => this.ignoreList.has(p));
+  }
+
+  parseFile(filePath: string): FileScanResult {
+    let content: string;
+    try {
+      content = readFileSync(filePath, 'utf-8');
+    } catch (err: any) {
+      return { file: filePath, markers: [], hasHeader: false, isProtected: false, error: err.message };
+    }
+
+    const lines = content.split('\n');
+    const markers: RCFMarker[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      let match: RegExpExecArray | null;
+      MARKER_REGEX.lastIndex = 0;
+
+      while ((match = MARKER_REGEX.exec(line)) !== null) {
+        markers.push({
+          type: match[1] as MarkerType,
+          line: i + 1,
+          column: match.index + 1,
+          context: line.trim().slice(0, 80),
+          raw: match[0],
+        });
       }
     }
+
+    const hasHeader = HEADER_REGEX.test(content);
+
+    return {
+      file: filePath,
+      markers,
+      hasHeader,
+      isProtected: markers.length > 0 || hasHeader,
+    };
+  }
+
+  async scan(directory: string = this.root): Promise<FileScanResult[]> {
+    const results: FileScanResult[] = [];
+    this.walkDir(directory, results);
     return results;
   }
 
-  async parseFile(filePath: string): Promise<ParsedMarker[]> {
-    const content = await fs.readFile(filePath, 'utf-8');
-    const lines = content.split('\n');
-    const markers: ParsedMarker[] = [];
+  private walkDir(dir: string, results: FileScanResult[]): void {
+    let entries: string[];
+    try {
+      entries = readdirSync(dir);
+    } catch {
+      return;
+    }
 
-    lines.forEach((line, index) => {
-      const matches = line.matchAll(MARKER_REGEX);
-      for (const match of matches) {
-        const type = match[1] as RCFMarkerType;
-        markers.push({
-          type,
-          marker: RCF_MARKERS[type],
-          line: index + 1,
-          column: match.index || 0,
-          context: line.trim()
-        });
+    for (const entry of entries) {
+      const fullPath = join(dir, entry);
+      if (this.shouldIgnore(fullPath)) continue;
+
+      const stat = statSync(fullPath);
+      if (stat.isDirectory()) {
+        this.walkDir(fullPath, results);
+      } else if (SCANNABLE_EXTENSIONS.has(extname(entry).toLowerCase())) {
+        const result = this.parseFile(fullPath);
+        if (result.isProtected || result.error) {
+          results.push(result);
+        }
       }
-    });
+    }
+  }
 
-    return markers;
+  async scanAll(directory: string = this.root): Promise<FileScanResult[]> {
+    const results: FileScanResult[] = [];
+    this.walkDirAll(directory, results);
+    return results;
+  }
+
+  private walkDirAll(dir: string, results: FileScanResult[]): void {
+    let entries: string[];
+    try {
+      entries = readdirSync(dir);
+    } catch {
+      return;
+    }
+
+    for (const entry of entries) {
+      const fullPath = join(dir, entry);
+      if (this.shouldIgnore(fullPath)) continue;
+
+      const stat = statSync(fullPath);
+      if (stat.isDirectory()) {
+        this.walkDirAll(fullPath, results);
+      } else if (SCANNABLE_EXTENSIONS.has(extname(entry).toLowerCase())) {
+        results.push(this.parseFile(fullPath));
+      }
+    }
   }
 }

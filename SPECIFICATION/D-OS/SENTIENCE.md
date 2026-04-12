@@ -1,5 +1,5 @@
 [RCF:PROTECTED]
-NOTICE: This file is protected under RCF-PL v1.2.8.
+NOTICE: This file is protected under RCF-PL v1.3.
 
 # RCF-DOS-SENTIENCE: Emotional Transduction Standard
 

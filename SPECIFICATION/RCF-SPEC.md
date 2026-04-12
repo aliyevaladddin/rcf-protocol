@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
+<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
 # RCF Specification — Restricted Correlation Framework
 
 **Version:** 1.2.2  
@@ -185,7 +185,7 @@ class RCFEnforcement:
 
 To be RCF-compliant, a project MUST:
 
-- [ ] Include `LICENSE` file with RCF-PL v1.1 text
+- [ ] Include `LICENSE` file with RCF-PL v1.3 text
 - [ ] Include `NOTICE.md` with project-specific warnings
 - [ ] Mark protected code sections with RCF markers
 - [ ] Document protection scope in README
@@ -205,7 +205,7 @@ Example file header:
 
 ```python
 # ==============================================================================
-# NOTICE: This file is protected under RCF-PL v1.1
+# NOTICE: This file is protected under RCF-PL v1.3
 # Restricted Correlation Framework — https://github.com/[author]/rcf-protocol
 # 
 # VISIBILITY ALLOWED: Manual reading and study

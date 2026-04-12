@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
+<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
 # RCF Protocol — Python CLI & SDK
 
 The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol**.
@@ -17,7 +17,7 @@ pip install rcf-cli
 
 - **Project Initialization**: Instantly generate `NOTICE.md` and `.rcfignore` files to protect your project.
 - **Automated Scanning**: Quickly scan projects for RCF compliance and extract markers.
-- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v1.1` header.
+- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v1.3` header.
 - **RCF-Audit (Premium)**: Generate cryptographically signed compliance reports for enterprise auditing.
 - **Integrity Verification**: Compare current file hashes against an audit report to detect unauthorized modifications or tampering.
 
@@ -77,7 +77,7 @@ RCF uses semantic markers to define protection levels at the block or file level
 
 Example header for protected files:
 ```python
-# NOTICE: This file is protected under RCF-PL v1.1
+# NOTICE: This file is protected under RCF-PL v1.3
 # [RCF:PROTECTED]
 ```
 

@@ -1,49 +1,230 @@
-// NOTICE: This file is protected under RCF-PL v1.2.8
-import { ParseResult, ValidationError } from './types';
+// NOTICE: This file is protected under RCF-PL v1.3
+// [RCF:PROTECTED]
 
-interface ValidatorOptions {
-  strict?: boolean;
+import { readFileSync, existsSync } from 'fs';
+import { resolve, relative, join } from 'path';
+import { createHash } from 'crypto';
+import { FileScanResult, ValidationError, AuditAsset, AuditReport, DiffResult, DiffViolation, VerifyFileResult } from './types.js';
+
+export interface ValidationResult {
+  valid: boolean;
+  errors: ValidationError[];
 }
 
-/**
- * [RCF:RESTRICTED]
- * The ComplianceValidator class enforces strict adherence to RCF specification standards.
- */
-
+// [RCF:PROTECTED]
 export class ComplianceValidator {
   private strict: boolean;
 
-  constructor(options: ValidatorOptions = {}) {
-    this.strict = options.strict || false;
+  constructor(options: { strict?: boolean } = {}) {
+    this.strict = options.strict ?? false;
   }
 
-  async validate(results: ParseResult[]): Promise<{
-    valid: boolean;
-    errors: ValidationError[];
-    warnings: ValidationError[];
-  }> {
+  // ─── Validate (basic compliance check) ───────────────────────────────────
+
+  async validate(results: FileScanResult[]): Promise<ValidationResult> {
     const errors: ValidationError[] = [];
-    const warnings: ValidationError[] = [];
 
     for (const result of results) {
-      const hasNotice = result.markers.some(m => m.type === 'NOTICE');
-      const hasProtected = result.markers.some(m => m.type === 'PROTECTED');
-      const hasRestricted = result.markers.some(m => m.type === 'RESTRICTED');
+      if (result.error) {
+        errors.push({ file: result.file, message: `Read error: ${result.error}` });
+        continue;
+      }
 
-      if ((hasProtected || hasRestricted) && !hasNotice) {
-        const msg = `File contains PROTECTED/RESTRICTED markers but no [RCF:NOTICE]`;
-        if (this.strict) {
-          errors.push({ file: result.file, line: 1, message: msg, severity: 'error' });
-        } else {
-          warnings.push({ file: result.file, line: 1, message: msg, severity: 'warning' });
-        }
+      if (this.strict && !result.hasHeader) {
+        errors.push({
+          file: result.file,
+          message: 'Missing RCF file header (strict mode)',
+        });
+      }
+
+      if (this.strict && result.markers.length === 0) {
+        errors.push({
+          file: result.file,
+          message: 'No RCF markers found (strict mode)',
+        });
+      }
+    }
+
+    return { valid: errors.length === 0, errors };
+  }
+
+  // ─── Generate Audit Report ────────────────────────────────────────────────
+
+  generateReport(results: FileScanResult[], root: string): AuditReport {
+    const protected_assets: AuditAsset[] = [];
+
+    for (const result of results) {
+      if (!result.isProtected || result.error) continue;
+
+      try {
+        const content = readFileSync(result.file);
+        const sha256 = createHash('sha256').update(content).digest('hex');
+        const relPath = relative(resolve(root), resolve(result.file));
+
+        protected_assets.push({
+          file: relPath,
+          markers: result.markers.map(m => m.type),
+          sha256,
+        });
+      } catch {
+        // skip unreadable files
       }
     }
 
     return {
-      valid: errors.length === 0,
-      errors,
-      warnings
+      timestamp: new Date().toISOString(),
+      audit_type: 'RCF-Audit v1.3',
+      protected_assets,
     };
+  }
+
+  // ─── Diff: compare current state against audit report ─────────────────────
+
+  diff(
+    currentResults: FileScanResult[],
+    report: AuditReport,
+    root: string
+  ): DiffResult {
+    const violations: DiffViolation[] = [];
+    const newUnprotectedFiles: string[] = [];
+
+    // Index current results by relative path
+    const currentByPath = new Map<string, FileScanResult>();
+    for (const r of currentResults) {
+      const rel = relative(resolve(root), resolve(r.file));
+      currentByPath.set(rel, r);
+    }
+
+    const auditedPaths = new Set(report.protected_assets.map(a => a.file));
+
+    // Check each recorded asset
+    for (const asset of report.protected_assets) {
+      const current = currentByPath.get(asset.file);
+
+      if (!current) {
+        violations.push({
+          type: 'file_missing',
+          file: asset.file,
+          detail: 'Previously protected file is missing or was deleted',
+        });
+        continue;
+      }
+
+      const storedMarkers = new Set(asset.markers);
+      const currentMarkers = new Set(current.markers.map(m => m.type));
+      const removed = [...storedMarkers].filter(m => !currentMarkers.has(m as any));
+
+      if (removed.length > 0) {
+        violations.push({
+          type: 'markers_removed',
+          file: asset.file,
+          detail: `Markers removed: ${removed.join(', ')}`,
+          removed: removed as string[],
+        });
+      }
+    }
+
+    // Detect new files with unprotected logic (not in audit)
+    for (const [relPath, result] of currentByPath) {
+      if (!auditedPaths.has(relPath) && !result.isProtected) {
+        newUnprotectedFiles.push(relPath);
+      }
+    }
+
+    return {
+      violations,
+      newUnprotectedFiles,
+      passed: violations.length === 0,
+    };
+  }
+
+  // ─── Verify single file against audit report ──────────────────────────────
+
+  verifyFile(filePath: string, reportPath: string): VerifyFileResult {
+    if (!existsSync(filePath)) {
+      throw new Error(`File not found: ${filePath}`);
+    }
+    if (!existsSync(reportPath)) {
+      throw new Error(`Audit report not found: ${reportPath}`);
+    }
+
+    const report: AuditReport = JSON.parse(
+      readFileSync(reportPath, 'utf-8')
+    );
+
+    const reportRoot = resolve(reportPath, '..');
+    let relPath: string;
+    try {
+      relPath = relative(resolve(reportRoot), resolve(filePath));
+    } catch {
+      relPath = filePath;
+    }
+
+    // Match by relative path, normalized path, or filename
+    const asset = report.protected_assets.find(
+      a =>
+        a.file === relPath ||
+        a.file.replace(/\\/g, '/') === relPath.replace(/\\/g, '/') ||
+        a.file.split('/').pop() === relPath.split('/').pop()
+    );
+
+    if (!asset) {
+      throw new Error(
+        `File '${relPath}' not found in audit report.\n` +
+        `Available: ${report.protected_assets.map(a => a.file).join(', ')}`
+      );
+    }
+
+    const content = readFileSync(filePath);
+    const currentHash = createHash('sha256').update(content).digest('hex');
+
+    return {
+      file: filePath,
+      reportPath,
+      storedHash: asset.sha256,
+      currentHash,
+      verified: currentHash === asset.sha256,
+      recordedAt: report.timestamp,
+    };
+  }
+
+  // ─── Verify all files in directory ────────────────────────────────────────
+
+  verifyAll(
+    root: string,
+    report: AuditReport
+  ): { verified: number; missing: string[]; tampered: string[] } {
+    const missing: string[] = [];
+    const tampered: string[] = [];
+    let verified = 0;
+
+    for (const asset of report.protected_assets) {
+      const fullPath = join(root, asset.file);
+
+      if (!existsSync(fullPath)) {
+        missing.push(asset.file);
+        continue;
+      }
+
+      const content = readFileSync(fullPath);
+      const hash = createHash('sha256').update(content).digest('hex');
+
+      if (hash === asset.sha256) {
+        verified++;
+      } else {
+        tampered.push(asset.file);
+      }
+    }
+
+    return { verified, missing, tampered };
+  }
+
+  // ─── Load report from disk ────────────────────────────────────────────────
+
+  static loadReport(reportPath: string): AuditReport {
+    if (!existsSync(reportPath)) {
+      throw new Error(`RCF-AUDIT-REPORT.json not found at: ${reportPath}`);
+    }
+    return JSON.parse(readFileSync(reportPath, 'utf-8'));
   }
 }

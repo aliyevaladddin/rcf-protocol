@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sovereign Code Manifesto — RCF v1.3</title>
+<meta name="description" content="A manifesto for independent developers and researchers. Visible Source, Protected Logic.">
+<meta property="og:title" content="Sovereign Code Manifesto">
+<meta property="og:description" content="We are building the future. But someone else is claiming it.">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0f;
+    --bg2: #13131a;
+    --bg3: #1a1a24;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8e8f0;
+    --text2: #9090a8;
+    --text3: #5a5a72;
+    --purple: #7F77DD;
+    --purple-light: #AFA9EC;
+    --purple-dark: #534AB7;
+    --teal: #1D9E75;
+    --coral: #D85A30;
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  ::selection { background: rgba(127,119,221,0.3); }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,13,15,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; height: 56px;
+  }
+
+  .nav-brand {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--purple-light);
+    letter-spacing: 0.06em;
+    text-decoration: none;
+  }
+
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+
+  .lang-btn {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: 0.5px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .lang-btn.active { background: var(--purple-dark); color: #EEEDFE; border-color: var(--purple-dark); }
+  .lang-btn:hover:not(.active) { background: var(--bg3); color: var(--text); }
+
+  .hero {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::after {
+    content: '';
+    display: block;
+    flex: 1;
+    max-width: 80px;
+    height: 0.5px;
+    background: var(--purple-dark);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: normal;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--text3);
+    font-style: italic;
+    margin-bottom: 2.5rem;
+  }
+
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border2);
+    color: var(--text3);
+    letter-spacing: 0.04em;
+  }
+  .badge.purple { border-color: var(--purple-dark); color: var(--purple-light); }
+
+  main { max-width: 820px; margin: 0 auto; padding: 0 2rem; }
+
+  .content-section {
+    padding: 4rem 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--purple);
+    font-weight: 500;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 0.5px;
+    background: var(--purple-dark);
+  }
+
+  .lead {
+    font-family: var(--serif);
+    font-size: clamp(19px, 3vw, 24px);
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 2rem;
+    font-weight: normal;
+  }
+
+  p { color: var(--text2); font-size: 16px; line-height: 1.85; margin-bottom: 1.25rem; }
+
+  .pullquote {
+    border-left: 2px solid var(--purple-dark);
+    padding: 0.5rem 0 0.5rem 1.75rem;
+    margin: 2.5rem 0;
+  }
+  .pullquote p {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .principles { margin: 2rem 0; display: grid; gap: 1px; }
+  .principle {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    padding: 1.5rem 1.75rem;
+    transition: background 0.15s;
+  }
+  .principle:first-child { border-radius: 12px 12px 0 0; }
+  .principle:last-child { border-radius: 0 0 12px 12px; }
+  .principle:hover { background: var(--bg3); }
+  .principle-header { display: flex; align-items: baseline; gap: 1.25rem; margin-bottom: 0.5rem; }
+  .num { font-size: 11px; color: var(--purple); font-weight: 500; letter-spacing: 0.08em; min-width: 20px; font-family: var(--mono); }
+  .ptitle { font-size: 15px; font-weight: 500; color: var(--text); }
+  .pdesc { font-size: 13px; color: var(--text2); line-height: 1.65; padding-left: 44px; margin: 0; }
+
+  .rights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  @media (max-width: 600px) { .rights-grid { grid-template-columns: 1fr; } }
+
+  .rights-col { background: var(--bg2); border-radius: 12px; border: 0.5px solid var(--border); overflow: hidden; }
+  .rights-col-header {
+    padding: 0.875rem 1.25rem;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rights-col-header.can { color: #5DCAA5; }
+  .rights-col-header.cannot { color: #F0997B; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot.can { background: var(--teal); }
+  .dot.cannot { background: var(--coral); }
+  .rights-item {
+    padding: 0.75rem 1.25rem; font-size: 13px; color: var(--text2); border-bottom: 0.5px solid var(--border); display: flex; align-items: center; gap: 10px; line-height: 1.4;
+  }
+  .rights-item:last-child { border-bottom: none; }
+
+  .levels-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0;
+  }
+  @media (max-width: 600px) { .levels-grid { grid-template-columns: 1fr; } }
+
+  .level-card {
+    background: var(--bg2); border-radius: 10px; border: 0.5px solid var(--border); padding: 1.25rem; transition: border-color 0.15s;
+  }
+  .level-card:hover { border-color: var(--border2); }
+  .level-tag {
+    display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 500; padding: 3px 9px; border-radius: 4px; margin-bottom: 0.75rem; letter-spacing: 0.04em;
+  }
+  .tag-public { background: rgba(29,158,117,0.15); color: #5DCAA5; border: 0.5px solid rgba(29,158,117,0.3); }
+  .tag-protected { background: rgba(127,119,221,0.15); color: var(--purple-light); border: 0.5px solid rgba(127,119,221,0.3); }
+  .tag-restricted { background: rgba(216,90,48,0.15); color: #F0997B; border: 0.5px solid rgba(216,90,48,0.3); }
+  .level-desc { font-size: 12px; color: var(--text2); line-height: 1.55; margin: 0; }
+
+  .sig-section {
+    padding: 4rem 0 6rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem;
+  }
+  .sig-left { display: flex; align-items: center; gap: 1rem; }
+  .sig-avatar {
+    width: 52px; height: 52px; border-radius: 50%; background: rgba(127,119,221,0.15); border: 0.5px solid rgba(127,119,221,0.4); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500; color: var(--purple-light); flex-shrink: 0;
+  }
+  .sig-name { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .sig-role { font-size: 12px; color: var(--text3); }
+  .sig-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .rcf-badge {
+    font-size: 11px; font-weight: 500; padding: 6px 16px; border-radius: 6px; border: 0.5px solid var(--purple-dark); color: var(--purple-light); letter-spacing: 0.08em;
+  }
+  .copyright { font-size: 11px; color: var(--text3); margin: 0; }
+
+  .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  .content-en, .content-ru, .content-az { display: none; }
+  .content-en.active, .content-ru.active, .content-az.active { display: block; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="#">RCF · Sovereign Code</a>
+  <div class="nav-right">
+    <button class="lang-btn active" onclick="switchLang('en', this)">EN</button>
+    <button class="lang-btn" onclick="switchLang('ru', this)">RU</button>
+    <button class="lang-btn" onclick="switchLang('az', this)">AZ</button>
+  </div>
+</nav>
+
+<div class="hero fade-in">
+  <p class="eyebrow">RCF · Sovereign Code Initiative · 2025</p>
+
+  <div class="content-en active">
+    <h1>Sovereign Code<br>Manifesto</h1>
+    <p class="hero-sub">A manifesto for independent developers and researchers</p>
+  </div>
+  <div class="content-ru">
+    <h1>Манифест<br>Суверенного Кода</h1>
+    <p class="hero-sub">Манифест независимых разработчиков и исследователей</p>
+  </div>
+  <div class="content-az">
+    <h1>Suveren Kod<br>Manifesti</h1>
+    <p class="hero-sub">Müstəqil tərtibatçılar və tədqiqatçılar üçün manifest</p>
+  </div>
+
+  <div class="badge-row">
+    <span class="badge purple">RCF v1.3</span>
+    <span class="badge">Visible Source</span>
+    <span class="badge">Protected Logic</span>
+    <span class="badge">2025</span>
+  </div>
+</div>
+
+<main>
+
+  <section class="content-section fade-in">
+    <div class="content-en active">
+      <p class="lead">We are building the future. But someone else is claiming it.</p>
+      <p>Every day, thousands of independent developers, researchers, and small labs create unique algorithms, methodologies, and tools. Years of experimentation. Hundreds of hours of debugging. Genuine ideas born from curiosity and persistence — not from corporate budgets.</p>
+      <p>In the past, publishing code was enough. The world saw you. You gained recognition. But the era has changed.</p>
+      <div class="pullquote"><p>Today, publishing code is no longer about recognition. It is about providing a feeder — for systems that consume your logic, digest your patterns, and output results without a single reference to the source.</p></div>
+      <p>Large AI corporations train their models on open repositories. Traditional licenses — MIT, Apache, GPL — were written for a different age. They never anticipated a world where code is read not by humans, but by machines. Where "studying" and "copying" happen in milliseconds. Where the line between "inspiration" and "replication" is algorithmically blurred.</p>
+      <p>Openness is a value. But openness without protection is a vulnerability.</p>
+    </div>
+    <div class="content-ru">
+      <p class="lead">Мы строим будущее. Но кто-то другой его присваивает.</p>
+      <p>Каждый день тысячи независимых разработчиков, исследователей и небольших лабораторий создают уникальные алгоритмы, методологии и инструменты. Годы экспериментов. Сотни часов отладки. Подлинные идеи, рождённые из любопытства и упорства — не из корпоративных бюджетов.</p>
+      <p>Раньше достаточно было опубликовать код. Мир видел тебя. Ты получал признание. Но эпоха изменилась.</p>
+      <div class="pullquote"><p>Сегодня публикация кода — это не признание. Это кормушка — для систем, которые поглощают твою логику, переваривают паттерны и выдают результат без ссылки на источник.</p></div>
+      <p>Крупные ИИ-корпорации обучают модели на открытых репозиториях. Традиционные лицензии — MIT, Apache, GPL — были написаны в другую эпоху. Они не предусматривали мир, где код читает не человек, а машина. Где «изучить» и «скопировать» происходит за миллисекунды. Где разница между «вдохновиться» и «воспроизвести» стёрта алгоритмически.</p>
+      <p>Открытость — это ценность. Но открытость без защиты — это уязвимость.</p>
+    </div>
+    <div class="content-az">
+      <p class="lead">Biz gələcəyi inşa edirik. Amma başqası onu ələ keçirir.</p>
+      <p>Hər gün minlərlə müstəqil tərtibatçı, tədqiqatçı və kiçik laboratoriyalar unikal alqoritmlər, metodologiyalar və alətlər yaradır. İllərlə sınaqlar. Yüzlərlə saat sazlama işi. Maraq və əzmkarlıqdan doğan əsl ideyalar — korporativ büdcələrdən deyil.</p>
+      <p>Əvvəllər kodu dərc etmək kifayət idi. Dünya sizi görürdü. Tanınırdınız. Amma dövr dəyişdi.</p>
+      <div class="pullquote"><p>Bu gün kodu dərc etmək artıq tanınmaq deyil. Bu, öz məntiqinizi udub mənbəyə istinad etmədən nəticə verən sistemlər üçün yem təmin etməkdir.</p></div>
+      <p>Böyük süni intellekt korporasiyaları modellərini açıq repozitoriyalarda öyrədirlər. Ənənəvi lisenziyalar — MIT, Apache, GPL — başqa bir dövrün məhsuludur. Onlar kodu insanın deyil, maşının oxuduğu dünyaya hazır deyildilər.</p>
+      <p>Açıqlıq bir dəyərdir. Amma müdafiəsiz açıqlıq bir zəiflikdir.</p>
+    </div>
+  </section>
+
+  <section class="content-section fade-in">
+    <div class="content-en active">
+      <p class="section-label">Our convictions</p>
+      <div class="principles">
+        <div class="principle"><div class="principle-header"><span class="num">01</span><span class="ptitle">Visibility is not permission</span></div><p class="pdesc">The fact that code can be read does not mean it can be exploited. Transparency and sovereignty are compatible.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">02</span><span class="ptitle">Small labs deserve protection</span></div><p class="pdesc">Independent researchers create as much value as corporations. Their methodologies deserve the same level of defense.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">03</span><span class="ptitle">Authorship must be provable</span></div><p class="pdesc">In a world where AI generates code, cryptographic verification of authorship is no longer an option — it is a necessity.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">04</span><span class="ptitle">Protection does not contradict openness</span></div><p class="pdesc">We are not against publishing code. We are against its misappropriation. Sovereign Code means: "Visible Source, Protected Logic."</p></div>
+      </div>
+    </div>
+    <div class="content-ru">
+      <p class="section-label">Наши убеждения</p>
+      <div class="principles">
+        <div class="principle"><div class="principle-header"><span class="num">01</span><span class="ptitle">Видимость — не разрешение</span></div><p class="pdesc">То, что можно прочитать — не значит, что можно использовать. Прозрачность и суверенитет совместимы.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">02</span><span class="ptitle">Маленькая лаборатория заслуживает защиты</span></div><p class="pdesc">Независимые исследователи создают не меньше ценности, чем корпорации. Их методики заслуживают той же защиты.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">03</span><span class="ptitle">Авторство должно быть доказуемым</span></div><p class="pdesc">В мире, где ИИ генерирует код, криптографическая верификация авторства — не опция, а необходимость.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">04</span><span class="ptitle">Защита не противоречит открытости</span></div><p class="pdesc">Мы не против публикации кода. Мы против его присвоения. Sovereign Code — это «Visible Source, Protected Logic».</p></div>
+      </div>
+    </div>
+    <div class="content-az">
+      <p class="section-label">Bizim inanclarımız</p>
+      <div class="principles">
+        <div class="principle"><div class="principle-header"><span class="num">01</span><span class="ptitle">Görünmək icazə deyil</span></div><p class="pdesc">Kodun oxuna bilməsi ondan istifadə edilə biləcəyi anlamına gəlmir. Şəffaflıq və suverenlik bir-birinə uyğundur.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">02</span><span class="ptitle">Kiçik laboratoriyalar müdafiəyə layiqdir</span></div><p class="pdesc">Müstəqil tədqiqatçılar korporasiyalar qədər dəyər yaradır. Onların metodologiyaları eyni səviyyədə müdafiəyə layiqdir.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">03</span><span class="ptitle">Müəlliflik sübut edilə bilməlidir</span></div><p class="pdesc">Süni intellektin kod yaratdığı bir dünyada müəllifliyin kriptoqrafik yoxlanması artıq seçim deyil — zərurətdir.</p></div>
+        <div class="principle"><div class="principle-header"><span class="num">04</span><span class="ptitle">Müdafiə açıqlığa ziddir deyil</span></div><p class="pdesc">Biz kodun dərc edilməsinə qarşı deyilik. Biz onun mənimsənilməsinə qarşıyıq. Suveren Kod: "Görünən Mənbə, Qorunan Məntiq."</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section fade-in">
+    <div class="content-en active">
+      <p class="section-label">Rights under RCF</p>
+      <div class="rights-grid">
+        <div class="rights-col">
+          <div class="rights-col-header can"><span class="dot can"></span>You can</div>
+          <div class="rights-item"><span class="dot can"></span>Read and study the code</div>
+          <div class="rights-item"><span class="dot can"></span>Audit and verify</div>
+          <div class="rights-item"><span class="dot can"></span>Reference and cite</div>
+        </div>
+        <div class="rights-col">
+          <div class="rights-col-header cannot"><span class="dot cannot"></span>You cannot</div>
+          <div class="rights-item"><span class="dot cannot"></span>Copy or replicate the logic</div>
+          <div class="rights-item"><span class="dot cannot"></span>Train AI/ML on protected methodology</div>
+          <div class="rights-item"><span class="dot cannot"></span>Use commercially without permission</div>
+        </div>
+      </div>
+      <p class="section-label" style="margin-top:2.5rem;">Protection levels</p>
+      <div class="levels-grid">
+        <div class="level-card"><div class="level-tag tag-public">[RCF:PUBLIC]</div><p class="level-desc">Architecture and public concepts. Free to read and reference.</p></div>
+        <div class="level-card"><div class="level-tag tag-protected">[RCF:PROTECTED]</div><p class="level-desc">Core methodology. Visible, not replicable without permission.</p></div>
+        <div class="level-card"><div class="level-tag tag-restricted">[RCF:RESTRICTED]</div><p class="level-desc">Sensitive implementation. Minimal access rights.</p></div>
+      </div>
+    </div>
+    <div class="content-ru">
+      <p class="section-label">Права по RCF</p>
+      <div class="rights-grid">
+        <div class="rights-col">
+          <div class="rights-col-header can"><span class="dot can"></span>Можно</div>
+          <div class="rights-item"><span class="dot can"></span>Читать и изучать код</div>
+          <div class="rights-item"><span class="dot can"></span>Проводить аудит и верификацию</div>
+          <div class="rights-item"><span class="dot can"></span>Ссылаться и цитировать</div>
+        </div>
+        <div class="rights-col">
+          <div class="rights-col-header cannot"><span class="dot cannot"></span>Нельзя</div>
+          <div class="rights-item"><span class="dot cannot"></span>Копировать или воспроизводить логику</div>
+          <div class="rights-item"><span class="dot cannot"></span>Обучать ИИ на защищённой методологии</div>
+          <div class="rights-item"><span class="dot cannot"></span>Использовать коммерчески без разрешения</div>
+        </div>
+      </div>
+      <p class="section-label" style="margin-top:2.5rem;">Уровни защиты</p>
+      <div class="levels-grid">
+        <div class="level-card"><div class="level-tag tag-public">[RCF:PUBLIC]</div><p class="level-desc">Архитектура и публичные концепции. Свободно для чтения.</p></div>
+        <div class="level-card"><div class="level-tag tag-protected">[RCF:PROTECTED]</div><p class="level-desc">Основная методология. Видима, не воспроизводима без разрешения.</p></div>
+        <div class="level-card"><div class="level-tag tag-restricted">[RCF:RESTRICTED]</div><p class="level-desc">Чувствительная реализация. Минимальные права доступа.</p></div>
+      </div>
+    </div>
+    <div class="content-az">
+      <p class="section-label">RCF altında hüquqlar</p>
+      <div class="rights-grid">
+        <div class="rights-col">
+          <div class="rights-col-header can"><span class="dot can"></span>Edə bilərsiniz</div>
+          <div class="rights-item"><span class="dot can"></span>Kodu oxuyub öyrənmək</div>
+          <div class="rights-item"><span class="dot can"></span>Audit və yoxlama aparmaq</div>
+          <div class="rights-item"><span class="dot can"></span>İstinad etmək və sitat gətirmək</div>
+        </div>
+        <div class="rights-col">
+          <div class="rights-col-header cannot"><span class="dot cannot"></span>Edə bilməzsiniz</div>
+          <div class="rights-item"><span class="dot cannot"></span>Məntiqi kopyalamaq və ya təkrar istehsal etmək</div>
+          <div class="rights-item"><span class="dot cannot"></span>Qorunan metodologiya üzərində SI öyrətmək</div>
+          <div class="rights-item"><span class="dot cannot"></span>İcazəsiz kommersiya məqsədilə istifadə etmək</div>
+        </div>
+      </div>
+      <p class="section-label" style="margin-top:2.5rem;">Müdafiə səviyyələri</p>
+      <div class="levels-grid">
+        <div class="level-card"><div class="level-tag tag-public">[RCF:PUBLIC]</div><p class="level-desc">Arxitektura və ictimai konsepsiyalar. Oxumaq sərbəstdir.</p></div>
+        <div class="level-card"><div class="level-tag tag-protected">[RCF:PROTECTED]</div><p class="level-desc">Əsas metodologiya. Görünür, lakin icazəsiz təkrarlanamaz.</p></div>
+        <div class="level-card"><div class="level-tag tag-restricted">[RCF:RESTRICTED]</div><p class="level-desc">Həssas tətbiq. Minimal giriş hüquqları.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section fade-in">
+    <div class="content-en active">
+      <p>If you are an independent developer, a researcher, or the founder of a small lab — you know this feeling. You poured yourself into your project. And you deserve to decide who uses it and how.</p>
+      <div class="pullquote"><p>Sovereign Code is not about fearing the world. It is about respecting your own labor.</p></div>
+      <p>Join the movement. Protect your methodology. Stay open — on your own terms.</p>
+    </div>
+    <div class="content-ru">
+      <p>Если ты независимый разработчик, исследователь или основатель небольшой лаборатории — ты знаешь это чувство. Ты вложил себя в проект. И ты заслуживаешь решать, кто и как его использует.</p>
+      <div class="pullquote"><p>Суверенный код — это не страх перед миром. Это уважение к собственному труду.</p></div>
+      <p>Присоединяйся к движению. Защити свою методику. Оставайся открытым — на своих условиях.</p>
+    </div>
+    <div class="content-az">
+      <p>Əgər siz müstəqil bir tərtibatçı, tədqiqatçı və ya kiçik bir laboratoriyаnın əsasçısısınızsa — bu hissi bilirsiniz. Özünüzü layihəyə həsr etdiniz. Və kimin, necə istifadə edəcəyinə qərar verməyə haqqınız var.</p>
+      <div class="pullquote"><p>Suveren Kod dünyadan qorxmaq deyil. Bu, öz əməyinizə hörmət etməkdir.</p></div>
+      <p>Hərəkata qoşulun. Metodologiyanızı qoruyun. Öz şərtlərinizlə açıq qalın.</p>
+    </div>
+  </section>
+
+  <div class="sig-section fade-in">
+    <div class="sig-left">
+      <div class="sig-avatar">AA</div>
+      <div>
+        <div class="sig-name">Aladdin Aliyev</div>
+        <div class="sig-role">Founder, RCF · Sovereign Code Initiative</div>
+      </div>
+    </div>
+    <div class="sig-right">
+      <span class="rcf-badge">RCF v1.3</span>
+      <p class="copyright">© 2025 Aladdin Aliyev · All methodology rights reserved</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function switchLang(lang, btn) {
+    document.querySelectorAll('.content-en, .content-ru, .content-az').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.content-' + lang).forEach(el => el.classList.add('active'));
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

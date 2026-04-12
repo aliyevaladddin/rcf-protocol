@@ -1,20 +1,25 @@
 rcf-protocol/                           ← Repository root
 │
 ├── README.md                             ← Main file (overview)
-├── LICENSE                               ← RCF-PL v1.1 license text
+├── LICENSE                               ← RCF-PL v1.3 license text
+├── WHITE_PAPER_v1.3.md                   ← Technical & Legal Whitepaper
+├── SOVEREIGN_CODE.html                   ← Premium Multi-lingual Manifesto
+├── SOVEREIGN-CODE-MANIFESTO.md           ← Markdown version of the Manifesto
 │
 ├── SPECIFICATION/                        ← Technical documentation
 │   ├── RCF-SPEC.md                      ← Full protocol specification
 │   ├── RCF-CORE.md                      ← Core concepts
 │   ├── RCF-ENFORCEMENT.md               ← Technical enforcement measures
 │   ├── RCF-COMPLIANCE.md                ← Compliance checklist
+│   ├── COMPARISON.md                    ← License Comparison Matrix (v1.3)
 │   └── RCF-DOS-ADOPTION.md              ← dOS-specific adoption guide
 │
 ├── LEGAL/                               ← Legal documentation
-│   ├── LEGAL.md                         ← Legal framework
+│   ├── LEGAL.md                         ← Legal framework (Acceptance by Use)
 │   ├── DEFINITIONS.md                   ← Terminology glossary
 │   ├── ENFORCEMENT.md                   ← Enforcement procedures
-│   └── JURISDICTION.md                  ← International applicability
+│   ├── JURISDICTION.md                  ← International applicability
+│   └── SECURITY.md                      ← Security policy
 │
 ├── IMPLEMENTATION/                      ← Practical implementation
 │   ├── CODE-MARKERS.md                  ← Code markers guide
@@ -38,15 +43,28 @@ rcf-protocol/                           ← Repository root
 │   └── RELEASE-NOTES.md                 ← Release details
 │
 ├── sdk/                                 ← SDK and CLI tools
-│   └── python/                          ← Python implementation
-│       ├── rcf_cli/                     ← Package source
-│       └── pyproject.toml               ← Packaging config
+│   ├── python/                          ← Python implementation (v1.3.0)
+│   │   ├── rcf_cli/                     ← Package source
+│   │   │   ├── cli.py                   ← RCF-CLI logic
+│   │   │   ├── scanner.py               ← Heuristic scanner
+│   │   │   └── action.yml               ← RCF Guardian GitHub Action
+│   │   └── pyproject.toml               ← Packaging config
+│   └── typescript/                      ← Node.js/TypeScript implementation (v1.3.0)
+│       ├── src/                         ← Source code (ESM/NodeNext)
+│       │   ├── cli/                     ← CLI entry point
+│       │   └── core/                    ← Logic, Scanner, Validator
+│       ├── tests/                       ← Jest ESM test suite
+│       ├── bin/                         ← Executable wrapper
+│       ├── package.json                 ← Node.js manifest
+│       └── tsconfig.json                ← TypeScript configuration
 │
 └── EXAMPLES/                            ← Usage examples
+    ├── rcf-guardian-workflow.yml        ← CI/CD Workflow example
     ├── example-notice.md                ← NOTICE.md example
     ├── example-license.md               ← LICENSE example
     ├── example-code.py                  ← RCF-marked code example
     └── dos-kernel-example.c             ← dOS-specific kernel example
 
 Copyright (c) 2026 Aladdin Aliyev. All rights reserved.
-RCF Protocol License Version 1.1
+Sovereignty via Restricted Correlation.
+RCF Protocol License Version 1.3

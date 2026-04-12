@@ -1,8 +1,8 @@
-// NOTICE: This file is protected under RCF-PL v1.2.8
-import { RCFMarker, RCFMarkerType } from './types';
+// NOTICE: This file is protected under RCF-PL v1.3
+import { MarkerDefinition, MarkerType } from './types.js';
 
 // [RCF:PUBLIC]
-export const RCF_MARKERS: Record<RCFMarkerType, RCFMarker> = {
+export const RCF_MARKERS: Record<MarkerType, MarkerDefinition> = {
   PUBLIC: {
     name: '[RCF:PUBLIC]',
     level: 0,

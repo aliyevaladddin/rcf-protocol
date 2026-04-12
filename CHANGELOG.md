@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
+<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
 # CHANGELOG
 
 All notable changes to the RCF Protocol project will be documented in this file.
@@ -20,7 +20,7 @@ All notable changes to the RCF Protocol project will be documented in this file.
 ### Changed
 - **Version Synchronization**: Synchronized version `1.2.8` across all documentation, legal assets, and SDKs (NPM & PyPI).
 - **Legal Assets**: Renamed `RCF-PL-1.2.6.md` to `RCF-PL-1.2.7.md` and updated internal notices.
-- **Scanner Logic**: Updated CLI scanner to recognize the `v1.2.8` protection header.
+- **Scanner Logic**: Updated CLI scanner to recognize the `v1.3` protection header.
 - **Documentation**: Polished SDK READMEs and synchronized version badges.
 
 ---
@@ -29,4 +29,4 @@ All notable changes to the RCF Protocol project will be documented in this file.
 
 ### Added
 - **RCF-Audit Feature**: Introduced the `audit` command for generating cryptographically signed compliance reports.
-- **SDK Parity**: Synchronized v1.2.6 across NPM and PyPI ecosystems.
+- **SDK Parity**: Synchronized v1.3 across NPM and PyPI ecosystems.

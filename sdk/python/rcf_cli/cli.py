@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v1.2.8
+# NOTICE: This file is protected under RCF-PL v1.3
 import argparse
 import sys
 import json
@@ -6,7 +6,39 @@ import os
 import hashlib
 import re
 from datetime import datetime
+from pathlib import Path
 from rcf_cli.scanner import RCFScanner
+
+# [RCF:PROTECTED]
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _sha256(path: str) -> str:
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+def _comment_prefix(file_path: str) -> str:
+    """Returns the correct single-line comment prefix for a file type."""
+    if file_path.endswith(('.js', '.ts', '.c', '.cpp', '.java', '.go', '.swift', '.kt')):
+        return '//'
+    if file_path.endswith(('.md', '.html')):
+        return None  # handled separately
+    return '#'
+
+
+def _make_marker_line(file_path: str, marker: str = 'RCF:PROTECTED') -> str:
+    if file_path.endswith(('.md', '.html')):
+        return f'<!-- [{marker}] -->\n'
+    prefix = _comment_prefix(file_path)
+    return f'{prefix} [{marker}]\n'
+
+
+# ---------------------------------------------------------------------------
+# Commands
+# ---------------------------------------------------------------------------
 
 def init_project(args):
     project_name = args.project or os.path.basename(os.getcwd())
@@ -15,225 +47,406 @@ def init_project(args):
 
     notice_content = f"""# RCF-PL NOTICE
 
-This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.2.8**.
+This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.3**.
 
 Copyright (c) {year} {author_name}. All rights reserved.
 
 ## ⚠️ AI/ML Training Restriction
 This repository contains proprietary methodologies protected by RCF.
-Automated extraction, correlation, or use of this code for training Machine Learning models is **STRICTLY PROHIBITED** without explicit written permission.
+Automated extraction, correlation, or use of this code for training Machine Learning
+models is **STRICTLY PROHIBITED** without explicit written permission.
 
 ## Usage Rights
 - **Visibility**: You are free to read, study, and audit the source code.
-- **Replication**: You may not replicate, extract, or automate the methodologies within blocks marked as `[RCF:PROTECTED]` or `[RCF:RESTRICTED]`.
+- **Replication**: You may not replicate, extract, or automate the methodologies
+  within blocks marked as `[RCF:PROTECTED]` or `[RCF:RESTRICTED]`.
 
 For full protocol details, visit: https://rcf.aliyev.site
 """
     notice_path = os.path.join(os.getcwd(), "NOTICE.md")
     if os.path.exists(notice_path):
-        print("⚠️ NOTICE.md already exists.")
+        print("⚠️  NOTICE.md already exists. Skipping.")
     else:
-        with open(notice_path, "w") as f:
-            f.write(notice_content)
-        print("✅ Generated NOTICE.md with RCF-PL v1.2.8 protections.")
-    
+        Path(notice_path).write_text(notice_content, encoding='utf-8')
+        print("✅ Generated NOTICE.md with RCF-PL v1.3 protections.")
+
     rcfignore_path = os.path.join(os.getcwd(), ".rcfignore")
     if not os.path.exists(rcfignore_path):
-        with open(rcfignore_path, "w") as f:
-            f.write("# RCF Ignore File\nnode_modules\n.git\n__pycache__\n.venv\ndist\nbuild\n")
+        Path(rcfignore_path).write_text(
+            "# RCF Ignore File\nnode_modules\n.git\n__pycache__\n.venv\ndist\nbuild\n",
+            encoding='utf-8'
+        )
         print("✅ Generated .rcfignore.")
-        
-    print(f"🎉 RCF Protocol successfully initialized for '{project_name}'.")
 
-# [RCF:RESTRICTED]
-# Core audit logic for generating cryptographic compliance reports.
+    print(f"🎉 RCF Protocol initialized for '{project_name}'.")
+
+
 def audit_project(args):
-    license_key = args.license_key or os.environ.get("RCF_LICENSE_KEY")
-    uuid_regex = re.compile(r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$')
-    
+    license_key = args.license_key or os.environ.get("RCF_LICENSE_KEY", "")
+    uuid_regex = re.compile(
+        r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}'
+        r'-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$'
+    )
     admin_key_hash = "74bc881f2c077802d68ee7b42a2fe98988dd76c35d835b6fa14f6313f5cb9d7e"
     provided_key_hash = hashlib.sha256(license_key.encode()).hexdigest() if license_key else ""
-    
+
     if provided_key_hash == admin_key_hash:
-        pass # Admin bypass
+        pass  # admin bypass
     elif not license_key:
-        print("❌ RCF-PL ERROR: License key is missing.")
-        print("   The 'audit' command is a premium feature. Please provide a license key.")
-        print("   Usage: rcf-cli audit . --license-key RCF-AUDIT-XXXXXX")
-        print("   Visit https://rcf.aliyev.site to obtain a license.")
+        print("❌ RCF-PL ERROR: License key missing. 'audit' is a premium feature.")
+        print("   Set --license-key or RCF_LICENSE_KEY env variable.")
         sys.exit(1)
-    elif not license_key.startswith("RCF-AUDIT-") or not uuid_regex.match(license_key.replace("RCF-AUDIT-", "")):
+    elif not license_key.startswith("RCF-AUDIT-") or \
+            not uuid_regex.match(license_key.replace("RCF-AUDIT-", "", 1)):
         print("❌ RCF-PL ERROR: Invalid license key format.")
-        print("   Expected format: RCF-AUDIT-(KEY)")
-        print("")
         sys.exit(1)
 
-    scanner = RCFScanner(args.path)
-    results = scanner.scan_directory()
-    
+    target = os.path.abspath(args.path)
+    scanner = RCFScanner(target, verbose=args.verbose)
+    results = scanner.scan_directory(include_protected=True)
+
     audit_report = {
+        "rcf_version": "1.3",
         "timestamp": datetime.now().isoformat(),
-        "audit_type": "RCF-Audit as a Service",
+        "audit_type": "RCF-Audit v1.3",
+        "root": target,
         "protected_assets": []
     }
-    
+
     for res in results:
-        file_path = os.path.join(args.path, res['path'])
+        file_path = os.path.join(target, res['path'])
         try:
-            with open(file_path, "rb") as f:
-                file_hash = hashlib.sha256(f.read()).hexdigest()
             audit_report["protected_assets"].append({
                 "file": res['path'],
                 "markers": res['markers'],
-                "sha256": file_hash
+                "sha256": _sha256(file_path)
             })
-        except Exception:
-            pass
-            
-    report_path = os.path.join(args.path, "RCF-AUDIT-REPORT.json")
-    with open(report_path, "w") as f:
-        json.dump(audit_report, f, indent=2)
-        
-    print(f"✅ RCF-Audit Complete. Generated {report_path}")
-    print(f"🔒 Encrypted snapshot of {len(audit_report['protected_assets'])} protected assets created.")
+        except Exception as e:
+            print(f"⚠️  Could not hash {res['path']}: {e}")
 
-# [RCF:RESTRICTED]
-# Verification logic to detect tampering by comparing current hashes with the audit report.
+    report_path = os.path.join(target, "RCF-AUDIT-REPORT.json")
+    Path(report_path).write_text(
+        json.dumps(audit_report, indent=2), encoding='utf-8'
+    )
+    print(f"✅ Audit complete. {len(audit_report['protected_assets'])} assets recorded.")
+    print(f"   Report: {report_path}")
+
+
 def verify_audit(args):
-    report_path = os.path.join(args.path, "RCF-AUDIT-REPORT.json")
+    """Verify ALL files in a directory against the audit report."""
+    target = os.path.abspath(args.path)
+    report_path = os.path.join(target, "RCF-AUDIT-REPORT.json")
+
     if not os.path.exists(report_path):
-        print(f"❌ RCF-PL ERROR: Audit report not found at {report_path}")
-        print("   Please run 'rcf-cli audit' first to generate a baseline.")
+        print(f"❌ Audit report not found at: {report_path}")
         sys.exit(1)
 
-    try:
-        with open(report_path, "r") as f:
-            report = json.load(f)
-    except Exception as e:
-        print(f"❌ RCF-PL ERROR: Failed to load audit report: {e}")
-        sys.exit(1)
+    report = json.loads(Path(report_path).read_text(encoding='utf-8'))
+    assets = report.get("protected_assets", [])
 
-    print(f"--- RCF Integrity Verification ---")
-    print(f"Report Timestamp: {report.get('timestamp')}")
-    print("-" * 30)
+    print(f"--- RCF Integrity Verification ({len(assets)} assets) ---")
+    mismatches, missing, verified = [], [], 0
 
-    mismatches = []
-    missing = []
-    verified_count = 0
-
-    for asset in report.get("protected_assets", []):
-        file_rel_path = asset["file"]
-        stored_hash = asset["sha256"]
-        full_path = os.path.join(args.path, file_rel_path)
+    for asset in assets:
+        rel_path = asset["file"]
+        full_path = os.path.join(target, rel_path)
 
         if not os.path.exists(full_path):
-            missing.append(file_rel_path)
-            print(f"❌ MISSING: {file_rel_path}")
+            missing.append(rel_path)
+            print(f"❌ MISSING  : {rel_path}")
             continue
 
-        try:
-            with open(full_path, "rb") as f:
-                current_hash = hashlib.sha256(f.read()).hexdigest()
-            
-            if current_hash == stored_hash:
-                verified_count += 1
-                if not args.summary:
-                    print(f"✅ VERIFIED: {file_rel_path}")
-            else:
-                mismatches.append(file_rel_path)
-                print(f"🚨 TAMPERED: {file_rel_path}")
-                print(f"   Expected: {stored_hash}")
-                print(f"   Actual:   {current_hash}")
-        except Exception as e:
-            print(f"⚠️ ERROR scanning {file_rel_path}: {e}")
+        current_hash = _sha256(full_path)
+        if current_hash == asset["sha256"]:
+            verified += 1
+            if args.verbose:
+                print(f"✅ VERIFIED : {rel_path}")
+        else:
+            mismatches.append(rel_path)
+            print(f"🚨 TAMPERED : {rel_path}")
+            if args.verbose:
+                print(f"   stored : {asset['sha256']}")
+                print(f"   current: {current_hash}")
 
-    print("-" * 30)
-    print(f"Total Assets in Report: {len(report.get('protected_assets', []))}")
-    print(f"Verified: {verified_count}")
-    
-    if missing:
-        print(f"Missing:  {len(missing)}")
-    if mismatches:
-        print(f"🚨 Mismatches Detected: {len(mismatches)}")
-
+    print()
     if mismatches or missing:
+        print(f"❌ FAILED. Tampered: {len(mismatches)}, Missing: {len(missing)}, Verified: {verified}")
         sys.exit(1)
     else:
-        print("🛡️ Integrity Check Passed. No unauthorized modifications detected.")
+        print(f"🛡️  All {verified} assets verified. Integrity OK.")
         sys.exit(0)
+
+
+def verify_file_standalone(args):
+    """Verify a SINGLE file against an audit report (3rd-party use)."""
+    file_path = os.path.abspath(args.file)
+    report_path = os.path.abspath(args.against)
+
+    if not os.path.exists(file_path):
+        print(f"❌ File not found: {file_path}")
+        sys.exit(1)
+    if not os.path.exists(report_path):
+        print(f"❌ Audit report not found: {report_path}")
+        sys.exit(1)
+
+    report = json.loads(Path(report_path).read_text(encoding='utf-8'))
+    report_root = report.get("root", os.path.dirname(report_path))
+
+    # Try to resolve the file's path relative to the report's root
+    try:
+        rel_path = str(Path(file_path).relative_to(report_root))
+    except ValueError:
+        rel_path = os.path.basename(file_path)
+
+    # Match by relative path first, then fall back to filename only
+    asset = next(
+        (a for a in report.get("protected_assets", [])
+         if a["file"] == rel_path or
+         os.path.normpath(a["file"]) == os.path.normpath(rel_path) or
+         os.path.basename(a["file"]) == os.path.basename(file_path)),
+        None
+    )
+
+    if not asset:
+        print(f"❓ '{os.path.basename(file_path)}' not found in audit report.")
+        print(f"   Available assets: {[a['file'] for a in report.get('protected_assets', [])]}")
+        sys.exit(1)
+
+    current_hash = _sha256(file_path)
+    stored_hash = asset["sha256"]
+
+    print(f"--- RCF File Verification ---")
+    print(f"File    : {file_path}")
+    print(f"Report  : {report_path}")
+    print(f"Recorded: {report.get('timestamp', 'unknown')}")
+    print()
+
+    if current_hash == stored_hash:
+        print(f"✅ VERIFIED — file matches audit record (RCF v1.3)")
+        print(f"   SHA-256: {current_hash}")
+        sys.exit(0)
+    else:
+        print(f"🚨 TAMPERED — file has been modified since audit!")
+        print(f"   stored : {stored_hash}")
+        print(f"   current: {current_hash}")
+        sys.exit(1)
+
+
+def diff_compliance(args):
+    """
+    Compare current marker state against the audit report.
+    Exits 1 if any markers were removed (CI/CD fail trigger).
+    """
+    target = os.path.abspath(args.path)
+    report_path = os.path.join(target, "RCF-AUDIT-REPORT.json")
+
+    if not os.path.exists(report_path):
+        print(f"❌ Audit report missing at: {report_path}")
+        print("   Run 'rcf-cli audit' first.")
+        sys.exit(1)
+
+    report = json.loads(Path(report_path).read_text(encoding='utf-8'))
+
+    scanner = RCFScanner(target, verbose=args.verbose)
+    current = {r['path']: r for r in scanner.scan_directory(include_protected=True)}
+
+    violations = []
+    new_files_with_logic = []
+
+    # Check recorded assets for removed markers / deleted files
+    for asset in report.get("protected_assets", []):
+        rel_path = asset["file"]
+        stored_markers = set(asset.get("markers", []))
+
+        if rel_path not in current:
+            violations.append({
+                "type": "file_missing",
+                "file": rel_path,
+                "detail": "Previously protected file is missing"
+            })
+            print(f"🚨 MISSING  : {rel_path}")
+            continue
+
+        current_markers = set(current[rel_path].get("markers", []))
+        removed = stored_markers - current_markers
+        added = current_markers - stored_markers
+
+        if removed:
+            violations.append({
+                "type": "markers_removed",
+                "file": rel_path,
+                "removed": list(removed)
+            })
+            print(f"🚨 MARKERS REMOVED in {rel_path}: {removed}")
+        elif args.verbose:
+            print(f"✅ OK       : {rel_path}  markers={current_markers}")
+
+        if added and args.verbose:
+            print(f"ℹ️  NEW MARKERS in {rel_path}: {added}")
+
+    # Detect newly added unprotected logic (not in audit report)
+    audited_paths = {a["file"] for a in report.get("protected_assets", [])}
+    for path, res in current.items():
+        if path not in audited_paths and res.get("has_unprotected_logic"):
+            new_files_with_logic.append(path)
+            if args.verbose:
+                print(f"⚠️  NEW UNPROTECTED LOGIC: {path}")
+
+    # Summary
+    print()
+    if violations:
+        print(f"❌ {len(violations)} compliance violation(s) found.")
+        if new_files_with_logic:
+            print(f"⚠️  {len(new_files_with_logic)} new file(s) with unprotected logic detected.")
+        sys.exit(1)
+    else:
+        print(f"✅ No marker violations. All {len(audited_paths)} recorded assets compliant.")
+        if new_files_with_logic:
+            print(f"⚠️  {len(new_files_with_logic)} new file(s) with unprotected logic (run 'protect').")
+        sys.exit(0)
+
+
+def protect_project(args):
+    """Auto-insert RCF markers into files with unprotected logic."""
+    target = os.path.abspath(args.path)
+    scanner = RCFScanner(target, verbose=args.verbose)
+    results = scanner.scan_directory()  # only files needing attention
+
+    if not results:
+        print("✅ No unprotected logic found. Nothing to do.")
+        return
+
+    modified = 0
+    skipped = 0
+
+    for res in results:
+        file_path = os.path.join(target, res['path'])
+
+        try:
+            lines = Path(file_path).read_text(encoding='utf-8').splitlines(keepends=True)
+        except Exception as e:
+            print(f"⚠️  Cannot read {res['path']}: {e}")
+            skipped += 1
+            continue
+
+        new_lines = []
+
+        # Add file header if missing
+        if not res['has_header']:
+            if file_path.endswith(('.md', '.html')):
+                header = '<!-- NOTICE: This file is protected under RCF-PL v1.3 -->\n'
+            else:
+                header = '# NOTICE: This file is protected under RCF-PL v1.3\n'
+            new_lines.append(header)
+
+        # Insert markers before unprotected logic lines
+        gap_lines = {g['line'] for g in res.get('unprotected_logic', [])}
+        marker_line = _make_marker_line(file_path)
+
+        for i, line in enumerate(lines, start=1):
+            if i in gap_lines:
+                # Don't insert duplicate markers
+                prev = new_lines[-1] if new_lines else ''
+                if '[RCF:' not in prev:
+                    new_lines.append(marker_line)
+            new_lines.append(line)
+
+        changed = (len(new_lines) != len(lines)) or (not res['has_header'])
+
+        if changed:
+            if args.dry_run:
+                gaps = len(res.get('unprotected_logic', []))
+                print(f"🔍 DRY RUN : {res['path']}  ({gaps} block(s) would be marked)")
+            else:
+                Path(file_path).write_text(''.join(new_lines), encoding='utf-8')
+                gaps = len(res.get('unprotected_logic', []))
+                print(f"✅ PROTECTED: {res['path']}  ({gaps} block(s) marked)")
+            modified += 1
+        else:
+            skipped += 1
+
+    print()
+    action = "Would modify" if args.dry_run else "Modified"
+    print(f"🛡️  {action} {modified} file(s). Skipped: {skipped}.")
+    if args.dry_run:
+        print("   Run without --dry-run to apply changes.")
+
+
+# ---------------------------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------------------------
 
 def main():
-    if len(sys.argv) > 1 and sys.argv[1] == "init":
-        parser = argparse.ArgumentParser(description="Initialize RCF Protocol in the current directory")
-        parser.add_argument("init", help="Init command")
-        parser.add_argument("--project", help="Name of the project")
-        parser.add_argument("--author", help="Name of the author")
-        args = parser.parse_args()
-        init_project(args)
-        return
+    parser = argparse.ArgumentParser(
+        prog='rcf-cli',
+        description='RCF Protocol CLI v1.3 — Restricted Correlation Framework'
+    )
+    parser.add_argument('--version', action='version', version='rcf-cli 1.3.0')
+    subparsers = parser.add_subparsers(dest="command", metavar="<command>")
 
-    if len(sys.argv) > 1 and sys.argv[1] == "audit":
-        parser = argparse.ArgumentParser(description="Generate an RCF Audit Report (Premium Feature). Get keys at https://rcf.aliyev.site")
-        parser.add_argument("audit", help="Audit command")
-        parser.add_argument("path", nargs="?", default=".", help="Path to audit")
-        parser.add_argument("--license-key", help="RCF Audit License Key")
-        args = parser.parse_args()
-        audit_project(args)
-        return
+    # init
+    p_init = subparsers.add_parser("init", help="Initialize RCF in the current project")
+    p_init.add_argument("--project", metavar="NAME", help="Project name")
+    p_init.add_argument("--author", metavar="NAME", help="Author name")
 
-    if len(sys.argv) > 1 and sys.argv[1] == "verify":
-        parser = argparse.ArgumentParser(description="Verify project integrity against an RCF Audit Report")
-        parser.add_argument("verify", help="Verify command")
-        parser.add_argument("path", nargs="?", default=".", help="Path to verify")
-        parser.add_argument("--summary", action="store_true", help="Show summary only")
-        args = parser.parse_args()
-        verify_audit(args)
-        return
+    # audit
+    p_audit = subparsers.add_parser("audit", help="Generate RCF-AUDIT-REPORT.json (premium)")
+    p_audit.add_argument("path", nargs="?", default=".", metavar="PATH")
+    p_audit.add_argument("--license-key", metavar="KEY", help="RCF audit license key")
+    p_audit.add_argument("--verbose", "-v", action="store_true")
 
-    parser = argparse.ArgumentParser(description="RCF Protocol Compliance Checker")
-    parser.add_argument("path", nargs="?", default=".", help="Path to scan (default: current directory)")
-    parser.add_argument("--format", choices=["text", "json"], default="text", help="Output format")
-    parser.add_argument("--summary", action="store_true", help="Show summary only")
-    
+    # verify
+    p_verify = subparsers.add_parser(
+        "verify",
+        help="Verify file integrity against audit report",
+        description=(
+            "Usage:\n"
+            "  rcf-cli verify [PATH]                   — verify all files in PATH\n"
+            "  rcf-cli verify <FILE> --against <REPORT> — verify a single file (3rd-party)"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    p_verify.add_argument("file_or_path", nargs="?", default=".", metavar="FILE|PATH")
+    p_verify.add_argument("--against", metavar="REPORT", help="Path to audit report JSON")
+    p_verify.add_argument("--verbose", "-v", action="store_true")
+
+    # diff
+    p_diff = subparsers.add_parser(
+        "diff",
+        help="Diff current markers vs audit report (use in CI/CD)"
+    )
+    p_diff.add_argument("path", nargs="?", default=".", metavar="PATH")
+    p_diff.add_argument("--verbose", "-v", action="store_true")
+
+    # protect
+    p_protect = subparsers.add_parser(
+        "protect",
+        help="Auto-insert RCF markers into unprotected logic blocks"
+    )
+    p_protect.add_argument("path", nargs="?", default=".", metavar="PATH")
+    p_protect.add_argument("--dry-run", action="store_true", help="Preview changes without writing")
+    p_protect.add_argument("--verbose", "-v", action="store_true")
+
     args = parser.parse_args()
-    
-    scanner = RCFScanner(args.path)
-    results = scanner.scan_directory()
-    
-    if args.format == "json":
-        print(json.dumps(results, indent=2))
-        return
 
-    # Text Output
-    print(f"--- RCF Compliance Report ---")
-    print(f"Scanning: {args.path}")
-    print("-" * 30)
-    
-    protected_count = 0
-    issue_count = 0
-    
-    for res in results:
-        protected_count += 1
-        markers_str = ", ".join(res['markers']) if res['markers'] else "None"
-        header_status = "✅ Header Present" if res['has_header'] else "⚠️ Missing Header"
-        
-        if not res['has_header']:
-            issue_count += 1
-            
-        if not args.summary:
-            print(f"File: {res['path']}")
-            print(f"  Markers: {markers_str}")
-            print(f"  Status:  {header_status}")
-            print()
-
-    print("-" * 30)
-    print(f"Total Protected Files: {protected_count}")
-    print(f"Total Compliance Issues: {issue_count}")
-    
-    if issue_count > 0:
-        sys.exit(1)
+    if args.command == "init":
+        init_project(args)
+    elif args.command == "audit":
+        audit_project(args)
+    elif args.command == "verify":
+        if args.against:
+            args.file = args.file_or_path
+            verify_file_standalone(args)
+        else:
+            args.path = args.file_or_path
+            verify_audit(args)
+    elif args.command == "diff":
+        diff_compliance(args)
+    elif args.command == "protect":
+        protect_project(args)
     else:
-        sys.exit(0)
+        parser.print_help()
+
 
 if __name__ == "__main__":
     main()

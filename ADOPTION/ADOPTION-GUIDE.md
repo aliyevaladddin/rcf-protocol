@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.2.8 -->
+<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
 # RCF-ADOPTION-GUIDE — How to Protect Your IP
 
 **Version:** 1.2.8

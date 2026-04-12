@@ -1,0 +1,60 @@
+name: RCF Protocol Compliance
+
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+  push:
+    branches: [ main, master ]
+
+jobs:
+  rcf-guardian:
+    name: RCF Marker Integrity
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write   # needed to post PR comments
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run RCF Guardian
+        id: rcf
+        uses: aliyev/rcf-guardian@v1
+        with:
+          path: '.'
+          mode: 'diff'             # use 'verify' for full hash check
+          fail-on-new-unprotected: 'false'
+          license-key: ${{ secrets.RCF_LICENSE_KEY }}
+
+      - name: Comment on PR (on failure)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: [
+                '## 🚨 RCF Protocol Violation',
+                '',
+                'This pull request **removes or modifies protected RCF markers**.',
+                '',
+                '**What happened:** `rcf-guardian` detected that one or more `[RCF:PROTECTED]`',
+                'or `[RCF:RESTRICTED]` markers were removed from audited files.',
+                '',
+                '**How to fix:**',
+                '1. Run `rcf-cli diff .` locally to see which markers are missing.',
+                '2. Restore the markers or run `rcf-cli protect .` to re-apply them.',
+                '3. If you intentionally changed protection levels, run `rcf-cli audit .` to update the report.',
+                '',
+                '> Protected under [RCF-PL v1.3](https://rcf.aliyev.site)',
+              ].join('\n')
+            })
+
+      - name: Output result
+        if: always()
+        run: |
+          echo "RCF Status : ${{ steps.rcf.outputs.status }}"
+          echo "Violations : ${{ steps.rcf.outputs.violations }}"
