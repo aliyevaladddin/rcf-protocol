@@ -2,7 +2,7 @@
 // [RCF:PROTECTED]
 
 import { readFileSync } from 'fs';
-import { extname } from 'path';
+import { extname, basename } from 'path';
 
 export type LogicType =
   | 'class'
@@ -52,6 +52,18 @@ const TS_PATTERNS: Array<{ regex: RegExp; type: LogicType }> = [
   { regex: /(encrypt|decrypt|sign|verify|pbkdf2|hmac)/i,           type: 'crypto_logic' },
 ];
 
+// C/C++/Assembly heuristic patterns
+const C_PATTERNS: Array<{ regex: RegExp; type: LogicType }> = [
+  { regex: /^\s*(typedef\s+)?struct\s+\w+/,                        type: 'logic_block' },
+  { regex: /^\s*(typedef\s+)?enum\s+\w+/,                          type: 'logic_block' },
+  { regex: /^\s*\w+\s+\w+\s*\(.*\)\s*\{/,                          type: 'function' }, // standard func
+  { regex: /^\s*#define\s+\w+/,                                    type: 'logic_block' },
+  { regex: /^\s*#include\s+["<]/,                                 type: 'logic_block' },
+  { regex: /^\s*[A-Z_0-9]+:\s*$/,                                  type: 'logic_block' }, // Assembly labels
+  { regex: /(uint8_t|uint16_t|uint32_t|uint64_t|size_t|bool)/,      type: 'logic_block' },
+  { regex: /(encrypt|decrypt|sign|verify|hash|sha256|aes|rsa|pqc)/i, type: 'crypto_logic' },
+];
+
 // Python heuristic patterns (for mixed-language repos)
 const PY_PATTERNS: Array<{ regex: RegExp; type: LogicType }> = [
   { regex: /^\s*class\s+\w+/,                 type: 'python_class' },
@@ -69,6 +81,7 @@ export class Scanner {
   private getPatternsForFile(filePath: string): Array<{ regex: RegExp; type: LogicType }> {
     const ext = extname(filePath).toLowerCase();
     if (ext === '.py') return PY_PATTERNS;
+    if (['.c', '.h', '.cpp', '.hpp', '.s', '.asm'].includes(ext)) return C_PATTERNS;
     return TS_PATTERNS;
   }
 
@@ -147,14 +160,16 @@ export class Scanner {
    */
   static commentPrefix(filePath: string): string {
     const ext = extname(filePath).toLowerCase();
+    const file = basename(filePath).toLowerCase();
     if (['.html', '.xml', '.svg'].includes(ext)) return '<!--';
     if (['.css', '.scss', '.less'].includes(ext)) return '/*';
-    if (ext === '.py' || ext === '.rb' || ext === '.sh') return '#';
+    if (ext === '.py' || ext === '.rb' || ext === '.sh' || file === 'makefile' || ext === '.s') return '#';
     return '//';
   }
 
   static makeMarkerLine(filePath: string, marker = 'RCF:PROTECTED'): string {
     const ext = extname(filePath).toLowerCase();
+    const file = basename(filePath).toLowerCase();
     if (['.html', '.xml'].includes(ext)) return `<!-- [${marker}] -->\n`;
     if (['.css', '.scss'].includes(ext)) return `/* [${marker}] */\n`;
     const prefix = Scanner.commentPrefix(filePath);
@@ -163,6 +178,7 @@ export class Scanner {
 
   static headerLine(filePath: string): string {
     const ext = extname(filePath).toLowerCase();
+    const file = basename(filePath).toLowerCase();
     const notice = 'NOTICE: This file is protected under RCF-PL v1.3';
     if (['.html', '.xml'].includes(ext)) return `<!-- ${notice} -->\n`;
     if (['.css', '.scss'].includes(ext)) return `/* ${notice} */\n`;

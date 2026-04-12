@@ -357,6 +357,7 @@ program
 const SCANNABLE = new Set([
   '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs',
   '.py', '.go', '.rs', '.java', '.cpp', '.c',
+  '.h', '.s', 'makefile',
 ]);
 
 const IGNORE_DIRS = new Set([
