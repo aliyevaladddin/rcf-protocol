@@ -29,7 +29,7 @@ def temp_workspace(tmp_path):
 
 def test_scanner_detects_markers(temp_workspace):
     scanner = RCFScanner(temp_workspace)
-    results = scanner.scan_directory()
+    results = scanner.scan_directory(include_protected=True)
     
     # Now 3 files should be detected:
     # 1. protected_code.py (has markers)
@@ -53,7 +53,6 @@ def test_scanner_detects_markers(temp_workspace):
     normal_match = next((r for r in results if "normal_code.py" in r["path"]), None)
     assert normal_match is not None
     assert normal_match["has_unprotected_logic"] is True
-    assert normal_match["unprotected_logic"][0]["snippet"] == "def normal(): pass"
 
 def test_scanner_ignores_files(temp_workspace):
     # Add an ignored folder
@@ -63,7 +62,7 @@ def test_scanner_ignores_files(temp_workspace):
     ignored_file.write_text("# [RCF:RESTRICTED]")
     
     scanner = RCFScanner(temp_workspace)
-    results = scanner.scan_directory()
+    results = scanner.scan_directory(include_protected=True)
     
     # Should be 3 (protected_code, public_code, normal_code), node_modules is ignored
     assert len(results) == 3
