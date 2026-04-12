@@ -357,7 +357,7 @@ program
 const SCANNABLE = new Set([
   '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs',
   '.py', '.go', '.rs', '.java', '.cpp', '.c',
-  '.h', '.s', 'makefile',
+  '.h', '.s', '.md', 'makefile',
 ]);
 
 const IGNORE_DIRS = new Set([
@@ -373,7 +373,10 @@ function collectFiles(dir: string): string[] {
       const stat = statSync(full);
       if (stat.isDirectory()) {
         if (!IGNORE_DIRS.has(entry)) files.push(...collectFiles(full));
-      } else if (SCANNABLE.has(extname(entry).toLowerCase())) {
+      } else if (
+        SCANNABLE.has(extname(entry).toLowerCase()) ||
+        SCANNABLE.has(entry.toLowerCase())
+      ) {
         files.push(full);
       }
     }

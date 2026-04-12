@@ -12,6 +12,7 @@ const SCANNABLE_EXTENSIONS = new Set([
   '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs',
   '.py', '.go', '.rs', '.java', '.cpp', '.c',
   '.cs', '.rb', '.php', '.swift', '.kt', '.scala',
+  '.h', '.s', '.md', 'makefile'
 ]);
 
 const DEFAULT_IGNORE = new Set([
@@ -108,7 +109,10 @@ export class MarkerParser {
       const stat = statSync(fullPath);
       if (stat.isDirectory()) {
         this.walkDir(fullPath, results);
-      } else if (SCANNABLE_EXTENSIONS.has(extname(entry).toLowerCase())) {
+      } else if (
+        SCANNABLE_EXTENSIONS.has(extname(entry).toLowerCase()) ||
+        SCANNABLE_EXTENSIONS.has(entry.toLowerCase())
+      ) {
         const result = this.parseFile(fullPath);
         if (result.isProtected || result.error) {
           results.push(result);
@@ -138,7 +142,10 @@ export class MarkerParser {
       const stat = statSync(fullPath);
       if (stat.isDirectory()) {
         this.walkDirAll(fullPath, results);
-      } else if (SCANNABLE_EXTENSIONS.has(extname(entry).toLowerCase())) {
+      } else if (
+        SCANNABLE_EXTENSIONS.has(extname(entry).toLowerCase()) ||
+        SCANNABLE_EXTENSIONS.has(entry.toLowerCase())
+      ) {
         results.push(this.parseFile(fullPath));
       }
     }
