@@ -3,6 +3,22 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [1.3.0] - 2026-04-12
+
+### Added
+- **TypeScript SDK Parity**: Achieve 100% feature parity with Python v1.3.
+- **Modern ESM Architecture**: Migrated Node.js implementation to pure ESM (NodeNext).
+- **Core Engine v1.3**:
+    - High-fidelity heuristic scanner with 14+ language support.
+    - Standardized `audit`, `diff`, and `verify` commands for both ecosystems.
+- **CI/CD Integration**: Official support for `rcf-guardian` with automated compliance enforcement.
+
+### Changed
+- **Protocol Standardization**: Unified markers, headers, and audit schemas across all implementations.
+- **Improved Heuristics**: Added support for abstract classes, interfaces, and decorators across languages.
+
+---
+
 ## [1.2.8] - 2026-03-18
 
 ### Added

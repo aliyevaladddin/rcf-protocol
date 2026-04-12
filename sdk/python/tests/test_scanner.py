@@ -31,8 +31,11 @@ def test_scanner_detects_markers(temp_workspace):
     scanner = RCFScanner(temp_workspace)
     results = scanner.scan_directory()
     
-    # Only 2 files should be protected (protected_code.py and public_code.py)
-    assert len(results) == 2
+    # Now 3 files should be detected:
+    # 1. protected_code.py (has markers)
+    # 2. public_code.py (has markers)
+    # 3. normal_code.py (has unprotected logic detected by v1.3 heuristics)
+    assert len(results) == 3
     
     # Check RESTRICTED file
     restricted_match = next((r for r in results if "protected_code.py" in r["path"]), None)
@@ -46,6 +49,12 @@ def test_scanner_detects_markers(temp_workspace):
     assert "PUBLIC" in public_match["markers"]
     assert public_match["has_header"] is False
 
+    # Check UNMARKED file (v1.3 detection)
+    normal_match = next((r for r in results if "normal_code.py" in r["path"]), None)
+    assert normal_match is not None
+    assert normal_match["has_unprotected_logic"] is True
+    assert normal_match["unprotected_logic"][0]["snippet"] == "def normal(): pass"
+
 def test_scanner_ignores_files(temp_workspace):
     # Add an ignored folder
     node_modules = temp_workspace / "node_modules"
@@ -56,5 +65,5 @@ def test_scanner_ignores_files(temp_workspace):
     scanner = RCFScanner(temp_workspace)
     results = scanner.scan_directory()
     
-    # Should still be 2, because node_modules is in the default ignore_list
-    assert len(results) == 2
+    # Should be 3 (protected_code, public_code, normal_code), node_modules is ignored
+    assert len(results) == 3
