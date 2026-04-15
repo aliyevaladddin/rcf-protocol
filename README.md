@@ -166,9 +166,9 @@ RCF provides specialized measures for dOS to ensure kernel transparency while pr
 
 ## 👥 Community & Support
 
-- **Website:** [rcf.aliyev.site](https://rcf.aliyev.site)
+- **Website:** [aliyev.site/rcf](https://aliyev.site/rcf)
 - **Contact:** [aladdin@aliyev.site](mailto:aladdin@aliyev.site)
-- **Projects:** [Aurora Access](https://auroraid.site), [Aliyev OSINT](https://osint.aliyev.site)
+- **Projects:** [Aurora Access](https://auroraid.site), [Aliyev OSINT](https://aliyev.site/osint)
 
 ---
 
