@@ -76,7 +76,7 @@ Independent developers and small studios are vulnerable to IP theft and unauthor
 > - **RCF-Audit Personal:** $19 (one-time per project)
 > - **RCF-Audit Professional:** $99/year (unlimited)
 > 
-> Visit [rcf.aliyev.site](https://rcf.aliyev.site) to obtain a license.
+> Visit [aliyev.site/rcf](https://aliyev.site/rcf) to obtain a license.
 
 > **Note:** The `audit` command is a **Premium Feature** that requires an `RCF-AUDIT` License Key.
 
