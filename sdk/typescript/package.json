@@ -8,7 +8,7 @@
   "homepage": "https://rcf.aliyev.site",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aliyev/rcf-protocol"
+    "url": "https://github.com/aliyevaaladddin/rcf-protocol"
   },
   "main": "dist/cli/index.js",
   "bin": {
