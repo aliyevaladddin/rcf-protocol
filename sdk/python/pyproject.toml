@@ -20,6 +20,8 @@ dependencies = []
 
 [project.scripts]
 rcf-ghost-shield = "rcf_cli.cli:main"
+rcf-cli = "rcf_cli.cli:main"
+rcf-protocol = "rcf_cli.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
