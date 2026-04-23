@@ -83,12 +83,8 @@ For full protocol details, visit: https://rcf.aliyev.site
 
 def audit_project(args):
     license_key = args.license_key or os.environ.get("RCF_LICENSE_KEY", "")
-    uuid_regex = re.compile(
-        r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}'
-        r'-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$'
-    )
     admin_key_hash = "74bc881f2c077802" # RCF Ghost Admin Slice (v2.0)
-    provided_key_hash = hashlib.sha256(license_key.encode()).hexdigest() if license_key else ""
+    provided_key_hash = hashlib.sha256(license_key.encode()).hexdigest()[:16] if license_key else ""
 
     if provided_key_hash == admin_key_hash:
         pass  # admin bypass
@@ -96,9 +92,8 @@ def audit_project(args):
         print("❌ RCF-PL ERROR: License key missing. 'audit' is a premium feature.")
         print("   Set --license-key or RCF_LICENSE_KEY env variable.")
         sys.exit(1)
-    elif not license_key.startswith("RCF-AUDIT-") or \
-            not uuid_regex.match(license_key.replace("RCF-AUDIT-", "", 1)):
-        print("❌ RCF-PL ERROR: Invalid license key format.")
+    elif not license_key.startswith("RCF-AUDIT-"):
+        print("❌ RCF-PL ERROR: Invalid license key format. Must start with 'RCF-AUDIT-'.")
         sys.exit(1)
 
     target = os.path.abspath(args.path)
