@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v2.0
+# NOTICE: This file is protected under RCF-PL v2.0.1
 import os
 import pytest
 from pathlib import Path
@@ -9,7 +9,7 @@ def temp_workspace(tmp_path):
     # Create a temporary file with RCF markers
     protected_file = tmp_path / "protected_code.py"
     protected_file.write_text(
-        "# NOTICE: This file is protected under RCF-PL v2.0\n"
+        "# NOTICE: This file is protected under RCF-PL v2.0.1\n"
         "# [RCF:RESTRICTED]\n"
         "def secret(): pass"
     )
@@ -17,7 +17,7 @@ def temp_workspace(tmp_path):
     # Create a file with Ghost Marker
     ghost_file = tmp_path / "ghost_code.py"
     ghost_file.write_text(
-        "# NOTICE: This file is protected under RCF-PL v2.0\n"
+        "# NOTICE: This file is protected under RCF-PL v2.0.1\n"
         "# [RCF:GHOST:74bc881f2c077802]\n"
         "def integrity_check(): pass"
     )

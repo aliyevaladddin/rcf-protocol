@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.1 -->
 # RCF Protocol — TypeScript SDK
 
 The official TypeScript/JavaScript SDK and Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol**.
@@ -11,16 +11,16 @@ Install via NPM:
 
 ```bash
 # Install globally to use the CLI anywhere
-npm install -g rcf-protocol
+npm install -g rcf-cli
 
 # Or install as a dev dependency in your project
-npm install -D rcf-protocol
+npm install -D rcf-cli
 ```
 
 ## Features
 
 - **Standardized Markers Check**: Identify `[RCF:PUBLIC]`, `[RCF:PROTECTED]`, `[RCF:RESTRICTED]`, and `[RCF:NOTICE]` markers in your codebase.
-- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v2.0` header.
+- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v2.0.1` header.
 - **Automated Scanning**: Quickly scan projects for compliance.
 - **RCF-Audit (Premium)**: Generate cryptographically signed compliance reports for enterprise auditing.
 
@@ -50,7 +50,7 @@ RCF uses semantic markers to define protection levels at the block or file level
 
 Example header for protected files:
 ```javascript
-// NOTICE: This file is protected under RCF-PL v2.0
+// NOTICE: This file is protected under RCF-PL v2.0.1
 // [RCF:PROTECTED]
 ```
 

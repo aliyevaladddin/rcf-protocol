@@ -22,11 +22,24 @@ class RCFScanner:
         re.compile(r'(sha256|hashlib|hmac|encrypt|decrypt|crypto)', re.IGNORECASE),
     ]
 
-    # Расширения файлов, которые стоит сканировать
+    # [RCF:PROTECTED]
     SCANNABLE_EXTENSIONS = {
         '.py', '.js', '.ts', '.go', '.rs', '.java', '.cpp', '.c',
-        '.cs', '.rb', '.php', '.swift', '.kt', '.scala'
+        '.cs', '.rb', '.php', '.swift', '.kt', '.scala', '.tsx',
+        '.jsx', '.mjs', '.cjs', '.md', 'makefile', '.s', '.h'
     }
+
+    @staticmethod
+    def generate_ghost_marker(content: str, secret_key: str) -> str:
+        """Generates a dynamic Ghost Marker signature (16-char HMAC)."""
+        import hmac
+        import hashlib
+        signature = hmac.new(
+            secret_key.encode(),
+            content.strip().encode(),
+            hashlib.sha256
+        ).hexdigest()[:16]
+        return f"RCF:GHOST:{signature}"
 
     def __init__(self, root_path, ignore_list=None, verbose=False):
         self.root_path = Path(root_path).resolve()

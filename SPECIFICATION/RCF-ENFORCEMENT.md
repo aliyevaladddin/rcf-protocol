@@ -1,6 +1,6 @@
 # RCF-ENFORCEMENT — Technical Enforcement Measures
 
-**Version:** 2.0  
+**Version:** 2.0.1  
 **Document Type:** Technical Implementation Guide  
 **Status:** Active
 
@@ -8,7 +8,7 @@
 
 ## 1. Overview
 
-### 2.0 Purpose
+### 2.0.1 Purpose
 
 This document provides detailed technical guidance for implementing enforcement mechanisms in RCF-protected projects. While RCF is legally self-enforcing, technical measures strengthen protection and enable violation detection.
 
@@ -20,7 +20,7 @@ This document provides detailed technical guidance for implementing enforcement 
 - Behavioral analysis
 - Forensic logging
 
-### 2.0 Design Principles
+### 2.0.1 Design Principles
 
 1. **Non-Invasive:** Protection should not harm legitimate users
 2. **Transparent:** Users should know monitoring exists (see NOTICE.md)
@@ -385,7 +385,7 @@ class LegalNoticeGenerator:
         - Legal action under applicable laws
         
         Legal Basis:
-        - RCF Protocol v2.0
+        - RCF Protocol v2.0.1
         - [Relevant local laws]
         
         Contact:
@@ -436,7 +436,7 @@ class LegalNoticeGenerator:
 ---
 
 **Document Control:**
-- Version: 2.0
+- Version: 2.0.1
 - Last Updated: 2026
 - Status: Active
 

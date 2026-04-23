@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.1 -->
 # RCF Specification — Restricted Correlation Framework
 
-**Version:** 2.0.0 "Ghost Protocol"  
+**Version:** 2.0.1.0 "Ghost Protocol"  
 **Document Type:** Technical Specification  
 **Status:** Active  
 **Security Level:** PROTECTED
@@ -10,10 +10,10 @@
 
 ## 1. Introduction
 
-### 2.0 Purpose
+### 2.0.1 Purpose
 
 This document defines the technical specification of the Restricted 
-Correlation Framework (RCF) Protocol v2.0. Version 2.0, codenamed "Ghost Protocol", 
+Correlation Framework (RCF) Protocol v2.0.1. Version 2.0.1, codenamed "Ghost Protocol", 
 shifts from passive verification to active, self-enforcing protection.
 
 ### 1.2 Design Goals
@@ -28,7 +28,7 @@ shifts from passive verification to active, self-enforcing protection.
 
 ## 2. Core Architecture
 
-### 2.1 Protection Layers (v2.0)
+### 2.1 Protection Layers (v2.0.1)
 
 RCF implements **Active Defense in Depth**:
 
@@ -44,7 +44,7 @@ RCF implements **Active Defense in Depth**:
 
 ## 3. RCF Markers and Annotations
 
-### 3.1 Ghost Marker Syntax (v2.0)
+### 3.1 Ghost Marker Syntax (v2.0.1)
 
 Static markers are replaced by dynamic, HMAC-based **Ghost Markers**:
 
@@ -59,7 +59,7 @@ The Ghost Marker is generated using:
 
 - **`[RCF:PUBLIC]`**: Visible and documentable. Still protected against AI/ML.
 - **`[RCF:PROTECTED]`**: Core methodology. Static marker for legacy support.
-- **`[RCF:GHOST]`**: Active v2.0 protection. Requires valid signature to run.
+- **`[RCF:GHOST]`**: Active v2.0.1 protection. Requires valid signature to run.
 - **`[RCF:RESTRICTED]`**: Highly sensitive. Triggers immediate termination on tamper.
 
 ---
@@ -92,7 +92,7 @@ This ensures that a single attempted logic replication on one node leads to the 
 
 ### 4.2 Semantic Noise Injection
 
-To resist AI/ML logic extraction, RCF v2.0 injects "Semantic Noise" — code paths that are logically valid but semantically confusing to LLMs, without impacting runtime performance.
+To resist AI/ML logic extraction, RCF v2.0.1 injects "Semantic Noise" — code paths that are logically valid but semantically confusing to LLMs, without impacting runtime performance.
 
 ### 4.3 Self-Termination Clause
 
@@ -104,7 +104,7 @@ Violation of the Integrity Chain MUST trigger an immediate, non-recoverable term
 
 ### 5.1 The Ghost Shield CLI
 
-The `rcf-ghost-shield` tool replaces the legacy `rcf-cli` for v2.0 operations:
+The `rcf-ghost-shield` tool replaces the legacy `rcf-cli` for v2.0.1 operations:
 
 ```bash
 # Apply Ghost Protection
@@ -118,7 +118,7 @@ rcf-ghost-shield verify ./src
 
 ## 6. Adoption and Migration
 
-Projects migrating from v1.x to v2.0 MUST:
+Projects migrating from v1.x to v2.0.1 MUST:
 1. Generate an RCF Private Key.
 2. Run `rcf-ghost-shield migrate` to upgrade markers.
 3. Implement at least one Integrity Chain in the core logic.
@@ -127,7 +127,7 @@ Projects migrating from v1.x to v2.0 MUST:
 
 ## 9. Appendices
 
-### Appendix A: RCF Marker Quick Reference (v2.0)
+### Appendix A: RCF Marker Quick Reference (v2.0.1)
 
 | Marker | Type | Verification | Enforcement |
 |--------|------|--------------|-------------|
@@ -139,7 +139,7 @@ Projects migrating from v1.x to v2.0 MUST:
 ---
 
 **Document Control:**
-- Version: 2.0.0
+- Version: 2.0.1.0
 - Last Updated: 2026-04-23
 - Status: Active
 

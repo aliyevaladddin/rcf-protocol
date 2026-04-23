@@ -1,13 +1,13 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.1 -->
 # RCF-TECHNICAL-MEASURES — Implementation Guide
 
-**Version:** 2.0  
+**Version:** 2.0.1  
 
 ---
 
 ## 1. Visibility Controls
 
-### 2.0 Rate Limiting
+### 2.0.1 Rate Limiting
 - **Human Speed:** Limit access to ~3 file Reads per minute for unauthenticated users.
 - **Burst Protection:** Allow small bursts but require cooldowns.
 

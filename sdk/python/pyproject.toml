@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rcf-cli"
-version = "2.0.0"
+version = "2.0.1"
 authors = [
   { name="Aladdin Aliyev", email="aladdin@aliyev.site" },
 ]
 description = "RCF Ghost Shield — Active Protection Framework (Python Edition)"
-license = { text = "RCF-PL v2.0" }
+license = { text = "RCF-PL v2.0.1" }
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [

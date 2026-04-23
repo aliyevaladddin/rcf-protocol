@@ -5,7 +5,7 @@ import { writeFileSync, unlinkSync, existsSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
 
-describe('RCF v2.0 Ghost Protocol', () => {
+describe('RCF v2.0.1 Ghost Protocol', () => {
   const secretKey = 'aladdin-secret-key-2026';
   const testFile = join(tmpdir(), 'rcf-ghost-test.ts');
 
@@ -26,15 +26,15 @@ describe('RCF v2.0 Ghost Protocol', () => {
 
     const validator = new ComplianceValidator();
     const ghostedCode = validator.injectIntegrityCheck(code, secretKey);
-    
+
     expect(ghostedCode).toContain('[RCF:GHOST:');
-    
+
     writeFileSync(testFile, ghostedCode);
-    
+
     const result = validator.verifyIntegrityChain(testFile, secretKey);
     expect(result.valid).toBe(true);
     expect(result.violations).toBe(0);
-    
+
     if (existsSync(testFile)) unlinkSync(testFile);
   });
 
@@ -48,16 +48,16 @@ describe('RCF v2.0 Ghost Protocol', () => {
 
     const validator = new ComplianceValidator();
     const ghostedCode = validator.injectIntegrityCheck(code, secretKey);
-    
+
     // Tamper with the code
     const tamperedCode = ghostedCode.replace('Protected', 'Hacked');
-    
+
     writeFileSync(testFile, tamperedCode);
-    
+
     const result = validator.verifyIntegrityChain(testFile, secretKey);
     expect(result.valid).toBe(false);
     expect(result.violations).toBe(1);
-    
+
     if (existsSync(testFile)) unlinkSync(testFile);
   });
 });
