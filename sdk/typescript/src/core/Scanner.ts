@@ -3,6 +3,7 @@
 
 import { readFileSync } from 'fs';
 import { extname, basename } from 'path';
+import { createHmac } from 'crypto';
 
 export type LogicType =
   | 'class'
@@ -72,7 +73,7 @@ const PY_PATTERNS: Array<{ regex: RegExp; type: LogicType }> = [
   { regex: /(hashlib|hmac|cryptography|Fernet|sha256|encrypt)/i, type: 'crypto_logic' },
 ];
 
-const MARKER_INLINE = /\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE)\]/;
+const MARKER_INLINE = /\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE|GHOST:[a-f0-9]+)\]/;
 const HEADER_REGEX  = /NOTICE: This file is protected under RCF-PL v[\d.]+/;
 
 const CONTEXT_LINES = 5; // how many lines above to check for a marker
@@ -179,10 +180,22 @@ export class Scanner {
   static headerLine(filePath: string): string {
     const ext = extname(filePath).toLowerCase();
     const file = basename(filePath).toLowerCase();
-    const notice = 'NOTICE: This file is protected under RCF-PL v1.3';
+    const notice = 'NOTICE: This file is protected under RCF-PL v2.0';
     if (['.html', '.xml'].includes(ext)) return `<!-- ${notice} -->\n`;
     if (['.css', '.scss'].includes(ext)) return `/* ${notice} */\n`;
     const prefix = Scanner.commentPrefix(filePath);
     return `${prefix} ${notice}\n`;
+  }
+
+  /**
+   * Generates a dynamic Ghost Marker signature for a block of code.
+   * Format: GHOST:<HMAC-SHA256-SHORT>
+   */
+  static generateGhostMarker(content: string, secretKey: string): string {
+    const hmac = createHmac('sha256', secretKey)
+      .update(content.trim())
+      .digest('hex')
+      .slice(0, 16); // 16 chars is enough for unique logic block identification
+    return `RCF:GHOST:${hmac}`;
   }
 }

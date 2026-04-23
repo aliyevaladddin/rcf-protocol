@@ -1,9 +1,10 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
 # RCF Specification — Restricted Correlation Framework
 
-**Version:** 1.2.2  
+**Version:** 2.0.0 "Ghost Protocol"  
 **Document Type:** Technical Specification  
-**Status:** Active
+**Status:** Active  
+**Security Level:** PROTECTED
 
 ---
 
@@ -12,320 +13,135 @@
 ### 1.1 Purpose
 
 This document defines the technical specification of the Restricted 
-Correlation Framework (RCF) Protocol. It provides:
+Correlation Framework (RCF) Protocol v2.0. Version 2.0, codenamed "Ghost Protocol", 
+shifts from passive verification to active, self-enforcing protection.
 
-- Core concepts and architectural principles
-- Implementation guidelines for protected works
-- Compliance verification criteria
-- Technical enforcement mechanisms
+### 1.2 Design Goals
 
-### 1.2 Scope
-
-RCF applies to:
-- Software source code and binaries
-- Documentation and specifications
-- Methodologies and algorithms
-- Data correlation logic
-- Training materials and know-how
-
-### 1.3 Design Goals
-
-1. **Visibility Preservation**: Allow legitimate study and review
-2. **Usage Control**: Prevent unauthorized exploitation
-3. **AI/ML Resistance**: Block automated mass replication
-4. **Self-Enforcement**: Automatic termination on violation
-5. **Legal Clarity**: Unambiguous terms for enforcement
+1. **Visibility Preservation**: Allow legitimate study and review.
+2. **Usage Control**: Prevent unauthorized exploitation via dynamic correlation.
+3. **AI/ML Resistance (Ghosting)**: Obfuscate logic signatures for automated models.
+4. **Active Self-Enforcement**: Real-time integrity validation at runtime.
+5. **Sovereignty**: Establish absolute authorial control over code behavior.
 
 ---
 
 ## 2. Core Architecture
 
-### 2.1 The Visibility-Usage Boundary
-┌─────────────────────────────────────────────────────────────┐
-│                    RCF PROTECTION MODEL                     │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   ┌──────────────┐         ┌──────────────┐                 │
-│   │  VISIBILITY  │         │    USAGE     │                 │
-│   │   ALLOWED    │  ════►  │  RESTRICTED  │                 │
-│   │              │         │              │                 │
-│   │ • Manual     │         │ • Automated  │                 │
-│   │   reading    │         │   extraction │                 │
-│   │ • Personal   │         │ • AI/ML      │                 │
-│   │   study      │         │   training   │                 │
-│   │ • Research   │         │ • Commercial │                 │
-│   │   reference  │         │   use        │                 │
-│   │ • Bug        │         │ • Methodology│                 │
-│   │   reports    │         │   replication│                 │
-│   └──────────────┘         └──────────────┘                 │
-│                                                             │
-│   Boundary enforced through:                                │
-│   • Legal terms (this license)                              │
-│   • Technical measures (optional)                           │
-│   • Self-enforcement clause                                 │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+### 2.1 Protection Layers (v2.0)
 
-
-### 2.2 Protection Layers
-
-RCF implements **defense in depth**:
+RCF implements **Active Defense in Depth**:
 
 | Layer | Mechanism | Purpose |
 |-------|-----------|---------|
 | L1: Legal | License text | Establishes legal basis |
 | L2: Notice | NOTICE.md, headers | Clear communication |
-| L3: Markers | Code annotations | Granular protection |
-| L4: Technical | Rate limiting, obfuscation | Active prevention |
-| L5: Monitoring | Access logging | Violation detection |
+| L3: Markers | **Ghost Markers** | Dynamic, verifiable protection |
+| L4: Technical | **Integrity Chains** | Real-time self-enforcement |
+| L5: Monitoring | Forensic logging | Violation detection and proof |
 
 ---
 
 ## 3. RCF Markers and Annotations
 
-### 3.1 Marker Syntax
+### 3.1 Ghost Marker Syntax (v2.0)
 
-RCF uses standardized markers embedded in code and documentation:
+Static markers are replaced by dynamic, HMAC-based **Ghost Markers**:
 
 ```python
-# [RCF:PUBLIC] — Visible and documentable
-# [RCF:PROTECTED] — Visible but protected methodology
-# [RCF:RESTRICTED] — Strictly limited visibility
-# [RCF:NOTICE] — Legal notice required
+# [RCF:GHOST:<HMAC-SHA256>] — Dynamic signature of the protected block
 ```
 
-## 3.2 Marker Semantics
+The Ghost Marker is generated using:
+`HMAC_SHA256(SecretKey, FilePath + BlockContent)`
 
-### `[RCF:PUBLIC]`
-- May be documented in public materials
-- May be referenced in academic work
-- May be discussed in presentations
-- **Still protected against AI/ML training**
+### 3.2 Marker Semantics
 
-### `[RCF:PROTECTED]`
-- Core methodology or algorithm
-- May be viewed manually
-- **May NOT be:**
-  - Replicated in other implementations
-  - Used as training data
-  - Documented in derivative works
-  - Commercially exploited
-
-### `[RCF:RESTRICTED]`
-- Highly sensitive implementation details
-- Minimal visibility rights
-- Strong technical protection recommended
-- Violation = immediate license termination
-
-### `[RCF:NOTICE]`
-- Requires adjacent legal notice
-- Usually paired with other markers
-- Example: `[RCF:NOTICE][RCF:PROTECTED]`
+- **`[RCF:PUBLIC]`**: Visible and documentable. Still protected against AI/ML.
+- **`[RCF:PROTECTED]`**: Core methodology. Static marker for legacy support.
+- **`[RCF:GHOST]`**: Active v2.0 protection. Requires valid signature to run.
+- **`[RCF:RESTRICTED]`**: Highly sensitive. Triggers immediate termination on tamper.
 
 ---
 
-## 4. Technical Enforcement (Optional but Recommended)
+## 4. Active Enforcement (The Ghost Protocol)
 
-### 4.1 Automation Detection
+### 4.1 Integrity Chains
 
-Protected works SHOULD implement:
+Integrity Chains correlate multiple logic blocks into a single cryptographic web.
 
-class RCFEnforcement:
-    """Example enforcement layer"""
-    
-    HUMAN_THRESHOLD = {
-        'requests_per_minute': 30,
-        'session_duration_minutes': 60,
-        'mouse_movement_variance': 0.1,  # Minimum human-like variance
-        'typing_pattern_consistency': 0.8  # Maximum consistency
-    }
-    
-    def evaluate_access(self, session):
-        """Determine if access pattern is human or automated"""
-        scores = {
-            'rate': self.check_rate(session),
-            'behavior': self.analyze_behavior(session),
-            'signature': self.check_known_signatures(session)
-        }
-        
-        if any(scores.values()):
-            self.trigger_violation_response(session)
-            return False
-        return True
-    
-    def trigger_violation_response(self, session):
-        """Immediate response to suspected violation"""
-        # 1. Log violation
-        self.log_violation(session)
-        
-        # 2. Block access
-        session.terminate()
-        
-        # 3. Preserve evidence
-        self.capture_forensics(session)
-        
-        # 4. (Optional) Report to author
-        self.notify_author(session)
+```typescript
+// Example of Integrity Chain in TS
+function protectedCore() {
+  verifyIntegrity('neighborFunc', 'EXPECTED_GHOST_MARKER');
+  // ... actual logic ...
+}
+```
 
-        ## 4.2 Code Protection Techniques
+## 🛰️ Propagation: RCF Gossip Protocol
 
-| Technique | Use Case | Implementation |
-|-----------|----------|----------------|
-| **Dynamic Loading** | `[RCF:PROTECTED]` logic | Load from encrypted blob at runtime |
-| **Obfuscation** | Critical algorithms | Control flow flattening, string encryption |
-| **Watermarking** | Traceability | Invisible markers in output/data |
-| **Rate Limiting** | API endpoints | Token bucket, exponential backoff |
-| **Behavioral Analysis** | Session validation | Mouse tracking, keystroke dynamics |
+Logic integrity violations detected via Ghost Markers are not localized. In an **Aurora Sentinel** environment, a violation triggers a network-wide **Digital Epidemic**:
+
+1. **Detection**: A node identifies an `OP_PURITY_FAIL` or an invalid HMAC Ghost Marker.
+2. **Gossip Trigger**: The node generates an `EV_GHOST_BREACH` signal.
+3. **PQC Signing**: The signal is signed with the **Dilithium-2** Master Key (HSM-bound).
+4. **Epidemic Propagation**: The signed signal propagates through the RCF Gossip subnet in `O(log N)` time.
+5. **Fleet Lockdown**: All neighboring nodes verify the signal and enter **Pill Off** or emergency isolation within milliseconds.
+
+This ensures that a single attempted logic replication on one node leads to the immediate immunization of the entire network.
+
+### 4.2 Semantic Noise Injection
+
+To resist AI/ML logic extraction, RCF v2.0 injects "Semantic Noise" — code paths that are logically valid but semantically confusing to LLMs, without impacting runtime performance.
+
+### 4.3 Self-Termination Clause
+
+Violation of the Integrity Chain MUST trigger an immediate, non-recoverable termination of the execution context.
 
 ---
 
 ## 5. Compliance Verification
 
-### 5.1 Project Checklist
+### 5.1 The Ghost Shield CLI
 
-To be RCF-compliant, a project MUST:
-
-- [ ] Include `LICENSE` file with RCF-PL v1.3 text
-- [ ] Include `NOTICE.md` with project-specific warnings
-- [ ] Mark protected code sections with RCF markers
-- [ ] Document protection scope in README
-- [ ] (Recommended) Implement technical enforcement
-- [ ] (Recommended) Maintain access logs
-
-### 5.2 File-Level Checklist
-
-Each protected file SHOULD:
-
-- [ ] Begin with RCF header notice
-- [ ] Use appropriate RCF markers for sections
-- [ ] Reference full license in comments
-- [ ] Include contact for authorization
-
-Example file header:
-
-```python
-# ==============================================================================
-# NOTICE: This file is protected under RCF-PL v1.3
-# Restricted Correlation Framework — https://github.com/[author]/rcf-protocol
-# 
-# VISIBILITY ALLOWED: Manual reading and study
-# USAGE RESTRICTED: See LICENSE for prohibited activities
-#
-# [RCF:NOTICE][RCF:PROTECTED]
-# ==============================================================================
-
-```
-
-### 5.3 Verification Tools
+The `rcf-ghost-shield` tool replaces the legacy `rcf-cli` for v2.0 operations:
 
 ```bash
-# Check license compliance
-rcf-cli check-license /path/to/project
+# Apply Ghost Protection
+rcf-ghost-shield protect ./src --key $RCF_PRIVATE_KEY
 
-# Verify marker usage
-rcf-cli verify-markers /path/to/project
-
-# Generate compliance report
-rcf-cli generate-report /path/to/project --output report.md
+# Verify Integrity Chain
+rcf-ghost-shield verify ./src
 ```
+
+---
+
 ## 6. Adoption and Migration
 
-### 6.1 New Projects
-
-1. Initialize repository with RCF template files
-2. Customize `NOTICE.md` with project details
-3. Apply RCF markers during development
-4. Document RCF adoption in README
-5. Reference this specification
-
-### 6.2 Migrating from Other Licenses
-
-| From | To RCF | Considerations |
-|------|--------|----------------|
-| MIT | RCF | Breaking change, notify users |
-| GPL | RCF | Compatibility issues, legal review |
-| Proprietary | RCF | May increase visibility |
-| Apache | RCF | Patent grants may be affected |
-
-**Important:** Migration requires:
-- Legal review
-- Contributor agreement (if multi-author)
-- Clear communication to existing users
-- Version bump and changelog entry
-
----
-
-## 7. Governance and Evolution
-
-### 7.1 Versioning
-
-RCF follows semantic versioning:
-- **MAJOR**: Breaking changes to protection scope
-- **MINOR**: New features, clarifications
-- **PATCH**: Errata, non-substantive updates
-
-### 7.2 Specification Updates
-
-Updates to this specification are controlled by the Author.  
-Community feedback is welcomed through:
-- Issues in this repository
-- Pull requests for errata
-- Discussion forums (if available)
-
-### 7.3 Backwards Compatibility
-
-RCF-PL v1.x licenses remain valid for projects that adopted them,  
-even if newer specification versions are released.
-
----
-
-## 8. References
-
-### 8.1 Related Documents
-
-- `RCF-CORE.md` — Core concepts (this repository)
-- `RCF-ENFORCEMENT.md` — Technical enforcement details
-- `RCF-COMPLIANCE.md` — Compliance verification procedures
-- `LEGAL.md` — Legal framework
-- `DEFINITIONS.md` — Complete terminology
-
-### 8.2 External References
-
-- WIPO Copyright Treaty
-- Berne Convention for the Protection of Literary and Artistic Works
-- Digital Millennium Copyright Act (DMCA) — anti-circumvention
-- EU Copyright Directive — text and data mining exceptions
+Projects migrating from v1.x to v2.0 MUST:
+1. Generate an RCF Private Key.
+2. Run `rcf-ghost-shield migrate` to upgrade markers.
+3. Implement at least one Integrity Chain in the core logic.
 
 ---
 
 ## 9. Appendices
 
-### Appendix A: RCF Marker Quick Reference
+### Appendix A: RCF Marker Quick Reference (v2.0)
 
-| Marker | Visibility | Usage | Documentation |
-|--------|------------|-------|---------------|
-| PUBLIC | ✅ Full | ❌ AI/ML, Commercial | ✅ Allowed |
-| PROTECTED | ✅ Full | ❌ All restricted | ❌ Methodology only |
-| RESTRICTED | ⚠️ Limited | ❌ All restricted | ❌ Minimal |
-| NOTICE | — | — | Legal req. |
-
-### Appendix B: Enforcement Response Matrix
-
-| Violation Type | Response | Evidence Preservation |
-|----------------|----------|----------------------|
-| Rate limit exceeded | Block + Log | Session data |
-| Automation detected | Block + Report | Full forensics |
-| Commercial use | Cease & Desist | Usage records |
-| Methodology replication | Legal action | Comparison analysis |
-| Circumvention | Immediate termination | Technical logs |
+| Marker | Type | Verification | Enforcement |
+|--------|------|--------------|-------------|
+| PUBLIC | Static | Checksum | Warning |
+| PROTECTED | Static | Checksum | Restriction |
+| GHOST | Dynamic | HMAC-Signature | **Termination** |
+| RESTRICTED | Dynamic | HMAC-Signature | **Immediate Ban** |
 
 ---
 
 **Document Control:**
-- Version: 1.1
-- Last Updated: 2026
+- Version: 2.0.0
+- Last Updated: 2026-04-23
 - Status: Active
-- Next Review: As needed
 
-**© 2026 RCF Protocol**  
-**All rights reserved.**
+**© 2026 RCF Protocol Authors**  
+**Sovereign Code Initiative**

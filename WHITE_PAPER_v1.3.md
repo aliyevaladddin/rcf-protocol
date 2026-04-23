@@ -135,7 +135,7 @@ The audit report creates a **timestamped, cryptographic baseline**. Any subseque
 `rcf-guardian` integrates RCF enforcement directly into the pull request workflow:
 
 ```yaml
-- uses: aliyev/rcf-guardian@v1
+- uses: aliyevaladddin/rcf-guardian@v1
   with:
     mode: 'diff'   # or 'verify' for full hash check
 ```
@@ -200,7 +200,7 @@ For independent developers, researchers, and small labs, RCF provides the first 
 - WIPO Copyright Treaty (1996), Articles 11–12
 - `RCF-PL v1.3` — Full license text: `LICENSE.md`
 - `rcf-cli` — Reference implementation: `sdk/python/rcf_cli`
-- `rcf-guardian` — GitHub Action: `aliyev/rcf-guardian`
+- `rcf-guardian` — GitHub Action: `aliyevaladddin/rcf-guardian`
 
 ---
 

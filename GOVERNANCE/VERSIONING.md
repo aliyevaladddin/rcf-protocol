@@ -8,9 +8,9 @@ The Restricted Correlation Framework (RCF) uses a semantic-ish versioning system
 - **Status:** Active Recommendation
 
 ## Revision History
-- [v1.3.0](file:///Users/aladdinaliyev/Library/CloudStorage/Dropbox/Aladdin/rcf-protocol/LEGAL/ASSETS/RCF-PL-1.3.md) (Current Stable — "The Sovereign Release")
-- [v1.3.0](file:///Users/aladdinaliyev/Library/CloudStorage/Dropbox/Aladdin/rcf-protocol/LEGAL/ASSETS/RCF-PL-1.2.8.md) (Archived)
-- [v1.1.0](file:///Users/aladdinaliyev/Library/CloudStorage/Dropbox/Aladdin/rcf-protocol/LEGAL/ASSETS/RCF-PL-1.1.md) (Legacy)
+- [v1.3.0](file:///Users/aladdinaliyevaladddin/Library/CloudStorage/Dropbox/Aladdin/rcf-protocol/LEGAL/ASSETS/RCF-PL-1.3.md) (Current Stable — "The Sovereign Release")
+- [v1.3.0](file:///Users/aladdinaliyevaladddin/Library/CloudStorage/Dropbox/Aladdin/rcf-protocol/LEGAL/ASSETS/RCF-PL-1.2.8.md) (Archived)
+- [v1.1.0](file:///Users/aladdinaliyevaladddin/Library/CloudStorage/Dropbox/Aladdin/rcf-protocol/LEGAL/ASSETS/RCF-PL-1.1.md) (Legacy)
 
 ## Versioning Rules
 1. **Major Version (v1.x.x):** Fundamental changes to the legal philosophy or core technical markers.

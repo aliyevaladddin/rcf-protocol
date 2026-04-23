@@ -20,7 +20,7 @@ jobs:
 
       - name: Run RCF Guardian
         id: rcf
-        uses: aliyev/rcf-guardian@v1
+        uses: aliyevaladddin/rcf-guardian@v1
         with:
           path: '.'
           mode: 'diff'             # use 'verify' for full hash check

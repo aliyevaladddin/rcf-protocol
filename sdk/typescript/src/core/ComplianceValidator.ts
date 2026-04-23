@@ -1,9 +1,9 @@
-// NOTICE: This file is protected under RCF-PL v1.3
+// NOTICE: This file is protected under RCF-PL v2.0
 // [RCF:PROTECTED]
 
 import { readFileSync, existsSync } from 'fs';
 import { resolve, relative, join } from 'path';
-import { createHash } from 'crypto';
+import { createHash, createHmac } from 'crypto';
 import { FileScanResult, ValidationError, AuditAsset, AuditReport, DiffResult, DiffViolation, VerifyFileResult } from './types.js';
 
 export interface ValidationResult {
@@ -14,9 +14,11 @@ export interface ValidationResult {
 // [RCF:PROTECTED]
 export class ComplianceValidator {
   private strict: boolean;
+  private secretKey: string | null;
 
-  constructor(options: { strict?: boolean } = {}) {
+  constructor(options: { strict?: boolean; secretKey?: string } = {}) {
     this.strict = options.strict ?? false;
+    this.secretKey = options.secretKey ?? null;
   }
 
   // ─── Validate (basic compliance check) ───────────────────────────────────
@@ -73,7 +75,7 @@ export class ComplianceValidator {
 
     return {
       timestamp: new Date().toISOString(),
-      audit_type: 'RCF-Audit v1.3',
+      audit_type: 'RCF-Audit v2.0',
       protected_assets,
     };
   }
@@ -110,6 +112,19 @@ export class ComplianceValidator {
         continue;
       }
 
+      const hasShield = content.includes('[RCF:GHOST:');
+    const hasAudit  = content.includes('[RCF:AUDIT:');
+
+    if (!hasShield && !hasAudit) {
+      return { 
+        valid: false, 
+        violations: 99, 
+        status: 'VOID_SHELL', 
+        message: 'SOULLESS_LOGIC_REJECTED: No RCF Ghost integrity detected. Component is a non-genuine imitation.' 
+      };
+    }
+
+    const marker = MarkerParser.extractGhostMarker(content);
       const storedMarkers = new Set(asset.markers);
       const currentMarkers = new Set(current.markers.map(m => m.type));
       const removed = [...storedMarkers].filter(m => !currentMarkers.has(m as any));
@@ -226,5 +241,64 @@ export class ComplianceValidator {
       throw new Error(`RCF-AUDIT-REPORT.json not found at: ${reportPath}`);
     }
     return JSON.parse(readFileSync(reportPath, 'utf-8'));
+  }
+
+  /**
+   * Verifies the integrity chain of a file by validating all dynamic markers
+   * against the secret key.
+   */
+  verifyIntegrityChain(filePath: string, secretKey: string): { valid: boolean; violations: number } {
+    if (!existsSync(filePath)) throw new Error(`File not found: ${filePath}`);
+    const content = readFileSync(filePath, 'utf-8');
+    const lines = content.split('\n');
+    let violations = 0;
+
+    const GHOST_REGEX = /\[RCF:GHOST:([a-f0-9]+)\]/;
+
+    for (let i = 0; i < lines.length; i++) {
+      const match = GHOST_REGEX.exec(lines[i]);
+      if (match) {
+        const providedHmac = match[1];
+        // The block is assumed to be below the marker. In v2.0 we check the next 10 lines
+        // or until the next marker.
+        const blockContent = lines.slice(i + 1, i + 11).join('\n');
+        const expectedHmac = createHmac('sha256', secretKey)
+          .update(blockContent.trim())
+          .digest('hex')
+          .slice(0, 16);
+
+        if (providedHmac !== expectedHmac) {
+          violations++;
+        }
+      }
+    }
+
+    return { valid: violations === 0, violations };
+  }
+
+  /**
+   * Injects active integrity checks into a code block.
+   * This is part of the Ghost Protocol v2.0 self-enforcement mechanism.
+   */
+  injectIntegrityCheck(code: string, secretKey: string): string {
+    const lines = code.split('\n');
+    const result: string[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      result.push(lines[i]);
+      // If we find a PROTECTED marker, we inject a GHOST marker after it
+      if (lines[i].includes('[RCF:PROTECTED]')) {
+        // Collect next 10 lines for the block signature
+        const block = lines.slice(i + 1, i + 11).join('\n');
+        const hmac = createHmac('sha256', secretKey)
+          .update(block.trim())
+          .digest('hex')
+          .slice(0, 16);
+        
+        result.push(`// [RCF:GHOST:${hmac}]`);
+      }
+    }
+
+    return result.join('\n');
   }
 }
