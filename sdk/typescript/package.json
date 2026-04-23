@@ -1,6 +1,6 @@
 {
   "name": "rcf-protocol",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "RCF Ghost Shield — Active Protection Framework (TypeScript Edition)",
   "type": "module",
   "author": "Aladdin Aliyev <aladdin@aliyev.site>",
@@ -8,7 +8,7 @@
   "homepage": "https://rcf.aliyev.site",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aliyevaladddin/rcf-protocol"
+    "url": "git+https://github.com/aliyevaladddin/rcf-protocol.git"
   },
   "main": "dist/cli/index.js",
   "bin": {

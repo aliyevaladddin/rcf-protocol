@@ -1,57 +1,86 @@
 <!-- NOTICE: This file is protected under RCF-PL v2.0.1 -->
-# RCF Protocol — TypeScript SDK
+# RCF Ghost Shield — TypeScript Edition 🛡️⚡
 
-The official TypeScript/JavaScript SDK and Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol**.
+The official TypeScript/Node.js Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol v2.0.1 "Ghost Protocol"**.
 
-RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights**.
+RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights** using cryptographic integrity chains.
 
 ## Installation
 
 Install via NPM:
 
 ```bash
-# Install globally to use the CLI anywhere
-npm install -g rcf-cli
-
-# Or install as a dev dependency in your project
-npm install -D rcf-cli
+npm install -g rcf-protocol
 ```
 
 ## Features
 
-- **Standardized Markers Check**: Identify `[RCF:PUBLIC]`, `[RCF:PROTECTED]`, `[RCF:RESTRICTED]`, and `[RCF:NOTICE]` markers in your codebase.
+- **Ghost Shield Protection**: Active enforcement of RCF-PL v2.0.1 standards across your codebase.
+- **Project Initialization**: Instantly generate `NOTICE.md` and `.rcfignore` files to protect your project.
+- **Automated Scanning**: Quickly scan projects for RCF compliance and extract Ghost Markers.
 - **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v2.0.1` header.
-- **Automated Scanning**: Quickly scan projects for compliance.
-- **RCF-Audit (Premium)**: Generate cryptographically signed compliance reports for enterprise auditing.
+- **RCF-Audit v2.0.1**: Generate cryptographically signed compliance reports for enterprise auditing.
+- **Integrity Chains**: Compare current file hashes and Ghost Markers against an audit report to detect unauthorized modifications, tampering, or "Void Shell" imitations.
 
 
 ## CLI Usage
 
-The `rcf-cli` binary allows for quick compliance verification of your project.
+### 1. Initialize RCF Ghost Shield in your project
+
+Run this in your project's root directory to generate the legal notice:
+
+```bash
+rcf-ghost-shield init --project "My awesome app" --author "Aladdin Aliyev"
+```
+
+### 2. Scan your project
 
 ```bash
 # Scan the current directory
-rcf-cli .
+rcf-ghost-shield .
 
-# Scan with custom ignore list (in addition to .rcfignore)
-rcf-cli . --ignore node_modules,dist,.git
+# Verify integrity against audit report
+rcf-ghost-shield verify .
 
-# Generate an RCF-Audit Report (Requires License)
-rcf-cli audit . --license-key YOUR_RCF_AUDIT_KEY
+# Use with a secret key for Ghost Protocol verification
+rcf-ghost-shield verify . --key YOUR_SECRET_KEY
+```
+
+### 3. Generate an RCF-Audit Report (v2.0.1)
+
+```bash
+# Provide license key via flag
+rcf-ghost-shield audit . --license-key RCF-AUDIT-XXXX-XXXX
+
+# Or use environment variable
+export RCF_LICENSE_KEY=RCF-AUDIT-XXXX-XXXX
+rcf-ghost-shield audit .
+```
+
+### 4. Verify Project Integrity
+
+Compare current files with the latest audit report:
+
+```bash
+rcf-ghost-shield verify .
+
+# Verify a single file against a report
+rcf-ghost-shield verify src/algo.ts --against RCF-AUDIT-REPORT.json
 ```
 
 ## Markers Reference
 
-RCF uses semantic markers to define protection levels at the block or file level. Place these inside code comments:
+RCF uses semantic markers to define protection levels. Place these inside code comments:
 - `[RCF:PUBLIC]` — Architecture and public concepts. Safe to discuss.
 - `[RCF:PROTECTED]` — Core methodology. Visible but **not replicable**.
 - `[RCF:RESTRICTED]` — Highly sensitive implementation. Minimal rights.
-- `[RCF:NOTICE]` — Triggers requirement for adjacent legal notice.
+- `[RCF:GHOST:HASH]` — **New in v2.0.1**: Cryptographic marker for active integrity verification.
 
 Example header for protected files:
-```javascript
+```typescript
 // NOTICE: This file is protected under RCF-PL v2.0.1
 // [RCF:PROTECTED]
+// [RCF:GHOST:6A...F3]
 ```
 
 ## Documentation
