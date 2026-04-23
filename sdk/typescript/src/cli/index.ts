@@ -42,8 +42,8 @@ program
       program.commands.find(c => c.name() === 'verify')?.parse(['verify', path, '--key', options.key], { from: 'user' });
     } else {
       console.log(chalk.yellow('⚠️  No secret key provided. Performing basic compliance scan...'));
-      const scanner = new Scanner(resolve(path));
-      const results = scanner.scanDirectory();
+      const scanner = new Scanner();
+      const results = scanner.scanDirectory(resolve(path));
       console.log(chalk.bold(`\nScan complete. Found ${results.length} files needing attention.`));
     }
   });

@@ -112,19 +112,6 @@ export class ComplianceValidator {
         continue;
       }
 
-      const hasShield = content.includes('[RCF:GHOST:');
-    const hasAudit  = content.includes('[RCF:AUDIT:');
-
-    if (!hasShield && !hasAudit) {
-      return { 
-        valid: false, 
-        violations: 99, 
-        status: 'VOID_SHELL', 
-        message: 'SOULLESS_LOGIC_REJECTED: No RCF Ghost integrity detected. Component is a non-genuine imitation.' 
-      };
-    }
-
-    const marker = MarkerParser.extractGhostMarker(content);
       const storedMarkers = new Set(asset.markers);
       const currentMarkers = new Set(current.markers.map(m => m.type));
       const removed = [...storedMarkers].filter(m => !currentMarkers.has(m as any));

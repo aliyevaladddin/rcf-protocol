@@ -1,8 +1,8 @@
 // NOTICE: This file is protected under RCF-PL v2.0
 // [RCF:PROTECTED]
 
-import { readFileSync } from 'fs';
-import { extname, basename } from 'path';
+import { readFileSync, readdirSync, statSync } from 'fs';
+import { extname, basename, join } from 'path';
 import { createHmac } from 'crypto';
 
 export type LogicType =
@@ -153,6 +153,40 @@ export class Scanner {
       unprotectedLogic,
       markers: markerTypes,
     };
+  }
+
+  scanDirectory(dir: string): ScannerResult[] {
+    const results: ScannerResult[] = [];
+    const entries = readdirSync(dir);
+
+    const IGNORE_DIRS = new Set([
+      '.git', 'node_modules', 'dist', 'build', '__pycache__',
+      '.venv', '.next', 'coverage', '.turbo',
+    ]);
+
+    const SCANNABLE = new Set([
+      '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs',
+      '.py', '.go', '.rs', '.java', '.cpp', '.c',
+      '.h', '.s', '.md', 'makefile',
+    ]);
+
+    for (const entry of entries) {
+      const full = join(dir, entry);
+      const stat = statSync(full);
+
+      if (stat.isDirectory()) {
+        if (!IGNORE_DIRS.has(entry)) {
+          results.push(...this.scanDirectory(full));
+        }
+      } else {
+        const ext = extname(entry).toLowerCase();
+        if (SCANNABLE.has(ext) || SCANNABLE.has(entry.toLowerCase())) {
+          results.push(this.scanFile(full));
+        }
+      }
+    }
+
+    return results;
   }
 
   /**

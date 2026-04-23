@@ -1,5 +1,5 @@
 {
-  "name": "rcf-ghost-shield",
+  "name": "rcf-protocol",
   "version": "2.0.0",
   "description": "RCF Ghost Shield — Active Protection Framework (TypeScript Edition)",
   "type": "module",
