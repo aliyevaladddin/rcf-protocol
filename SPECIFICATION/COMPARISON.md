@@ -1,24 +1,24 @@
 # License Comparison Matrix
-## RCF-PL v1.3 vs Traditional Open-Source Licenses
+## RCF-PL v2.0 vs Traditional Open-Source Licenses
 
-> Part of the [RCF Whitepaper v1.3](../WHITE_PAPER_v1.3.md)  
+> Part of the [RCF Whitepaper v2.0](../WHITE_PAPER_v2.0.md)  
 > Last updated: 2025 · Aladdin Aliyev · Sovereign Code Initiative
 
 ---
 
 ## Overview
 
-This matrix compares RCF-PL v1.3 against the four most common software licenses across criteria that matter specifically in the context of AI/LLM-era intellectual property protection.
+This matrix compares RCF-PL v2.0 against the four most common software licenses across criteria that matter specifically in the context of AI/LLM-era intellectual property protection.
 
 **Licenses compared:**
 
 | Identifier | Full Name | Type |
 |---|---|---|
-| **RCF-PL v1.3** | Restricted Correlation Framework Protocol License | Proprietary/Visible Source |
+| **RCF-PL v2.0** | Restricted Correlation Framework Protocol License | Proprietary/Visible Source |
 | **MIT** | MIT License | Permissive Open Source |
 | **GPL v3** | GNU General Public License v3 | Copyleft Open Source |
 | **Apache 2.0** | Apache License 2.0 | Permissive Open Source |
-| **BSL 1.1** | Business Source License 1.1 | Source-Available / Commercial |
+| **BSL 2.0** | Business Source License 1.1 | Source-Available / Commercial |
 
 ---
 
@@ -26,7 +26,7 @@ This matrix compares RCF-PL v1.3 against the four most common software licenses 
 
 ### Section A: AI & Automation Protection
 
-| Criterion | RCF-PL v1.3 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
+| Criterion | RCF-PL v2.0 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
 |---|:---:|:---:|:---:|:---:|:---:|
 | **Explicit AI/ML training ban** | ✅ Yes | ❌ No | ❌ No | ❌ No | ⚠️ Partial |
 | **LLM scraping prohibition** | ✅ Yes | ❌ No | ❌ No | ❌ No | ❌ No |
@@ -42,7 +42,7 @@ This matrix compares RCF-PL v1.3 against the four most common software licenses 
 
 ### Section B: Visibility & Access
 
-| Criterion | RCF-PL v1.3 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
+| Criterion | RCF-PL v2.0 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
 |---|:---:|:---:|:---:|:---:|:---:|
 | **Source code visible** | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
 | **Free to read & audit** | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes |
@@ -57,7 +57,7 @@ This matrix compares RCF-PL v1.3 against the four most common software licenses 
 
 ### Section C: Commercial Use
 
-| Criterion | RCF-PL v1.3 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
+| Criterion | RCF-PL v2.0 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
 |---|:---:|:---:|:---:|:---:|:---:|
 | **Free commercial use** | ❌ No (requires license) | ✅ Yes | ✅ Yes⁴ | ✅ Yes | ❌ No |
 | **Startup-friendly (read & build inspiration)** | ✅ Yes | ✅ Yes | ⚠️ Risky⁵ | ✅ Yes | ⚠️ Risky |
@@ -71,7 +71,7 @@ This matrix compares RCF-PL v1.3 against the four most common software licenses 
 
 ### Section D: Legal Infrastructure
 
-| Criterion | RCF-PL v1.3 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
+| Criterion | RCF-PL v2.0 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
 |---|:---:|:---:|:---:|:---:|:---:|
 | **DMCA §1202 (CMI) protection** | ✅ Yes (markers = CMI) | ❌ No | ❌ No | ❌ No | ❌ No |
 | **DMCA §1201 Anti-Circumvention** | ✅ Yes (markers = TPM) | ❌ No | ❌ No | ❌ No | ❌ No |
@@ -84,7 +84,7 @@ This matrix compares RCF-PL v1.3 against the four most common software licenses 
 
 ### Section E: Tooling & Enforcement
 
-| Criterion | RCF-PL v1.3 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
+| Criterion | RCF-PL v2.0 | MIT | GPL v3 | Apache 2.0 | BSL 1.1 |
 |---|:---:|:---:|:---:|:---:|:---:|
 | **Official compliance CLI** | ✅ `rcf-cli` | ❌ None | ❌ None⁶ | ❌ None | ❌ None |
 | **CI/CD enforcement (GitHub Action)** | ✅ `rcf-guardian` | ❌ No | ❌ No | ❌ No | ❌ No |
@@ -120,9 +120,9 @@ RCF-PL     ████████████████████  Explici
 | Open-source library, maximize adoption | MIT or Apache 2.0 |
 | Open-source, require derivative openness | GPL v3 |
 | Commercial product, delayed open-source | BSL 1.1 |
-| **Unique methodology, protect from AI extraction** | **RCF-PL v1.3** |
-| **Independent researcher, small lab** | **RCF-PL v1.3** |
-| **OSINT tooling, proprietary algorithms** | **RCF-PL v1.3** |
+| **Unique methodology, protect from AI extraction** | **RCF-PL v2.0** |
+| **Independent researcher, small lab** | **RCF-PL v2.0** |
+| **OSINT tooling, proprietary algorithms** | **RCF-PL v2.0** |
 
 ---
 
@@ -142,4 +142,4 @@ A: RCF is grounded in DMCA (US) and WIPO WCT (international, 110+ countries). Fo
 
 ---
 
-*© 2025 Aladdin Aliyev · Sovereign Code Initiative · Protected under RCF-PL v1.3*
+*© 2025 Aladdin Aliyev · Sovereign Code Initiative · Protected under RCF-PL v2.0*

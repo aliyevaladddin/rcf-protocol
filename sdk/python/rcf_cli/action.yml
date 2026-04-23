@@ -1,10 +1,10 @@
-name: 'RCF Guardian'
-description: 'Enforces RCF protocol compliance — blocks PRs that remove protected markers or tamper with audited files.'
-author: 'Aladdin Aliyev <rcf@aliyev.site>'
+name: 'RCF Ghost Shield'
+description: 'Enforces RCF Ghost Protocol v2.0 — blocks PRs that remove protected markers or tamper with audited files.'
+author: 'Aladdin Aliyev <aladdin@aliyev.site>'
 
 branding:
   icon: 'shield'
-  color: 'purple'
+  color: 'blue'
 
 inputs:
   path:
@@ -22,7 +22,7 @@ inputs:
   rcf-version:
     description: 'Expected RCF protocol version'
     required: false
-    default: '1.3'
+    default: '2.0'
   license-key:
     description: 'RCF audit license key (required for verify mode)'
     required: false
@@ -44,9 +44,9 @@ runs:
       with:
         python-version: '3.11'
 
-    - name: Install rcf-cli
+    - name: Install rcf-ghost-shield
       shell: bash
-      run: pip install rcf-cli --quiet || echo "rcf-cli not on PyPI yet, using local path if available"
+      run: pip install rcf-ghost-shield --quiet || echo "rcf-ghost-shield not on PyPI yet, using local path if available"
 
     - name: Check audit report exists
       shell: bash
@@ -75,8 +75,8 @@ runs:
         echo "::group::RCF Guardian — mode: $MODE"
 
         # Using the script directly from the action path as fallback if pip install fails
-        CLI_EXEC="rcf-cli"
-        if ! command -v rcf-cli &> /dev/null; then
+        CLI_EXEC="rcf-ghost-shield"
+        if ! command -v rcf-ghost-shield &> /dev/null; then
           CLI_EXEC="python3 ${{ github.action_path }}/cli.py"
         fi
 

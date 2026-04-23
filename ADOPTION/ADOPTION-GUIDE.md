@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
 # RCF-ADOPTION-GUIDE — How to Protect Your IP
 
-**Version:** 1.2.8
+**Version:** 2.0
 
 ---
 

@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v1.3
+// NOTICE: This file is protected under RCF-PL v2.0
 // [RCF:PROTECTED]
 
 import { readFileSync } from 'fs';
@@ -37,44 +37,44 @@ export interface ScannerResult {
 
 // TS/JS heuristic patterns — ordered by specificity
 const TS_PATTERNS: Array<{ regex: RegExp; type: LogicType }> = [
-  { regex: /^\s*abstract\s+class\s+\w+/,                           type: 'abstract_class' },
-  { regex: /^\s*export\s+(default\s+)?class\s+\w+/,               type: 'class' },
-  { regex: /^\s*class\s+\w+/,                                      type: 'class' },
-  { regex: /^\s*export\s+interface\s+\w+/,                         type: 'interface' },
-  { regex: /^\s*interface\s+\w+\s*\{/,                             type: 'interface' },
-  { regex: /^\s*export\s+type\s+\w+\s*=/,                          type: 'type_alias' },
-  { regex: /^\s*(export\s+)?(const\s+)enum\s+\w+/,                type: 'enum' },
-  { regex: /^\s*@\w+/,                                              type: 'decorator' },
-  { regex: /^\s*(export\s+)?async\s+function\s+\w+/,              type: 'async_function' },
-  { regex: /^\s*(export\s+)?function\s+\w+/,                      type: 'function' },
+  { regex: /^\s*abstract\s+class\s+\w+/, type: 'abstract_class' },
+  { regex: /^\s*export\s+(default\s+)?class\s+\w+/, type: 'class' },
+  { regex: /^\s*class\s+\w+/, type: 'class' },
+  { regex: /^\s*export\s+interface\s+\w+/, type: 'interface' },
+  { regex: /^\s*interface\s+\w+\s*\{/, type: 'interface' },
+  { regex: /^\s*export\s+type\s+\w+\s*=/, type: 'type_alias' },
+  { regex: /^\s*(export\s+)?(const\s+)enum\s+\w+/, type: 'enum' },
+  { regex: /^\s*@\w+/, type: 'decorator' },
+  { regex: /^\s*(export\s+)?async\s+function\s+\w+/, type: 'async_function' },
+  { regex: /^\s*(export\s+)?function\s+\w+/, type: 'function' },
   { regex: /^\s*(export\s+)?(const|let)\s+\w+\s*=\s*async\s*\(/, type: 'arrow_function' },
-  { regex: /^\s*(export\s+)?(const|let)\s+\w+\s*=\s*\(/,         type: 'arrow_function' },
+  { regex: /^\s*(export\s+)?(const|let)\s+\w+\s*=\s*\(/, type: 'arrow_function' },
   { regex: /(crypto|createHash|createHmac|subtle\.digest|bcrypt|argon2|scrypt)/i, type: 'crypto_logic' },
-  { regex: /(encrypt|decrypt|sign|verify|pbkdf2|hmac)/i,           type: 'crypto_logic' },
+  { regex: /(encrypt|decrypt|sign|verify|pbkdf2|hmac)/i, type: 'crypto_logic' },
 ];
 
 // C/C++/Assembly heuristic patterns
 const C_PATTERNS: Array<{ regex: RegExp; type: LogicType }> = [
-  { regex: /^\s*(typedef\s+)?struct\s+\w+/,                        type: 'logic_block' },
-  { regex: /^\s*(typedef\s+)?enum\s+\w+/,                          type: 'logic_block' },
-  { regex: /^\s*\w+\s+\w+\s*\(.*\)\s*\{/,                          type: 'function' }, // standard func
-  { regex: /^\s*#define\s+\w+/,                                    type: 'logic_block' },
-  { regex: /^\s*#include\s+["<]/,                                 type: 'logic_block' },
-  { regex: /^\s*[A-Z_0-9]+:\s*$/,                                  type: 'logic_block' }, // Assembly labels
-  { regex: /(uint8_t|uint16_t|uint32_t|uint64_t|size_t|bool)/,      type: 'logic_block' },
+  { regex: /^\s*(typedef\s+)?struct\s+\w+/, type: 'logic_block' },
+  { regex: /^\s*(typedef\s+)?enum\s+\w+/, type: 'logic_block' },
+  { regex: /^\s*\w+\s+\w+\s*\(.*\)\s*\{/, type: 'function' }, // standard func
+  { regex: /^\s*#define\s+\w+/, type: 'logic_block' },
+  { regex: /^\s*#include\s+["<]/, type: 'logic_block' },
+  { regex: /^\s*[A-Z_0-9]+:\s*$/, type: 'logic_block' }, // Assembly labels
+  { regex: /(uint8_t|uint16_t|uint32_t|uint64_t|size_t|bool)/, type: 'logic_block' },
   { regex: /(encrypt|decrypt|sign|verify|hash|sha256|aes|rsa|pqc)/i, type: 'crypto_logic' },
 ];
 
 // Python heuristic patterns (for mixed-language repos)
 const PY_PATTERNS: Array<{ regex: RegExp; type: LogicType }> = [
-  { regex: /^\s*class\s+\w+/,                 type: 'python_class' },
+  { regex: /^\s*class\s+\w+/, type: 'python_class' },
   { regex: /^\s*(async\s+)?def\s+\w+\s*\(/, type: 'python_function' },
-  { regex: /^\s*@\w+/,                         type: 'decorator' },
+  { regex: /^\s*@\w+/, type: 'decorator' },
   { regex: /(hashlib|hmac|cryptography|Fernet|sha256|encrypt)/i, type: 'crypto_logic' },
 ];
 
 const MARKER_INLINE = /\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE|GHOST:[a-f0-9]+)\]/;
-const HEADER_REGEX  = /NOTICE: This file is protected under RCF-PL v[\d.]+/;
+const HEADER_REGEX = /NOTICE: This file is protected under RCF-PL v[\d.]+/;
 
 const CONTEXT_LINES = 5; // how many lines above to check for a marker
 

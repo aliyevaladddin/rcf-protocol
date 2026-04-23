@@ -1,4 +1,4 @@
-# NOTICE: Restricted Correlation Framework (RCF) v1.3
+# NOTICE: Restricted Correlation Framework (RCF) v2.0
 # Protocol applied to Decentralized Operating System (dOS)
 
 Project: [PROJECT_NAME]
@@ -11,7 +11,7 @@ Status: PROTECTED METHODOLOGY
 
 This project implements the **Restricted Correlation Framework (RCF)** protocol. By accessing, reading, or interacting with this source code or its distributed nodes, you acknowledge and agree to the following terms:
 
-### 1.1 Visibility Rights
+### 2.0 Visibility Rights
 - **MANUAL AUDIT ALLOWED:** You are granted the right to manually read and audit this code for security, transparency, and educational purposes.
 - **P2P TRANSPARENCY:** The visibility of this code is fundamental to its decentralized nature and does not imply a transfer of intellectual property rights.
 
@@ -41,4 +41,4 @@ For commercial licensing, contribution requests, or research exemptions, contact
 [DEX_GOVERNANCE_URL]
 
 **© 2026 [AUTHOR_NAME]**
-**All rights reserved under RCF-PL v1.3**
+**All rights reserved under RCF-PL v2.0**

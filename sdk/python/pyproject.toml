@@ -3,13 +3,13 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "rcf-cli"
-version = "1.3.0"
+name = "rcf-ghost-shield"
+version = "2.0.0"
 authors = [
   { name="Aladdin Aliyev", email="aladdin@aliyev.site" },
 ]
-description = "A command-line tool for RCF protocol compliance verification."
-license = { text = "RCF-PL v1.3" }
+description = "RCF Ghost Shield — Active Protection Framework (Python Edition)"
+license = { text = "RCF-PL v2.0" }
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
@@ -19,7 +19,7 @@ classifiers = [
 dependencies = []
 
 [project.scripts]
-rcf-cli = "rcf_cli.cli:main"
+rcf-ghost-shield = "rcf_cli.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

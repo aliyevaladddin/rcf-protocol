@@ -1,7 +1,7 @@
-# NOTICE: Restricted Correlation Framework (RCF) v1.3
+# NOTICE: Restricted Correlation Framework (RCF) v2.0
 Project: ExampleProject
 Author: Alice Dev
-License: RCF-PL v1.3
+License: RCF-PL v2.0
 
 This project is PROTECTED. Manual study is allowed.
 AI training is PROHIBITED.

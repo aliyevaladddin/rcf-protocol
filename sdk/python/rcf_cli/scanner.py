@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v1.3
+# NOTICE: This file is protected under RCF-PL v2.0
 import os
 import re
 from pathlib import Path
@@ -8,7 +8,8 @@ class RCFScanner:
     """Scans files and directories for RCF protocol markers."""
 
     MARKER_PATTERN = re.compile(r'\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE)\]')
-    HEADER_PATTERN = re.compile(r'NOTICE: This file is protected under RCF-PL v[\d.]+')
+    GHOST_PATTERN  = re.compile(r'\[RCF:GHOST:([a-fA-F0-9]{16,64})\]')
+    HEADER_PATTERN = re.compile(r'NOTICE: This file is protected under RCF-PL v2\.0')
 
     # Эвристики: паттерны, указывающие на защищаемую логику
     LOGIC_PATTERNS = [
@@ -96,6 +97,7 @@ class RCFScanner:
             return {'path': str(file_path), 'error': str(e)}
 
         markers = self.MARKER_PATTERN.findall(content)
+        ghost_markers = self.GHOST_PATTERN.findall(content)
         has_header = bool(self.HEADER_PATTERN.search(content))
         unprotected_logic = self.detect_unprotected_logic(file_path)
 
@@ -105,14 +107,15 @@ class RCFScanner:
             rel_path = str(file_path)
 
         if self.verbose:
-            status = 'PROTECTED' if (markers or has_header) else 'UNPROTECTED'
-            print(f"[rcf] {status:12s} {rel_path}  markers={markers}  unprotected_blocks={len(unprotected_logic)}")
+            status = 'PROTECTED' if (markers or has_header or ghost_markers) else 'UNPROTECTED'
+            print(f"[rcf] {status:12s} {rel_path}  markers={markers} ghost={len(ghost_markers)}  unprotected_blocks={len(unprotected_logic)}")
 
         return {
             'path': rel_path,
             'markers': list(set(markers)),
+            'ghost_markers': [g.lower() for g in ghost_markers],
             'has_header': has_header,
-            'is_protected': bool(markers) or has_header,
+            'is_protected': bool(markers) or has_header or bool(ghost_markers),
             'unprotected_logic': unprotected_logic,
             'has_unprotected_logic': len(unprotected_logic) > 0,
         }

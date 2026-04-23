@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
 # RCF Definitions
 
 ## Complete Terminology Reference
@@ -189,6 +189,6 @@ Any activity prohibited by RCF License terms.
 
 ## Document Control
 
-- Version: 1.1
+- Version: 2.0
 - Last Updated: 2026
 - Status: Active

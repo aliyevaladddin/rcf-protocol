@@ -1,58 +1,60 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
-# RCF Protocol — Python CLI & SDK
+<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
+# RCF Ghost Shield — Python Edition 🛡️🐍
 
-The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol**.
+The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol v2.0 "Ghost Protocol"**.
 
-RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights**.
+RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights** using cryptographic integrity chains.
 
 ## Installation
 
 Install via PyPI:
 
 ```bash
-pip install rcf-cli
+pip install rcf-ghost-shield
 ```
 
 ## Features
 
+- **Ghost Shield Protection**: Active enforcement of RCF-PL v2.0 standards across your codebase.
 - **Project Initialization**: Instantly generate `NOTICE.md` and `.rcfignore` files to protect your project.
-- **Automated Scanning**: Quickly scan projects for RCF compliance and extract markers.
-- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v1.3` header.
-- **RCF-Audit (Premium)**: Generate cryptographically signed compliance reports for enterprise auditing.
-- **Integrity Verification**: Compare current file hashes against an audit report to detect unauthorized modifications or tampering.
+- **Automated Scanning**: Quickly scan projects for RCF compliance and extract Ghost Markers.
+- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v2.0` header.
+- **RCF-Audit v2.0**: Generate cryptographically signed compliance reports for enterprise auditing.
+- **Integrity Chains**: Compare current file hashes and Ghost Markers against an audit report to detect unauthorized modifications, tampering, or "Void Shell" imitations.
 
 
 ## CLI Usage
 
-### 1. Initialize RCF in your project
+### 1. Initialize RCF Ghost Shield in your project
 
 Run this in your project's root directory to generate the legal notice:
 
 ```bash
-rcf-cli init --project "My awesome app" --author "John Doe"
+rcf-ghost-shield init --project "My awesome app" --author "Aladdin Aliyev"
 ```
 
 ### 2. Scan your project
 
 ```bash
 # Scan the current directory
-rcf-cli .
+rcf-ghost-shield .
 
 # Output scan results as JSON
-rcf-cli . --format json
+rcf-ghost-shield . --format json
 
 # Print summary only
-rcf-cli . --summary
+rcf-ghost-shield . --summary
+```
 
-### 3. Generate an RCF-Audit Report (Premium)
+### 3. Generate an RCF-Audit Report (v2.0)
 
 ```bash
 # Provide license key via flag
-rcf-cli audit . --license-key RCF-AUDIT-XXXX-XXXX
+rcf-ghost-shield audit . --license-key RCF-AUDIT-XXXX-XXXX
 
 # Or use environment variable
 export RCF_LICENSE_KEY=RCF-AUDIT-XXXX-XXXX
-rcf-cli audit .
+rcf-ghost-shield audit .
 ```
 
 ### 4. Verify Project Integrity
@@ -60,25 +62,25 @@ rcf-cli audit .
 Compare current files with the latest audit report:
 
 ```bash
-rcf-cli verify .
+rcf-ghost-shield verify .
 
 # Show summary only
-rcf-cli verify . --summary
-```
+rcf-ghost-shield verify . --summary
 ```
 
 ## Markers Reference
 
-RCF uses semantic markers to define protection levels at the block or file level. Place these inside code comments:
+RCF uses semantic markers to define protection levels. Place these inside code comments:
 - `[RCF:PUBLIC]` — Architecture and public concepts. Safe to discuss.
 - `[RCF:PROTECTED]` — Core methodology. Visible but **not replicable**.
 - `[RCF:RESTRICTED]` — Highly sensitive implementation. Minimal rights.
-- `[RCF:NOTICE]` — Triggers requirement for adjacent legal notice.
+- `[RCF:GHOST:HASH]` — **New in v2.0**: Cryptographic marker for active integrity verification.
 
 Example header for protected files:
 ```python
-# NOTICE: This file is protected under RCF-PL v1.3
+# NOTICE: This file is protected under RCF-PL v2.0
 # [RCF:PROTECTED]
+# [RCF:GHOST:6A...F3]
 ```
 
 ## Documentation

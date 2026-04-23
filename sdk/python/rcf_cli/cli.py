@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v1.3
+# NOTICE: This file is protected under RCF-PL v2.0
 import argparse
 import sys
 import json
@@ -47,7 +47,7 @@ def init_project(args):
 
     notice_content = f"""# RCF-PL NOTICE
 
-This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v1.3**.
+This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v2.0 "Ghost Protocol"**.
 
 Copyright (c) {year} {author_name}. All rights reserved.
 
@@ -68,7 +68,7 @@ For full protocol details, visit: https://rcf.aliyev.site
         print("⚠️  NOTICE.md already exists. Skipping.")
     else:
         Path(notice_path).write_text(notice_content, encoding='utf-8')
-        print("✅ Generated NOTICE.md with RCF-PL v1.3 protections.")
+        print("✅ Generated NOTICE.md with RCF-PL v2.0 protections.")
 
     rcfignore_path = os.path.join(os.getcwd(), ".rcfignore")
     if not os.path.exists(rcfignore_path):
@@ -106,19 +106,24 @@ def audit_project(args):
     results = scanner.scan_directory(include_protected=True)
 
     audit_report = {
-        "rcf_version": "1.3",
+        "rcf_version": "2.0",
         "timestamp": datetime.now().isoformat(),
-        "audit_type": "RCF-Audit v1.3",
+        "audit_type": "RCF-Audit v2.0 (Ghost Shield)",
         "root": target,
         "protected_assets": []
     }
 
     for res in results:
         file_path = os.path.join(target, res['path'])
+        
+        # Mask ghost markers for the report (only keep prefix/suffix)
+        masked_ghost = [f"{g[:8]}...{g[-8:]}" for g in res.get('ghost_markers', [])]
+        
         try:
             audit_report["protected_assets"].append({
                 "file": res['path'],
                 "markers": res['markers'],
+                "ghost_markers": masked_ghost,
                 "sha256": _sha256(file_path)
             })
         except Exception as e:
@@ -222,7 +227,7 @@ def verify_file_standalone(args):
     print()
 
     if current_hash == stored_hash:
-        print(f"✅ VERIFIED — file matches audit record (RCF v1.3)")
+        print(f"✅ VERIFIED — file matches audit record (RCF v2.0)")
         print(f"   SHA-256: {current_hash}")
         sys.exit(0)
     else:
@@ -334,9 +339,9 @@ def protect_project(args):
         # Add file header if missing
         if not res['has_header']:
             if file_path.endswith(('.md', '.html')):
-                header = '<!-- NOTICE: This file is protected under RCF-PL v1.3 -->\n'
+                header = '<!-- NOTICE: This file is protected under RCF-PL v2.0 -->\n'
             else:
-                header = '# NOTICE: This file is protected under RCF-PL v1.3\n'
+                header = '# NOTICE: This file is protected under RCF-PL v2.0\n'
             new_lines.append(header)
 
         # Insert markers before unprotected logic lines
@@ -378,10 +383,10 @@ def protect_project(args):
 
 def main():
     parser = argparse.ArgumentParser(
-        prog='rcf-cli',
-        description='RCF Protocol CLI v1.3 — Restricted Correlation Framework'
+        prog='rcf-ghost-shield',
+        description='RCF Ghost Shield v2.0 — Active Protection Framework'
     )
-    parser.add_argument('--version', action='version', version='rcf-cli 1.3.0')
+    parser.add_argument('--version', action='version', version='rcf-ghost-shield 2.0.0')
     subparsers = parser.add_subparsers(dest="command", metavar="<command>")
 
     # init

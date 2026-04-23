@@ -10,7 +10,7 @@
 
 ## 1. Introduction
 
-### 1.1 Purpose
+### 2.0 Purpose
 
 This document defines the technical specification of the Restricted 
 Correlation Framework (RCF) Protocol v2.0. Version 2.0, codenamed "Ghost Protocol", 

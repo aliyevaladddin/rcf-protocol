@@ -49,7 +49,7 @@ jobs:
                 '2. Restore the markers or run `rcf-cli protect .` to re-apply them.',
                 '3. If you intentionally changed protection levels, run `rcf-cli audit .` to update the report.',
                 '',
-                '> Protected under [RCF-PL v1.3](https://rcf.aliyev.site)',
+                '> Protected under [RCF-PL v2.0](https://rcf.aliyev.site)',
               ].join('\n')
             })
 

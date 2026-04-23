@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
 # RCF-CODE-MARKERS — Implementation Guide
 
-**Version:** 1.1  
+**Version:** 2.0  
 
 ---
 

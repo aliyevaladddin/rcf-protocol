@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
 # RCF-COMPLIANCE — Compliance Verification
 
 **Version:** 1.1  
@@ -9,7 +9,7 @@
 
 ## 1. Overview
 
-### 1.1 Purpose
+### 2.0 Purpose
 
 This document provides comprehensive checklists and procedures for verifying RCF compliance in projects. It serves as a reference for authors, auditors, and users.
 
@@ -29,7 +29,7 @@ This document provides comprehensive checklists and procedures for verifying RCF
 
 | File | Purpose | Priority | Status |
 |------|---------|----------|--------|
-| `LICENSE` | RCF-PL v1.3 legal text | Required | [ ] |
+| `LICENSE` | RCF-PL v2.0 legal text | Required | [ ] |
 | `NOTICE.md` | Project-specific warnings | Required | [ ] |
 | `README.md` | RCF adoption documentation | Required | [ ] |
 | `.rcfignore` | Exclusions from protection | Optional | [ ] |
@@ -37,7 +37,7 @@ This document provides comprehensive checklists and procedures for verifying RCF
 ### 2.2 File Content Verification
 
 #### LICENSE File
-- [ ] Contains complete RCF-PL v1.3 text
+- [ ] Contains complete RCF-PL v2.0 text
 - [ ] Includes copyright notice
 - [ ] Includes author contact information
 - [ ] Dated with effective year
@@ -65,7 +65,7 @@ Every protected file must include:
 
 ```python
 # ==============================================================================
-# NOTICE: This file is protected under RCF-PL v1.3
+# NOTICE: This file is protected under RCF-PL v2.0
 # Restricted Correlation Framework — https://rcf.aliyev.site
 # 
 # VISIBILITY ALLOWED: Manual reading and study
@@ -206,7 +206,7 @@ class RCFComplianceChecker:
         elif filename == 'NOTICE.md':
             if 'RCF' not in content:
                 self.issues.append("NOTICE.md missing RCF reference")
-            if 'admin@aliyev.site' not in content:
+            if 'aladdin@aliyev.site' not in content:
                 self.warnings.append("NOTICE.md missing contact email")
     
     def check_code_markers(self):
@@ -304,7 +304,7 @@ if __name__ == '__main__':
 ### 9.1 Self-Certification Statement
 
 ```python
-I, [Name], certify that this project complies with RCF-PL v1.3 as of [Date].
+I, [Name], certify that this project complies with RCF-PL v2.0 as of [Date].
 
 Signed: ________________________
 
@@ -313,12 +313,12 @@ Date: ________________________
 
 ### 9.2 Third-Party Certification
 
-Organizations can request third-party certification by contacting [EMAIL_ADDRESS].
+Organizations can request third-party certification by contacting aladdin@aliyev.site.
 
 ---
 
 **Document Control:**
-- Version: 1.1
+- Version: 2.0
 - Last Updated: 2026
 - Status: Active
 

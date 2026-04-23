@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v1.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0 -->
 # RCF-CORE — Core Concepts
 
-**Version:** 1.2.2  
+**Version:** 2.0  
 **Document Type:** Conceptual Overview  
 **Status:** Active
 
@@ -9,7 +9,7 @@
 
 ## 1. Fundamental Principles
 
-### 1.1 The Visibility Paradox
+### 2.0 The Visibility Paradox
 
 Traditional intellectual property faces a dilemma:
 
@@ -60,7 +60,7 @@ Traditional intellectual property faces a dilemma:
 
 | Layer | Purpose | Mechanism |
 |-------|---------|-----------|
-| **Legal** | Establish rights | RCF-PL v1.3 license text |
+| **Legal** | Establish rights | RCF-PL v2.0 license text |
 | **Notice** | Communicate terms | NOTICE.md, file headers |
 | **Markers** | Granular control | `[RCF:PUBLIC]`, `[RCF:PROTECTED]` |
 | **Technical** | Active prevention | Rate limiting, obfuscation |
@@ -250,7 +250,7 @@ Future versions may explore:
 ---
 
 **Document Control:**
-- Version: 1.1
+- Version: 2.0
 - Last Updated: 2026
 - Status: Active
 

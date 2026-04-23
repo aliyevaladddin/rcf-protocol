@@ -47,7 +47,7 @@ program
     if (existsSync(noticePath)) {
       console.log(chalk.yellow('⚠️  NOTICE.md already exists. Updating for v2.0.'));
     }
-    
+
     writeFileSync(noticePath, [
       `# RCF-PL NOTICE — Ghost Protocol`,
       ``,
@@ -165,7 +165,7 @@ program
 
 program
   .command('scan [directory]')
-  .description('Scan directory for RCF markers (Legacy v1.3)')
+  .description('Scan directory for RCF markers (Legacy v2.0)')
   .action(() => {
     console.log(chalk.yellow('⚠️  Command [scan] is deprecated. Use [verify] for RCF v2.0.'));
   });

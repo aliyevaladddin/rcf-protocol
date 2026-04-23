@@ -1,4 +1,4 @@
-# LICENSE (RCF-PL 1.1)
+# LICENSE (RCF-PL 2.0)
 
 Copyright (c) 2026 Alice Dev.
 
