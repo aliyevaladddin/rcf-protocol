@@ -1,0 +1,14 @@
+{
+  "name": "rcf-protocol-root",
+  "version": "2.0.0",
+  "description": "Restricted Correlation Framework - Root Workspace",
+  "private": true,
+  "scripts": {
+    "install:sdk": "cd sdk/typescript && npm install",
+    "build": "cd sdk/typescript && npm run build",
+    "test": "cd sdk/typescript && npm test",
+    "cli": "node --loader ts-node/esm sdk/typescript/src/cli/index.ts"
+  },
+  "author": "Aladdin Aliyev <aladdin@aliyev.site>",
+  "license": "RCF-PL v2.0"
+}

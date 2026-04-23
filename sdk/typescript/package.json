@@ -13,6 +13,7 @@
   "main": "dist/cli/index.js",
   "bin": {
     "rcf-cli": "dist/cli/index.js",
+    "rcf-protocol": "dist/cli/index.js",
     "rcf-ghost-shield": "dist/cli/index.js"
   },
   "files": [

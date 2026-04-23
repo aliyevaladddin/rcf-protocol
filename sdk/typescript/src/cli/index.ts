@@ -29,7 +29,24 @@ program
   .name('rcf-ghost-shield')
   .description('RCF Ghost Shield CLI v2.0.0 — Active Protection Framework')
   .version('2.0.0')
-  .addHelpText('before', GHOST_BANNER);
+  .addHelpText('before', GHOST_BANNER)
+  .arguments('[path]')
+  .option('-k, --key <secret>', 'Secret key for Ghost Protocol (optional for scan)')
+  .option('-v, --verbose', 'show details')
+  .action((pathArg, options) => {
+    // Default action if no command is specified
+    const path = pathArg ?? '.';
+    console.log(chalk.cyan(`◈ Running default scan for: ${path}`));
+    // Trigger legacy scan behavior or verify if key provided
+    if (options.key) {
+      program.commands.find(c => c.name() === 'verify')?.parse(['verify', path, '--key', options.key], { from: 'user' });
+    } else {
+      console.log(chalk.yellow('⚠️  No secret key provided. Performing basic compliance scan...'));
+      const scanner = new Scanner(resolve(path));
+      const results = scanner.scanDirectory();
+      console.log(chalk.bold(`\nScan complete. Found ${results.length} files needing attention.`));
+    }
+  });
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 
@@ -200,6 +217,17 @@ function collectFiles(dir: string): string[] {
     }
   } catch { /* skip unreadable dirs */ }
   return files;
+}
+
+// ─── Entry Point ─────────────────────────────────────────────────────────────
+
+// If no command is provided and first arg is a path, default to 'verify'
+if (process.argv.length > 2) {
+  const firstArg = process.argv[2];
+  const commands = ['init', 'ghost-protect', 'verify', 'scan', 'audit', 'diff', 'protect', '--help', '-h', '--version', '-V'];
+  if (!commands.includes(firstArg) && (existsSync(resolve(firstArg)) || firstArg.startsWith('.') || firstArg.startsWith('/'))) {
+    process.argv.splice(2, 0, 'verify');
+  }
 }
 
 program.parse();

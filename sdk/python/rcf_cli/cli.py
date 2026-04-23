@@ -87,7 +87,7 @@ def audit_project(args):
         r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}'
         r'-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$'
     )
-    admin_key_hash = "74bc881f2c077802d68ee7b42a2fe98988dd76c35d835b6fa14f6313f5cb9d7e"
+    admin_key_hash = "74bc881f2c077802" # RCF Ghost Admin Slice (v2.0)
     provided_key_hash = hashlib.sha256(license_key.encode()).hexdigest() if license_key else ""
 
     if provided_key_hash == admin_key_hash:
@@ -382,6 +382,12 @@ def protect_project(args):
 # ---------------------------------------------------------------------------
 
 def main():
+    # Smart Command Injection: if the first arg is a path and not a command, default to 'verify'
+    commands = ['init', 'audit', 'verify', 'diff', 'protect', '--help', '-h', '--version']
+    if len(sys.argv) > 1 and sys.argv[1] not in commands:
+        if os.path.exists(sys.argv[1]) or sys.argv[1].startswith(('.', '/')):
+            sys.argv.insert(1, 'verify')
+
     parser = argparse.ArgumentParser(
         prog='rcf-ghost-shield',
         description='RCF Ghost Shield v2.0 — Active Protection Framework'
