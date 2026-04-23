@@ -1,6 +1,6 @@
 # RCF-API-GUIDELINES — Protocol Standards
 
-**Version:** 2.0.1  
+**Version:** 2.0.3  
 
 ---
 
@@ -8,7 +8,7 @@
 
 RCF-compliant APIs SHOULD include custom HTTP headers:
 - `X-RCF-Notice: PROTECTED_METHODOLOGY`
-- `X-RCF-License: RCF-PL-2.0.1`
+- `X-RCF-License: RCF-PL-2.0.3`
 
 ## 2. Response Constraints
 

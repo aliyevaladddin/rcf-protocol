@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.1 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.3 -->
 # RCF-COMPLIANCE — Compliance Verification
 
 **Version:** 1.1  
@@ -9,7 +9,7 @@
 
 ## 1. Overview
 
-### 2.0.1 Purpose
+### 2.0.3 Purpose
 
 This document provides comprehensive checklists and procedures for verifying RCF compliance in projects. It serves as a reference for authors, auditors, and users.
 
@@ -29,7 +29,7 @@ This document provides comprehensive checklists and procedures for verifying RCF
 
 | File | Purpose | Priority | Status |
 |------|---------|----------|--------|
-| `LICENSE` | RCF-PL v2.0.1 legal text | Required | [ ] |
+| `LICENSE` | RCF-PL v2.0.3 legal text | Required | [ ] |
 | `NOTICE.md` | Project-specific warnings | Required | [ ] |
 | `README.md` | RCF adoption documentation | Required | [ ] |
 | `.rcfignore` | Exclusions from protection | Optional | [ ] |
@@ -37,7 +37,7 @@ This document provides comprehensive checklists and procedures for verifying RCF
 ### 2.2 File Content Verification
 
 #### LICENSE File
-- [ ] Contains complete RCF-PL v2.0.1 text
+- [ ] Contains complete RCF-PL v2.0.3 text
 - [ ] Includes copyright notice
 - [ ] Includes author contact information
 - [ ] Dated with effective year
@@ -65,7 +65,7 @@ Every protected file must include:
 
 ```python
 # ==============================================================================
-# NOTICE: This file is protected under RCF-PL v2.0.1
+# NOTICE: This file is protected under RCF-PL v2.0.3
 # Restricted Correlation Framework — https://rcf.aliyev.site
 # 
 # VISIBILITY ALLOWED: Manual reading and study
@@ -304,7 +304,7 @@ if __name__ == '__main__':
 ### 9.1 Self-Certification Statement
 
 ```python
-I, [Name], certify that this project complies with RCF-PL v2.0.1 as of [Date].
+I, [Name], certify that this project complies with RCF-PL v2.0.3 as of [Date].
 
 Signed: ________________________
 
@@ -318,7 +318,7 @@ Organizations can request third-party certification by contacting aladdin@aliyev
 ---
 
 **Document Control:**
-- Version: 2.0.1
+- Version: 2.0.3
 - Last Updated: 2026
 - Status: Active
 

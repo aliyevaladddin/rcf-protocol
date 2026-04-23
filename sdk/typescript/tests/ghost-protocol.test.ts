@@ -5,7 +5,7 @@ import { writeFileSync, unlinkSync, existsSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
 
-describe('RCF v2.0.1 Ghost Protocol', () => {
+describe('RCF v2.0.3 Ghost Protocol', () => {
   const secretKey = 'aladdin-secret-key-2026';
   const testFile = join(tmpdir(), 'rcf-ghost-test.ts');
 

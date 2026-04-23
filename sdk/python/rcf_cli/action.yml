@@ -1,5 +1,5 @@
 name: 'RCF Ghost Shield'
-description: 'Enforces RCF Ghost Protocol v2.0.1 — blocks PRs that remove protected markers or tamper with audited files.'
+description: 'Enforces RCF Ghost Protocol v2.0.3 — blocks PRs that remove protected markers or tamper with audited files.'
 author: 'Aladdin Aliyev <aladdin@aliyev.site>'
 
 branding:
@@ -22,7 +22,7 @@ inputs:
   rcf-version:
     description: 'Expected RCF protocol version'
     required: false
-    default: '2.0.1'
+    default: '2.0.3'
   license-key:
     description: 'RCF audit license key (required for verify mode)'
     required: false

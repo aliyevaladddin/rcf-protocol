@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.1
+// NOTICE: This file is protected under RCF-PL v2.0.3
 import { describe, expect, it } from '@jest/globals';
 import { ComplianceValidator } from '../src/core/ComplianceValidator.js';
 import { Scanner } from '../src/core/Scanner.js';
@@ -71,9 +71,9 @@ describe('ComplianceValidator', () => {
     ];
 
     const report = {
-      rcf_version: '2.0.1',
+      rcf_version: '2.0.3',
       timestamp: new Date().toISOString(),
-      audit_type: 'RCF-Audit v2.0.1',
+      audit_type: 'RCF-Audit v2.0.3',
       root: '/root',
       protected_assets: [
         { file: 'src/algo.ts', markers: ['PROTECTED'], sha256: 'abc123' },
@@ -91,9 +91,9 @@ describe('ComplianceValidator', () => {
     const validator = new ComplianceValidator();
 
     const report = {
-      rcf_version: '2.0.1',
+      rcf_version: '2.0.3',
       timestamp: new Date().toISOString(),
-      audit_type: 'RCF-Audit v2.0.1',
+      audit_type: 'RCF-Audit v2.0.3',
       root: '/root',
       protected_assets: [
         { file: 'src/deleted.ts', markers: ['PROTECTED'], sha256: 'abc123' },
@@ -118,9 +118,9 @@ describe('ComplianceValidator', () => {
     ];
 
     const report = {
-      rcf_version: '2.0.1',
+      rcf_version: '2.0.3',
       timestamp: new Date().toISOString(),
-      audit_type: 'RCF-Audit v2.0.1',
+      audit_type: 'RCF-Audit v2.0.3',
       root: '/root',
       protected_assets: [
         { file: 'src/algo.ts', markers: ['PROTECTED'], sha256: 'irrelevant' },
@@ -181,12 +181,12 @@ describe('Scanner', () => {
   describe('headerLine()', () => {
     it('generates correct TS header', () => {
       expect(Scanner.headerLine('test.ts')).toBe(
-        '// NOTICE: This file is protected under RCF-PL v2.0.1\n'
+        '// NOTICE: This file is protected under RCF-PL v2.0.3\n'
       );
     });
     it('generates correct HTML header', () => {
       expect(Scanner.headerLine('index.html')).toBe(
-        '<!-- NOTICE: This file is protected under RCF-PL v2.0.1 -->\n'
+        '<!-- NOTICE: This file is protected under RCF-PL v2.0.3 -->\n'
       );
     });
   });

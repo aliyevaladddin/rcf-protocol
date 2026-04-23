@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.1
+// NOTICE: This file is protected under RCF-PL v2.0.3
 import { MarkerDefinition, MarkerType } from './types.js';
 
 // [RCF:PUBLIC]

@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.1 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.3 -->
 # RCF Ghost Shield — Python Edition 🛡️🐍
 
-The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol v2.0.1 "Ghost Protocol"**.
+The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol v2.0.3 "Ghost Protocol"**.
 
 RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights** using cryptographic integrity chains.
 
@@ -15,11 +15,11 @@ pip install rcf-cli
 
 ## Features
 
-- **Ghost Shield Protection**: Active enforcement of RCF-PL v2.0.1 standards across your codebase.
+- **Ghost Shield Protection**: Active enforcement of RCF-PL v2.0.3 standards across your codebase.
 - **Project Initialization**: Instantly generate `NOTICE.md` and `.rcfignore` files to protect your project.
 - **Automated Scanning**: Quickly scan projects for RCF compliance and extract Ghost Markers.
-- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v2.0.1` header.
-- **RCF-Audit v2.0.1**: Generate cryptographically signed compliance reports for enterprise auditing.
+- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v2.0.3` header.
+- **RCF-Audit v2.0.3**: Generate cryptographically signed compliance reports for enterprise auditing.
 - **Integrity Chains**: Compare current file hashes and Ghost Markers against an audit report to detect unauthorized modifications, tampering, or "Void Shell" imitations.
 
 
@@ -46,7 +46,7 @@ rcf-ghost-shield . --format json
 rcf-ghost-shield . --summary
 ```
 
-### 3. Generate an RCF-Audit Report (v2.0.1)
+### 3. Generate an RCF-Audit Report (v2.0.3)
 
 ```bash
 # Provide license key via flag
@@ -74,11 +74,11 @@ RCF uses semantic markers to define protection levels. Place these inside code c
 - `[RCF:PUBLIC]` — Architecture and public concepts. Safe to discuss.
 - `[RCF:PROTECTED]` — Core methodology. Visible but **not replicable**.
 - `[RCF:RESTRICTED]` — Highly sensitive implementation. Minimal rights.
-- `[RCF:GHOST:HASH]` — **New in v2.0.1**: Cryptographic marker for active integrity verification.
+- `[RCF:GHOST:HASH]` — **New in v2.0.3**: Cryptographic marker for active integrity verification.
 
 Example header for protected files:
 ```python
-# NOTICE: This file is protected under RCF-PL v2.0.1
+# NOTICE: This file is protected under RCF-PL v2.0.3
 # [RCF:PROTECTED]
 # [RCF:GHOST:6A...F3]
 ```

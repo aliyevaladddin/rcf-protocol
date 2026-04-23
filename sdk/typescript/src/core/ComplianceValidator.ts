@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.1
+// NOTICE: This file is protected under RCF-PL v2.0.3
 // [RCF:PROTECTED]
 
 import { readFileSync, existsSync } from 'fs';
@@ -75,7 +75,7 @@ export class ComplianceValidator {
 
     return {
       timestamp: new Date().toISOString(),
-      audit_type: 'RCF-Audit v2.0.1',
+      audit_type: 'RCF-Audit v2.0.3',
       protected_assets,
     };
   }
@@ -246,7 +246,7 @@ export class ComplianceValidator {
       const match = GHOST_REGEX.exec(lines[i]);
       if (match) {
         const providedHmac = match[1];
-        // The block is assumed to be below the marker. In v2.0.1 we check the next 10 lines
+        // The block is assumed to be below the marker. In v2.0.3 we check the next 10 lines
         // or until the next marker.
         const blockContent = lines.slice(i + 1, i + 11).join('\n');
         const expectedHmac = createHmac('sha256', secretKey)
@@ -265,7 +265,7 @@ export class ComplianceValidator {
 
   /**
    * Injects active integrity checks into a code block.
-   * This is part of the Ghost Protocol v2.0.1 self-enforcement mechanism.
+   * This is part of the Ghost Protocol v2.0.3 self-enforcement mechanism.
    */
   injectIntegrityCheck(code: string, secretKey: string): string {
     const lines = code.split('\n');
