@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Aliyev"
+    given-names: "Aladdin"
+    orcid: "https://orcid.org/0009-0004-5230-2278"
+title: "Restricted Correlation Framework (RCF) Protocol"
+version: 1.0.0
+url: "https://github.com/aliyevaladddin/rcf-protocol"
