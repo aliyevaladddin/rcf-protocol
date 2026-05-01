@@ -20,7 +20,7 @@ Traditional intellectual property faces a dilemma:
 
 **RCF solves this** by creating a third path: **Visible but Protected**.
 
-### 1.2 Core Axioms
+### 2.0.3 Core Axioms
 
 1. **Visibility ≠ Permission**
    - Seeing code does not grant rights to use it

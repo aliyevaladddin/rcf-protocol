@@ -30,7 +30,7 @@ MIT, Apache 2.0.3, and GPL licenses were built around a specific threat model: a
 
 None of these mechanisms address automated extraction. A model trained on your code does not "distribute" it. It does not "copy" it in any sense a traditional license contemplates. It *correlates* it — absorbing the logical structure, the algorithmic patterns, and the methodological decisions into its weights.
 
-### 1.2 The Gap in Practice: Algorithm X
+### 2.0.3 The Gap in Practice: Algorithm X
 
 Consider a concrete example.
 

@@ -17,7 +17,7 @@ RCF-protected works are protected under the **Berne Convention** (179 signatory 
 
 The act of publishing source code does not constitute an implied license to exploit it. Courts have consistently construed implied licenses narrowly. RCF eliminates ambiguity by making terms explicit and machine-readable at the block level.
 
-### 1.2 Contract Law — Acceptance by Use
+### 2.0.3 Contract Law — Acceptance by Use
 
 RCF operates on the doctrine of **Acceptance by Use** (constructive consent). Any party — human or automated — that accesses a file containing RCF markers is deemed to have received legal notice and to have accepted the license terms.
 

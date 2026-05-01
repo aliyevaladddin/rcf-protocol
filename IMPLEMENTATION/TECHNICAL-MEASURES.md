@@ -11,7 +11,7 @@
 - **Human Speed:** Limit access to ~3 file Reads per minute for unauthenticated users.
 - **Burst Protection:** Allow small bursts but require cooldowns.
 
-### 1.2 Access Gating
+### 2.0.3 Access Gating
 - Require simple acknowledgment of RCF terms before displaying `[RCF:PROTECTED]` content.
 
 ## 2. Anti-Automation
