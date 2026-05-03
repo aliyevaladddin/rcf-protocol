@@ -17,6 +17,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
+      attestations: write
 
     steps:
       - uses: actions/checkout@v6
@@ -34,6 +35,11 @@ jobs:
       - name: Build package
         working-directory: sdk/typescript
         run: npm run build
+
+      - name: Generate build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: 'sdk/typescript/package.json'
 
       - name: Publish to NPM
         working-directory: sdk/typescript
