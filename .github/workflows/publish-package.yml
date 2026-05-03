@@ -15,12 +15,14 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
+      attestations: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.x'
 
@@ -32,6 +34,11 @@ jobs:
       - name: Build package
         working-directory: sdk/python
         run: python -m build
+
+      - name: Generate build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: 'sdk/python/dist/*'
 
       - name: Publish to PyPI
         working-directory: sdk/python

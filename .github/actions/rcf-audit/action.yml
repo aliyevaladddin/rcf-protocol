@@ -26,5 +26,7 @@ runs:
 
     - name: Run RCF Audit
       shell: bash
+      env:
+        RCF_LICENSE_KEY: ${{ inputs.license-key }}
       run: |
-        rcf-cli audit "${{ inputs.path }}" --license-key "${{ inputs.license-key }}"
+        rcf-cli audit "${{ inputs.path }}"

@@ -17,12 +17,13 @@ jobs:
       contents: read
       packages: write
       id-token: write
+      attestations: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
@@ -34,6 +35,11 @@ jobs:
       - name: Build package
         working-directory: sdk/typescript
         run: npm run build
+
+      - name: Generate build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: 'sdk/typescript/package.json'
 
       - name: Publish to NPM
         working-directory: sdk/typescript

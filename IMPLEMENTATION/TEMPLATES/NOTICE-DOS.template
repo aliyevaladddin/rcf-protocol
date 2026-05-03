@@ -15,7 +15,7 @@ This project implements the **Restricted Correlation Framework (RCF)** protocol.
 - **MANUAL AUDIT ALLOWED:** You are granted the right to manually read and audit this code for security, transparency, and educational purposes.
 - **P2P TRANSPARENCY:** The visibility of this code is fundamental to its decentralized nature and does not imply a transfer of intellectual property rights.
 
-### 1.2 Usage Restrictions
+### 2.0.3 Usage Restrictions
 - **METHODOLOGY PROTECTION:** The core correlation logic, consensus algorithms, and distributed state management patterns are PROTECTED METHODOLOGIES.
 - **NO REPLICATION:** Unauthorized replication, redistribution, or commercial use of these methodologies is strictly prohibited.
 - **AI/ML PROHIBITION:** This project and its methodologies MAY NOT be used as training data for Artificial Intelligence or Machine Learning systems.

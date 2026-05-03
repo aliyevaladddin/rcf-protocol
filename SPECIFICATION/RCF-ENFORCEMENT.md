@@ -12,7 +12,7 @@
 
 This document provides detailed technical guidance for implementing enforcement mechanisms in RCF-protected projects. While RCF is legally self-enforcing, technical measures strengthen protection and enable violation detection.
 
-### 1.2 Scope
+### 2.0.3 Scope
 
 - Automation detection systems
 - Rate limiting and access control

@@ -1,201 +1,332 @@
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+# NOTICE: This file is protected under RCF-PL v2.0.3
+[RCF:PUBLIC]
 
-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+RESTRICTED CORRELATION FRAMEWORK PROTOCOL LICENSE
+Version 2.0.3 — "The Integrity Release"
+Effective Date: January 1, 2026
 
-   1. Definitions.
+Copyright (c) 2026 Aladdin Aliyev
+All rights reserved.
 
-      "License" shall mean the terms and conditions for use, reproduction,
-      and distribution as defined by Sections 1 through 9 of this document.
+================================================================================
+PREAMBLE
+================================================================================
 
-      "Licensor" shall mean the copyright owner or entity authorized by
-      the copyright owner that is granting the License.
+This License governs the use of the Restricted Correlation Framework (RCF)
+Protocol and any works protected under this License. RCF establishes a
+licensing category that distinguishes between Visibility rights (the right
+to read and audit) and Usage rights (the right to replicate and exploit).
+These two rights, long conflated by traditional open-source licenses, are
+treated as distinct under RCF-PL v2.0.3.
 
-      "Legal Entity" shall mean the union of the acting entity and all
-      other entities that control, are controlled by, or are under common
-      control with that entity. For the purposes of this definition,
-      "control" means (i) the power, direct or indirect, to cause the
-      direction or management of such entity, whether by contract or
-      otherwise, or (ii) ownership of fifty percent (50%) or more of the
-      outstanding shares, or (iii) beneficial ownership of such entity.
+The proliferation of Large Language Models and automated code analysis
+systems has created a structural gap in existing licensing frameworks.
+MIT, Apache, and GPL licenses were written before such systems existed.
+RCF-PL v2.0.3 addresses this gap directly.
 
-      "You" (or "Your") shall mean an individual or Legal Entity
-      exercising permissions granted by this License.
+By accessing, viewing, or otherwise engaging with any RCF-protected work —
+including by automated means — you acknowledge and agree to be bound by the
+terms of this License. This acknowledgment occurs at the moment of first
+access and does not require a signature or affirmative click.
 
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation
-      source, and configuration files.
+================================================================================
+DEFINITIONS
+================================================================================
 
-      "Object" form shall mean any form resulting from mechanical
-      transformation or translation of a Source form, including but
-      not limited to compiled object code, generated documentation,
-      and conversions to other media types.
+"RCF Protocol" means the licensing framework, specifications, and
+methodologies described in the RCF specification documents, including
+RCF-SPEC.md, RCF-CORE.md, and this License.
 
-      "Work" shall mean the work of authorship, whether in Source or
-      Object form, made available under the License, as indicated by a
-      copyright notice that is included in or attached to the work
-      (an example is provided in the Appendix below).
+"Protected Work" means any software, documentation, methodology, algorithm,
+or other intellectual property bearing RCF notices, markers, or headers,
+including files marked with [RCF:PUBLIC], [RCF:PROTECTED], or [RCF:RESTRICTED].
 
-      "Derivative Works" shall mean any work, whether in Source or Object
-      form, that is based on (or derived from) the Work and for which the
-      editorial revisions, annotations, elaborations, or other modifications
-      represent, as a whole, an original work of authorship. For the purposes
-      of this License, Derivative Works shall not include works that remain
-      separable from, or merely link (or bind by name) to the interfaces of,
-      the Work and Derivative Works thereof.
+"Author" means Aladdin Aliyev, the creator and sole rights holder of the
+Protected Work, or any party designated in writing by Aladdin Aliyev.
 
-      "Contribution" shall mean any work of authorship, including
-      the original version of the Work and any modifications or additions
-      to that Work or Derivative Works thereof, that is intentionally
-      submitted to Licensor for inclusion in the Work by the copyright owner
-      or by an individual or Legal Entity authorized to submit on behalf of
-      the copyright owner. For the purposes of this definition, "submitted"
-      means any form of electronic, verbal, or written communication sent
-      to the Licensor or its representatives, including but not limited to
-      communication on electronic mailing lists, source code control systems,
-      and issue tracking systems that are managed by, or on behalf of, the
-      Licensor for the purpose of discussing and improving the Work, but
-      excluding communication that is conspicuously marked or otherwise
-      designated in writing by the copyright owner as "Not a Contribution."
+"User" means any natural person, legal entity, or automated system that
+accesses, reads, processes, or otherwise engages with a Protected Work.
 
-      "Contributor" shall mean Licensor and any individual or Legal Entity
-      on behalf of whom a Contribution has been received by Licensor and
-      subsequently incorporated within the Work.
+"Visibility" means the act of reading, viewing, or manually examining the
+Protected Work, performed by a human without automated extraction or
+systematic processing.
 
-   2. Grant of Copyright License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      copyright license to reproduce, prepare Derivative Works of,
-      publicly display, publicly perform, sublicense, and distribute the
-      Work and such Derivative Works in Source or Object form.
+"Automated Extraction" means any use of software, scripts, AI/ML systems,
+crawlers, parsers, or other automated means to analyze, process, extract,
+correlate, or replicate elements of the Protected Work.
 
-   3. Grant of Patent License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      (except as stated in this section) patent license to make, have made,
-      use, offer to sell, sell, import, and otherwise transfer the Work,
-      where such license applies only to those patent claims licensable
-      by such Contributor that are necessarily infringed by their
-      Contribution(s) alone or by combination of their Contribution(s)
-      with the Work to which such Contribution(s) was submitted. If You
-      institute patent litigation against any entity (including a
-      cross-claim or counterclaim in a lawsuit) alleging that the Work
-      or a Contribution incorporated within the Work constitutes direct
-      or contributory patent infringement, then any patent licenses
-      granted to You under this License for that Work shall terminate
-      as of the date such litigation is filed.
+"Correlation Methodology" means the specific techniques, algorithms,
+heuristics, patterns, or logic used within the Protected Work to analyze,
+correlate, or derive insights — including but not limited to the logical
+structure, architectural decisions, and implementation approaches.
 
-   4. Redistribution. You may reproduce and distribute copies of the
-      Work or Derivative Works thereof in any medium, with or without
-      modifications, and in Source or Object form, provided that You
-      meet the following conditions:
+"Derivative Training Artifact" means any AI/ML model, dataset, embedding,
+weight matrix, or other artifact that was trained, fine-tuned, or
+validated using the Protected Work, in whole or in part.
 
-      (a) You must give any other recipients of the Work or
-          Derivative Works a copy of this License; and
+"RCF Marker" means any inline annotation of the form [RCF:PUBLIC],
+[RCF:PROTECTED], or [RCF:RESTRICTED] embedded in a Protected Work,
+constituting Copyright Management Information under DMCA §1202.
 
-      (b) You must cause any modified files to carry prominent notices
-          stating that You changed the files; and
+"Audit Report" means the file RCF-AUDIT-REPORT.json generated by
+rcf-cli audit, containing SHA-256 hashes and timestamps of protected assets.
 
-      (c) You must retain, in the Source form of any Derivative Works
-          that You distribute, all copyright, patent, trademark, and
-          attribution notices from the Source form of the Work,
-          excluding those notices that do not pertain to any part of
-          the Derivative Works; and
+================================================================================
+GRANTED RIGHTS — VISIBILITY
+================================================================================
 
-      (d) If the Work includes a "NOTICE" text file as part of its
-          distribution, then any Derivative Works that You distribute must
-          include a readable copy of the attribution notices contained
-          within such NOTICE file, excluding those notices that do not
-          pertain to any part of the Derivative Works, in at least one
-          of the following places: within a NOTICE text file distributed
-          as part of the Derivative Works; within the Source form or
-          documentation, if provided along with the Derivative Works; or,
-          within a display generated by the Derivative Works, if and
-          wherever such third-party notices normally appear. The contents
-          of the NOTICE file are for informational purposes only and
-          do not modify the License. You may add Your own attribution
-          notices within Derivative Works that You distribute, alongside
-          or as an addendum to the NOTICE text from the Work, provided
-          that such additional attribution notices cannot be construed
-          as modifying the License.
+Subject to full compliance with this License, the Author grants the User
+a limited, non-exclusive, non-transferable, non-sublicensable right to:
 
-      You may add Your own copyright statement to Your modifications and
-      may provide additional or different license terms and conditions
-      for use, reproduction, or distribution of Your modifications, or
-      for any such Derivative Works as a whole, provided Your use,
-      reproduction, and distribution of the Work otherwise complies with
-      the conditions stated in this License.
+1. MANUAL VIEWING
+   — Read and manually examine the Protected Work
+   — Study the Protected Work for personal, non-automated education
+   — Form personal understanding and take manual notes
 
-   5. Submission of Contributions. Unless You explicitly state otherwise,
-      any Contribution intentionally submitted for inclusion in the Work
-      by You to the Licensor shall be under the terms and conditions of
-      this License, without any additional terms or conditions.
-      Notwithstanding the above, nothing herein shall supersede or modify
-      the terms of any separate license agreement you may have executed
-      with Licensor regarding such Contributions.
+2. SECURITY RESEARCH & RESPONSIBLE DISCLOSURE
+   — Identify and report security vulnerabilities to the Author
+   — Conduct good-faith security research consistent with industry norms
+   — Follow responsible disclosure practices as defined in SECURITY.md
 
-   6. Trademarks. This License does not grant permission to use the trade
-      names, trademarks, service marks, or product names of the Licensor,
-      except as required for reasonable and customary use in describing the
-      origin of the Work and reproducing the content of the NOTICE file.
+3. REFERENCE AND CITATION
+   — Cite the Protected Work in academic or professional publications
+   — Reference the Protected Work with proper attribution to the Author
+   — Quote brief excerpts (under 50 lines) for purposes of commentary,
+     criticism, or academic analysis, provided attribution is given
 
-   7. Disclaimer of Warranty. Unless required by applicable law or
-      agreed to in writing, Licensor provides the Work (and each
-      Contributor provides its Contributions) on an "AS IS" BASIS,
-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-      implied, including, without limitation, any warranties or conditions
-      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-      PARTICULAR PURPOSE. You are solely responsible for determining the
-      appropriateness of using or redistributing the Work and assume any
-      risks associated with Your exercise of permissions under this License.
+4. AUDIT AND VERIFICATION
+   — Verify the integrity of the Protected Work using rcf-cli verify
+   — Review RCF compliance markers for due diligence purposes
 
-   8. Limitation of Liability. In no event and under no legal theory,
-      whether in tort (including negligence), contract, or otherwise,
-      unless required by applicable law (such as deliberate and grossly
-      negligent acts) or agreed to in writing, shall any Contributor be
-      liable to You for damages, including any direct, indirect, special,
-      incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
-      Work (including but not limited to damages for loss of goodwill,
-      work stoppage, computer failure or malfunction, or any and all
-      other commercial damages or losses), even if such Contributor
-      has been advised of the possibility of such damages.
+All rights not expressly granted herein are reserved by the Author.
 
-   9. Accepting Warranty or Additional Liability. While redistributing
-      the Work or Derivative Works thereof, You may choose to offer,
-      and charge a fee for, acceptance of support, warranty, indemnity,
-      or other liability obligations and/or rights consistent with this
-      License. However, in accepting such obligations, You may act only
-      on Your own behalf and on Your sole responsibility, not on behalf
-      of any other Contributor, and only if You agree to indemnify,
-      defend, and hold each Contributor harmless for any liability
-      incurred by, or claims asserted against, such Contributor by reason
-      of your accepting any such warranty or additional liability.
+================================================================================
+PROHIBITED ACTIVITIES — USAGE RESTRICTIONS
+================================================================================
 
-   END OF TERMS AND CONDITIONS
+WITHOUT EXPRESS WRITTEN AUTHORIZATION FROM THE AUTHOR, the User MAY NOT:
 
-   APPENDIX: How to apply the Apache License to your work.
+1. AI/ML TRAINING AND DATASET GENERATION
+   — Use the Protected Work to train, fine-tune, distill, or validate
+     any artificial intelligence or machine learning model
+   — Include the Protected Work, in whole or in part, in any training dataset
+   — Use the Protected Work to generate synthetic data for AI training
+   — Create Derivative Training Artifacts from the Protected Work
+   — Use AI/ML systems to analyze, comprehend, or replicate the Protected
+     Work's Correlation Methodology
 
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "[]"
-      replaced with your own identifying information. (Don't include
-      the brackets!)  The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same "printed page" as the copyright notice for easier
-      identification within third-party archives.
+2. AUTOMATED EXTRACTION
+   — Employ scripts, bots, scrapers, crawlers, or automated tools to
+     extract, parse, or process the Protected Work at scale
+   — Perform mass downloading, mirroring, archiving, or systematic copying
+   — Use static analysis, dynamic analysis, or decompilation tools for
+     automated comprehension of the Correlation Methodology
 
-   Copyright 2026 Aladdin Aliyev
+3. METHODOLOGY REPLICATION
+   — Reproduce, reimplement, or recreate the Correlation Methodology
+     in any programming language or system
+   — Create derivative works based on the Protected Work's logic,
+     architectural patterns, or algorithmic approaches
+   — Document, publish, or disclose the internal logic of the Protected
+     Work without written authorization
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+4. COMMERCIAL EXPLOITATION
+   — Use the Protected Work for commercial purposes, including SaaS
+     offerings, consulting services, paid integrations, or commercial
+     products
+   — Monetize access to or use of the Protected Work in any form
+   — Bundle the Protected Work with commercial offerings
+   — Use the Protected Work to provide services to third parties for
+     compensation, direct or indirect
 
-       http://www.apache.org/licenses/LICENSE-2.0
+5. MARKER CIRCUMVENTION
+   — Remove, alter, obscure, or disable any RCF Marker or file header
+   — Distribute versions of the Protected Work with markers removed
+   — Develop or distribute tools designed to strip or bypass RCF protections
+   — Tamper with or falsify any Audit Report
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+6. REDISTRIBUTION AND SUBLICENSING
+   — Distribute, publish, or make available copies of the Protected Work
+   — Sublicense any rights granted under this License to third parties
+   — Enable third parties to perform any Prohibited Activity
+
+================================================================================
+PROTECTION LEVELS AND THEIR SCOPE
+================================================================================
+
+[RCF:PUBLIC]
+   Applies to architecture, interfaces, and public concepts.
+   Visibility and reference are permitted. Methodology replication,
+   AI training, and commercial exploitation remain prohibited.
+
+[RCF:PROTECTED]
+   Applies to core methodology and algorithmic logic.
+   Visibility permitted for audit purposes only. All usage rights —
+   including replication, extraction, and AI/ML training — are
+   explicitly prohibited.
+
+[RCF:RESTRICTED]
+   Applies to sensitive implementation details.
+   Minimal access for security audit only. No reproduction, reference,
+   or disclosure of any kind without written authorization.
+
+================================================================================
+ACCEPTANCE BY USE — CONSTRUCTIVE CONSENT
+================================================================================
+
+This License is accepted upon first access to any Protected Work.
+Notice is provided through four independent layers:
+
+   Layer 1 — robots.txt at the repository root
+   Layer 2 — NOTICE.md at the repository root
+   Layer 3 — Per-file header: "NOTICE: This file is protected under RCF-PL v2.0.3"
+   Layer 4 — Block-level RCF Markers within protected files
+
+Any User — human or automated — that accesses a file bearing any of
+these notices is deemed to have received and accepted this License.
+Automated systems that bypass notice mechanisms are in violation of
+this License from the moment of first access.
+
+================================================================================
+SELF-ENFORCEMENT AND TERMINATION
+================================================================================
+
+This License is SELF-ENFORCING. Any violation automatically and
+immediately terminates ALL rights granted under this License, without
+requirement for prior notice, warning, or judicial determination.
+
+Upon termination:
+   — All access rights are revoked immediately and retroactively
+   — Any copies, forks, or derivatives in the User's possession or
+     control must be destroyed within 48 hours
+   — Any Derivative Training Artifacts must be deleted or retrained
+     to remove the influence of the Protected Work
+   — The User must provide written certification of destruction
+     upon request by the Author
+
+The Author reserves the right to pursue all available legal remedies,
+including but not limited to:
+   — Statutory damages under DMCA §1201 ($200–$2,500 per act of
+     circumvention; up to $25,000 per willful act)
+   — Statutory damages under DMCA §1202 ($2,500–$25,000 per violation
+     of copyright management information)
+   — Injunctive relief
+   — Actual damages and disgorgement of profits
+   — Attorney's fees and costs
+
+================================================================================
+TECHNICAL PROTECTION MEASURES
+================================================================================
+
+Protected Works may implement technical measures to enforce this License,
+including but not limited to:
+
+   — Cryptographic hashing and Audit Reports (RCF-AUDIT-REPORT.json)
+   — Semantic watermarking embedded in the Correlation Methodology
+   — Rate limiting and automated access detection
+   — CI/CD enforcement via rcf-guardian GitHub Action
+
+These measures constitute Technological Protection Measures (TPMs) under
+DMCA §1201 and equivalent provisions of the WIPO Copyright Treaty.
+Circumvention of any technical measure is a violation of this License
+and applicable law.
+
+================================================================================
+RESEARCH AND EDUCATIONAL EXCEPTIONS
+================================================================================
+
+Non-commercial research and educational use is permitted subject to ALL
+of the following conditions being met simultaneously:
+
+   1. The use is genuinely non-commercial and conducted within an
+      accredited educational or research institution
+   2. No automated extraction or AI/ML processing is employed
+   3. The Correlation Methodology is not replicated, published, or disclosed
+   4. Proper attribution to the Author is provided in any resulting work
+   5. The research does not enable or facilitate violations by third parties
+   6. The Author is notified in writing of the research purpose prior
+      to commencement (notification@rcf.aliyev.site)
+
+Any use that does not satisfy ALL six conditions is not covered by this
+exception and requires written authorization.
+
+================================================================================
+JURISDICTION AND GOVERNING LAW
+================================================================================
+
+This License shall be governed by and construed in accordance with the
+laws of the Republic of Azerbaijan, without regard to conflict of
+law principles.
+
+For Users located in jurisdictions that do not recognize Azerbaijani law
+as governing, this License shall additionally be construed under the
+WIPO Copyright Treaty (1996) and the Berne Convention for the Protection
+of Literary and Artistic Works (1886, as amended).
+
+The Author reserves the right to enforce this License in any jurisdiction
+where the Protected Work is accessed or where a violation occurs,
+including under:
+   — DMCA (United States, 17 U.S.C. §§1201–1205)
+   — EU Copyright Directive 2001/29/EC (European Union)
+   — CDPA §296ZA (United Kingdom)
+   — National implementations of the WIPO WCT (110+ countries)
+
+Disputes shall be subject to the exclusive jurisdiction of the courts
+of Baku, Republic of Azerbaijan, unless the Author elects to pursue
+enforcement in the jurisdiction where the violation occurred.
+
+================================================================================
+MISCELLANEOUS
+================================================================================
+
+SEVERABILITY: If any provision of this License is held unenforceable
+by a court of competent jurisdiction, that provision shall be modified
+to the minimum extent necessary to make it enforceable, and all remaining
+provisions shall continue in full force and effect.
+
+NO WAIVER: Failure by the Author to enforce any provision of this License
+at any time does not constitute a waiver of the Author's right to enforce
+that provision in the future. No waiver is effective unless made in writing
+and signed by the Author.
+
+ENTIRE AGREEMENT: This License, together with LEGAL/LEGAL.md,
+LEGAL/JURISDICTION.md, and LEGAL/DEFINITIONS.md, constitutes the entire
+agreement between the parties concerning the Protected Work and supersedes
+all prior agreements, representations, and understandings.
+
+AMENDMENTS: This License may only be amended by a written instrument
+signed by the Author. The current version is always available at:
+https://rcf.aliyev.site/license
+
+NO WARRANTY: The Protected Work is provided "AS IS" for Visibility
+purposes only. The Author makes no warranty of any kind, express or
+implied, regarding the Protected Work's fitness for any purpose beyond
+inspection and audit.
+
+================================================================================
+CONTACT AND AUTHORIZATION REQUESTS
+================================================================================
+
+For commercial licensing, authorization requests, and compliance questions:
+
+   Web:     https://rcf.aliyev.site
+   Email:   license@rcf.aliyev.site
+   Research notifications: notification@rcf.aliyev.site
+   DMCA / Legal:           legal@rcf.aliyev.site
+
+Response time: 5–10 business days for standard inquiries.
+
+================================================================================
+
+BY ACCESSING ANY RCF-PROTECTED WORK — INCLUDING BY AUTOMATED MEANS —
+YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND
+BY THIS LICENSE IN ITS ENTIRETY.
+
+IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST IMMEDIATELY CEASE ALL
+ACCESS AND DESTROY ANY COPIES IN YOUR POSSESSION.
+
+================================================================================
+Copyright (c) 2026 Aladdin Aliyev. All rights reserved.
+Sovereignty via Restricted Correlation.
+RCF Protocol License Version 2.0.3 — "The Integrity Release"
+================================================================================

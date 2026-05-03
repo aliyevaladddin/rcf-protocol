@@ -16,7 +16,7 @@ This document defines the technical specification of the Restricted
 Correlation Framework (RCF) Protocol v2.0.3. Version 2.0.3, codenamed "Ghost Protocol", 
 shifts from passive verification to active, self-enforcing protection.
 
-### 1.2 Design Goals
+### 2.0.3 Design Goals
 
 1. **Visibility Preservation**: Allow legitimate study and review.
 2. **Usage Control**: Prevent unauthorized exploitation via dynamic correlation.
