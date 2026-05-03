@@ -16,10 +16,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Verify License Key
+        shell: bash
+        run: |
+          if [ -z "${{ secrets.RCF_LICENSE_KEY }}" ]; then
+            echo "❌ ERROR: RCF_LICENSE_KEY is not set in GitHub Secrets!"
+            exit 1
+          else
+            echo "✅ RCF_LICENSE_KEY is found."
+          fi
+
       - name: Run RCF Audit
         uses: ./.github/actions/rcf-audit
         with:
-          # This key should be added to your GitHub Secrets as RCF_LICENSE_KEY
           license-key: ${{ secrets.RCF_LICENSE_KEY }}
           path: '.'
 
