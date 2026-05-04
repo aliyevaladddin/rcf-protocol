@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v2.0.3
+# NOTICE: This file is protected under RCF-PL v2.0.4
 [RCF:PUBLIC]
 
 RESTRICTED CORRELATION FRAMEWORK PROTOCOL LICENSE
@@ -17,12 +17,12 @@ Protocol and any works protected under this License. RCF establishes a
 licensing category that distinguishes between Visibility rights (the right
 to read and audit) and Usage rights (the right to replicate and exploit).
 These two rights, long conflated by traditional open-source licenses, are
-treated as distinct under RCF-PL v2.0.3.
+treated as distinct under RCF-PL v2.0.4.
 
 The proliferation of Large Language Models and automated code analysis
 systems has created a structural gap in existing licensing frameworks.
 MIT, Apache, and GPL licenses were written before such systems existed.
-RCF-PL v2.0.3 addresses this gap directly.
+RCF-PL v2.0.4 addresses this gap directly.
 
 By accessing, viewing, or otherwise engaging with any RCF-protected work —
 including by automated means — you acknowledge and agree to be bound by the
@@ -179,7 +179,7 @@ Notice is provided through four independent layers:
 
    Layer 1 — robots.txt at the repository root
    Layer 2 — NOTICE.md at the repository root
-   Layer 3 — Per-file header: "NOTICE: This file is protected under RCF-PL v2.0.3"
+   Layer 3 — Per-file header: "NOTICE: This file is protected under RCF-PL v2.0.4"
    Layer 4 — Block-level RCF Markers within protected files
 
 Any User — human or automated — that accesses a file bearing any of

@@ -10,7 +10,7 @@
     "cli": "node --loader ts-node/esm sdk/typescript/src/cli/index.ts"
   },
   "author": "Aladdin Aliyev <aladdin@aliyev.site>",
-  "license": "RCF-PL v2.0.3",
+  "license": "RCF-PL v2.0.4",
   "dependencies": {
     "rcf-protocol": "^2.0.3"
   }

@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.3
+// NOTICE: This file is protected under RCF-PL v2.0.4
 /*
  * dos-kernel-example.c
  *
@@ -25,7 +25,7 @@ int verify_license_key(const char *key) {
 
 /*
  * ==============================================================================
- * NOTICE: This file is protected under RCF-PL v2.0.3
+ * NOTICE: This file is protected under RCF-PL v2.0.4
  * Restricted Correlation Framework — https://aliyev.site/rcf
  *
  * [RCF:NOTICE][RCF:PUBLIC]
@@ -52,7 +52,7 @@ int init_module(void) {
  *
  * VISIBILITY: Manual study for security audit is encouraged.
  * USAGE: Restricted. Replication of this logic in other dOS kernels
- * is prohibited without explicit authorization under RCF-PL v2.0.3.
+ * is prohibited without explicit authorization under RCF-PL v2.0.4.
  */
 void dos_dispatch_resources(void) {
   // [PROTECTED LOGIC START]
@@ -73,6 +73,6 @@ static void handle_private_session_keys(void) {
 
 void cleanup_module(void) { printk(KERN_INFO "dOS Kernel Module Unloaded.\n"); }
 
-MODULE_LICENSE("RCF-PL v2.0.3");
+MODULE_LICENSE("RCF-PL v2.0.4");
 MODULE_AUTHOR("Aladdin Aliyev");
 MODULE_DESCRIPTION("RCF Example for dOS Kernel");

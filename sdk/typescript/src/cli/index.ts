@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// NOTICE: This file is protected under RCF-PL v2.0.3
+// NOTICE: This file is protected under RCF-PL v2.0.4
 // [RCF:PROTECTED]
 
 import { Command } from 'commander';
@@ -19,14 +19,14 @@ const program = new Command();
 
 const GHOST_BANNER = `
     ${chalk.bold.cyan('╔══════════════════════════════════════════════════════════╗')}
-    ${chalk.bold.cyan('║')}  ${chalk.bold.white('🛡️  RCF GHOST SHIELD — PROTOCOL v2.0.3')}               ${chalk.bold.cyan('║')}
+    ${chalk.bold.cyan('║')}  ${chalk.bold.white('🛡️  RCF GHOST SHIELD — PROTOCOL v2.0.4')}               ${chalk.bold.cyan('║')}
     ${chalk.bold.cyan('║')}  ${chalk.gray('Sovereign Code Protection | Aladdin Aliyev')}         ${chalk.bold.cyan('║')}
     ${chalk.bold.cyan('╚══════════════════════════════════════════════════════════╝')}
 `;
 
 program
   .name('rcf-ghost-shield')
-  .description('RCF Ghost Shield CLI v2.0.3 — Active Protection Framework')
+  .description('RCF Ghost Shield CLI v2.0.4 — Active Protection Framework')
   .version('2.0.3')
   .addHelpText('before', GHOST_BANNER)
   .arguments('[path]')
@@ -59,13 +59,13 @@ program
 
     const noticePath = join(process.cwd(), 'NOTICE.md');
     if (existsSync(noticePath)) {
-      console.log(chalk.yellow('⚠️  NOTICE.md already exists. Updating for v2.0.3.'));
+      console.log(chalk.yellow('⚠️  NOTICE.md already exists. Updating for v2.0.4.'));
     }
 
     writeFileSync(noticePath, [
       `# RCF-PL NOTICE — Ghost Protocol`,
       ``,
-      `This project (**${projectName}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v2.0.3**.`,
+      `This project (**${projectName}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v2.0.4**.`,
       ``,
       `Copyright (c) ${year} ${author}. All rights reserved.`,
       ``,
@@ -79,7 +79,7 @@ program
       ``,
       `Full protocol: https://aliyev.site/rcf`,
     ].join('\n'));
-    console.log(chalk.green('✅ Generated/Updated NOTICE.md for RCF v2.0.3'));
+    console.log(chalk.green('✅ Generated/Updated NOTICE.md for RCF v2.0.4'));
 
     const ignorePath = join(process.cwd(), '.rcfignore');
     if (!existsSync(ignorePath)) {
@@ -99,7 +99,7 @@ program
   .option('-v, --verbose', 'show details')
   .action(async (pathArg = '.', options) => {
     const licenseKey = options.licenseKey ?? process.env['RCF_LICENSE_KEY'];
-    const adminKeyHash = '74bc881f2c077802'; // RCF Ghost Admin Slice (v2.0.3)
+    const adminKeyHash = '74bc881f2c077802'; // RCF Ghost Admin Slice (v2.0.4)
     const providedKeyHash = licenseKey
       ? createHash('sha256').update(licenseKey).digest('hex').slice(0, 16)
       : '';
@@ -124,7 +124,7 @@ program
     const validator = new ComplianceValidator();
     const report = validator.generateReport(results, root);
 
-    report.audit_type = 'RCF-Audit v2.0.3 (Ghost Shield)';
+    report.audit_type = 'RCF-Audit v2.0.4 (Ghost Shield)';
 
     const reportPath = join(root, 'RCF-AUDIT-REPORT.json');
     writeFileSync(reportPath, JSON.stringify(report, null, 2), 'utf-8');
@@ -195,7 +195,7 @@ program
         console.log(chalk.gray(`Recorded: ${result.recordedAt}`));
         console.log();
         if (result.verified) {
-          console.log(chalk.green(`✅ VERIFIED — file matches audit record (RCF v2.0.3)`));
+          console.log(chalk.green(`✅ VERIFIED — file matches audit record (RCF v2.0.4)`));
           console.log(chalk.gray(`   SHA-256: ${result.currentHash}`));
         } else {
           console.log(chalk.red(`🚨 TAMPERED — file has been modified since audit!`));
@@ -222,7 +222,7 @@ program
     const assets = report.protected_assets ?? [];
 
     console.log(chalk.bold(`\n--- RCF Integrity Verification (${assets.length} assets) ---`));
-    console.log(chalk.gray(`  Engine: Aladdin Ghost Core v2.0.3\n`));
+    console.log(chalk.gray(`  Engine: Aladdin Ghost Core v2.0.4\n`));
 
     const missing: string[] = [];
     const tampered: string[] = [];
@@ -393,9 +393,9 @@ program
 
 program
   .command('scan [directory]')
-  .description('Scan directory for RCF markers (Legacy v2.0.3)')
+  .description('Scan directory for RCF markers (Legacy v2.0.4)')
   .action(() => {
-    console.log(chalk.yellow('⚠️  Command [scan] is deprecated. Use [verify] for RCF v2.0.3.'));
+    console.log(chalk.yellow('⚠️  Command [scan] is deprecated. Use [verify] for RCF v2.0.4.'));
   });
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

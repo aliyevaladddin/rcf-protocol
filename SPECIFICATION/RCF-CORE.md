@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.4 -->
 # RCF-CORE — Core Concepts
 
 **Version:** 2.0.3  
@@ -60,7 +60,7 @@ Traditional intellectual property faces a dilemma:
 
 | Layer | Purpose | Mechanism |
 |-------|---------|-----------|
-| **Legal** | Establish rights | RCF-PL v2.0.3 license text |
+| **Legal** | Establish rights | RCF-PL v2.0.4 license text |
 | **Notice** | Communicate terms | NOTICE.md, file headers |
 | **Markers** | Granular control | `[RCF:PUBLIC]`, `[RCF:PROTECTED]` |
 | **Technical** | Active prevention | Rate limiting, obfuscation |

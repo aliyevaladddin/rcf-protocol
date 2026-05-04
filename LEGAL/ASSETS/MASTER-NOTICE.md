@@ -1,6 +1,6 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.4 -->
 [RCF:PROTECTED]
-NOTICE: This repository is protected under RCF-PL v2.0.3.
+NOTICE: This repository is protected under RCF-PL v2.0.4.
 
 "The best defense is logic that cannot be corrupted."
 

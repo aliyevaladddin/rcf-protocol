@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.3 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.4 -->
 # RCF-TECHNICAL-MEASURES — Implementation Guide
 
 **Version:** 2.0.3  

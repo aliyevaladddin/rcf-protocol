@@ -385,7 +385,7 @@ class LegalNoticeGenerator:
         - Legal action under applicable laws
         
         Legal Basis:
-        - RCF Protocol v2.0.3
+        - RCF Protocol v2.0.4
         - [Relevant local laws]
         
         Contact:
