@@ -47,8 +47,8 @@ jobs:
         run: |
           snyk code test --sarif > snyk-code.sarif || true
           if [ ! -s snyk-code.sarif ]; then
-            echo "SARIF file is empty, creating a placeholder to avoid upload error."
-            echo '{"$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","version":"2.1.0","runs":[]}' > snyk-code.sarif
+            echo "SARIF file is empty, creating a valid minimal SARIF to avoid upload error."
+            echo '{"version":"2.1.0","$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","runs":[{"tool":{"driver":{"name":"Snyk Code"}},"results":[]}]}' > snyk-code.sarif
           fi
 
       # Runs Snyk Open Source (SCA) analysis.
@@ -64,4 +64,5 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk-code.sarif
+
 
