@@ -190,6 +190,7 @@ jobs:
       - name: Install & Publish
         working-directory: sdk/typescript
         run: |
+          rm -f .npmrc
           npm ci
           npm publish --access public
         env:
