@@ -190,7 +190,11 @@ jobs:
       - name: Install & Publish
         working-directory: sdk/typescript
         run: |
-          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "ERROR: NPM_TOKEN is empty! Check your GitHub Secrets."
+            exit 1
+          fi
+          npm config set //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
           npm ci
           npm publish --access public
         env:
