@@ -95,6 +95,7 @@ jobs:
         with:
           node-version: 20.x
           cache: 'npm'
+          cache-dependency-path: sdk/typescript/package-lock.json
       - name: Install & Test
         working-directory: ./sdk/typescript
         run: |
@@ -184,6 +185,8 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: sdk/typescript/package-lock.json
       - name: Install & Publish
         working-directory: sdk/typescript
         run: |
