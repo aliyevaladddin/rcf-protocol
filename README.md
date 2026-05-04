@@ -1,5 +1,7 @@
 <!-- NOTICE: This file is protected under RCF-PL v2.0.3.0 -->
 ![Proof HTML](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/rcf-audit-example.yml/badge.svg)
+[![GitHub stars](https://img.shields.io/github/stars/aliyevaladddin/rcf-protocol?style=social)](https://github.com/aliyevaladddin/rcf-protocol)
+
 # RCF Protocol — Restricted Correlation Framework
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
@@ -8,10 +10,11 @@
 [![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 [![GitLab](https://img.shields.io/badge/GitLab-@aladdinaliyev-orange?logo=gitlab)](https://gitlab.com/aladdinaliyev)
 
+
 **Version:** 2.0.3.0 (The Integrity Release)
 **Status:** Active Specification  
 **Category:** Author-Defined Licensing Protocol  
-**Website:** [rcf.aliyev.site](https://rcf.aliyev.site)
+**Website:** [aliyev.site/rcf](https://aliyev.site/rcf)
 
 ---
 
