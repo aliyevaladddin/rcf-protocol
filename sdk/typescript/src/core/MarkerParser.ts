@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.5
+// NOTICE: This file is protected under RCF-PL v2.0.6
 // [RCF:PROTECTED]
 
 import { readFileSync, readdirSync, statSync } from 'fs';

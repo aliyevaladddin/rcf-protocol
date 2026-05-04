@@ -1,8 +1,8 @@
-# RCF Whitepaper v2.0.5
+# RCF Whitepaper v2.0.6
 ## Restricted Correlation Framework: Protecting Code in the Age of Large Language Models
 
 > **Document type:** Technical & Legal Whitepaper  
-> **Version:** 2.0.3 — "The Integrity Release"  
+> **Version:** 2.0.6 — "The Integrity Release"  
 > **Author:** Aladdin Aliyev · Sovereign Code Initiative  
 > **Status:** Active  
 
@@ -22,15 +22,15 @@ The **Restricted Correlation Framework (RCF)** is a licensing protocol designed 
 
 ### 1.1 What Traditional Licenses Protect
 
-MIT, Apache 2.0.3, and GPL licenses were built around a specific threat model: a human developer copying code into their own project. Their protections are designed around:
+MIT, Apache 2.0.6, and GPL licenses were built around a specific threat model: a human developer copying code into their own project. Their protections are designed around:
 
 - Attribution requirements (retain copyright notices)
 - Distribution conditions (share-alike for GPL)
-- Patent grants (Apache 2.0.3)
+- Patent grants (Apache 2.0.6)
 
 None of these mechanisms address automated extraction. A model trained on your code does not "distribute" it. It does not "copy" it in any sense a traditional license contemplates. It *correlates* it — absorbing the logical structure, the algorithmic patterns, and the methodological decisions into its weights.
 
-### 2.0.3 The Gap in Practice: Algorithm X
+### 2.0.6 The Gap in Practice: Algorithm X
 
 Consider a concrete example.
 
@@ -56,7 +56,7 @@ The researcher receives no attribution. No compensation. No notice.
 
 **This is the AI Scraping Gap.**
 
-### 2.0.3 Why This Gap is Structural, Not Incidental
+### 2.0.6 Why This Gap is Structural, Not Incidental
 
 The gap is not a bug in MIT or GPL. It is a structural consequence of those licenses being written before LLMs existed. They protect *text* (the code as written). They do not protect *semantics* (the logic the code encodes).
 
@@ -107,7 +107,7 @@ This is established through layered barriers:
 
 1. `robots.txt` — signals to crawlers before they enter the repository
 2. `NOTICE.md` — top-level legal notice in plain language
-3. Per-file headers — `# NOTICE: This file is protected under RCF-PL v2.0.5`
+3. Per-file headers — `# NOTICE: This file is protected under RCF-PL v2.0.6`
 4. Block-level markers — `[RCF:PROTECTED]` at the point of protected logic
 
 Each layer independently constitutes notice. Together, they create a defensible record that no party can claim ignorance of the license terms.
@@ -172,7 +172,7 @@ Publishing code on GitHub does not grant an unlimited license to exploit it. Cou
 
 See `SPECIFICATION/COMPARISON.md` for the full comparison matrix.
 
-In brief: MIT and Apache 2.0.3 offer no protection against AI training. GPL offers copyleft but only at distribution — a model trained on GPL code and never distributed is not covered. BSL (Business Source License) restricts commercial use but does not specifically address AI extraction.
+In brief: MIT and Apache 2.0.6 offer no protection against AI training. GPL offers copyleft but only at distribution — a model trained on GPL code and never distributed is not covered. BSL (Business Source License) restricts commercial use but does not specifically address AI extraction.
 
 RCF is the only protocol in this set that:
 
@@ -198,7 +198,7 @@ For independent developers, researchers, and small labs, RCF provides the first 
 - DMCA §1201: Anti-Circumvention Provisions
 - DMCA §1202: Copyright Management Information
 - WIPO Copyright Treaty (1996), Articles 11–12
-- `RCF-PL v2.0.5` — Full license text: `LICENSE.md`
+- `RCF-PL v2.0.6` — Full license text: `LICENSE.md`
 - `rcf-cli` — Reference implementation: `sdk/python/rcf_cli`
 - `rcf-guardian` — GitHub Action: `aliyevaladddin/rcf-guardian`
 
@@ -207,6 +207,6 @@ For independent developers, researchers, and small labs, RCF provides the first 
 <div align="right">
 
 *Aladdin Aliyev · Sovereign Code Initiative · 2025*  
-*Protected under RCF-PL v2.0.5*
+*Protected under RCF-PL v2.0.6*
 
 </div>

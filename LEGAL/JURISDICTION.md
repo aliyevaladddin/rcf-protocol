@@ -1,6 +1,6 @@
 # RCF-JURISDICTION — International Applicability
 
-**Version:** 2.0.3  
+**Version:** 2.0.6  
 
 ---
 

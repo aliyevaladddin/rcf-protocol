@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.5 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.6 -->
 # RCF-DOS-ADOPTION — Adoption for Decentralized Operating Systems
 
-**Version:** 2.0.3  
+**Version:** 2.0.6  
 **Target:** dOS Kernels, P2P Protocols, Consensus Engines  
 **Status:** SUPPLEMENTAL GUIDE
 

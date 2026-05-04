@@ -1,4 +1,4 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.5.0 -->
+<!-- NOTICE: This file is protected under RCF-PL v2.0.6.0 -->
 ![Proof HTML](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/rcf-audit-example.yml/badge.svg)
 [![GitHub stars](https://img.shields.io/github/stars/aliyevaladddin/rcf-protocol?style=social)](https://github.com/aliyevaladddin/rcf-protocol)
 
@@ -6,29 +6,29 @@
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
-[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_2.0.3.0-red.svg?style=flat-square)](https://aliyev.site/rcf)
+[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_2.0.6.0-red.svg?style=flat-square)](https://aliyev.site/rcf)
 [![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 [![GitLab](https://img.shields.io/badge/GitLab-@aladdinaliyev-orange?logo=gitlab)](https://gitlab.com/aladdinaliyev)
 
 
-**Version:** 2.0.3.0 (The Integrity Release)
+**Version:** 2.0.6.0 (The Integrity Release)
 **Status:** Active Specification  
 **Category:** Author-Defined Licensing Protocol  
 **Website:** [aliyev.site/rcf](https://aliyev.site/rcf)
 
 ---
 
-## 🆕 What's New in v2.0.5?
+## 🆕 What's New in v2.0.6?
 
-- 🛡️ **Sovereign Code Initiative**: New manifesto and technical whitepaper for v2.0.5.
-- 📦 **SDK Parity**: Version 2.0.3.0 synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`).
+- 🛡️ **Sovereign Code Initiative**: New manifesto and technical whitepaper for v2.0.6.
+- 📦 **SDK Parity**: Version 2.0.6.0 synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`).
 - 📝 **Documentation Update**: Detailed audit usage guides added to SDK READMEs.
 
 ---
 
 ## 🛡️ What is RCF?
 
-**RCF (Restricted Correlation Framework)** is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. RCF-protected works are subject to protection under the Berne Convention and national copyright laws. The RCF-PL v2.0.5 license serves as a conditional grant of visibility rights. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights**.
+**RCF (Restricted Correlation Framework)** is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. RCF-protected works are subject to protection under the Berne Convention and national copyright laws. The RCF-PL v2.0.6 license serves as a conditional grant of visibility rights. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights**.
 
 ### Core Principle: Visibility ≠ Rights
 
@@ -176,4 +176,4 @@ RCF provides specialized measures for dOS to ensure kernel transparency while pr
 ---
 
 **© 2026 Aladdin Aliyev**  
-**All rights reserved under RCF Protocol License v2.0.5**
+**All rights reserved under RCF Protocol License v2.0.6**

@@ -22,7 +22,7 @@ A clear and concise description of what you expected to happen.
  - OS: [e.g. macOS, Ubuntu]
  - Node.js version (if using TS SDK): [e.g. v18.0.0]
  - Python version (if using Python SDK): [e.g. 3.10]
- - RCF Protocol Version: [e.g. 2.0.3]
+ - RCF Protocol Version: [e.g. 2.0.6]
 
 **Additional context**
 Add any other context about the problem here.

@@ -1,9 +1,9 @@
 # RCF-LEGAL — Legal Framework
 
-**Version:** 2.0.3  
+**Version:** 2.0.6  
 **Status:** Active  
 **Category:** Legal Basis  
-**Supersedes:** RCF-LEGAL v2.0.5  
+**Supersedes:** RCF-LEGAL v2.0.6  
 
 ---
 
@@ -11,13 +11,13 @@
 
 The Restricted Correlation Framework (RCF) is grounded in three independent bodies of law that operate simultaneously and reinforce each other.
 
-### 2.0.3 Copyright Law
+### 2.0.6 Copyright Law
 
-RCF-protected works are protected under the **Berne Convention** (179 signatory states) and applicable national copyright law. The `RCF-PL v2.0.5` license constitutes a **conditional grant**: it grants Visibility rights unconditionally, while Usage rights require explicit written authorization.
+RCF-protected works are protected under the **Berne Convention** (179 signatory states) and applicable national copyright law. The `RCF-PL v2.0.6` license constitutes a **conditional grant**: it grants Visibility rights unconditionally, while Usage rights require explicit written authorization.
 
 The act of publishing source code does not constitute an implied license to exploit it. Courts have consistently construed implied licenses narrowly. RCF eliminates ambiguity by making terms explicit and machine-readable at the block level.
 
-### 2.0.3 Contract Law — Acceptance by Use
+### 2.0.6 Contract Law — Acceptance by Use
 
 RCF operates on the doctrine of **Acceptance by Use** (constructive consent). Any party — human or automated — that accesses a file containing RCF markers is deemed to have received legal notice and to have accepted the license terms.
 
@@ -27,12 +27,12 @@ Notice is established through four independent layers:
 |---|---|---|
 | 1 | Crawler signal | `robots.txt` |
 | 2 | Top-level notice | `NOTICE.md` |
-| 3 | Per-file header | `# NOTICE: This file is protected under RCF-PL v2.0.5` |
+| 3 | Per-file header | `# NOTICE: This file is protected under RCF-PL v2.0.6` |
 | 4 | Block-level marker | `[RCF:PROTECTED]`, `[RCF:RESTRICTED]` |
 
 Each layer independently constitutes notice. No party may claim ignorance of the license terms after accessing any file bearing these markers.
 
-### 2.0.3 DMCA Anti-Circumvention
+### 2.0.6 DMCA Anti-Circumvention
 
 The **Digital Millennium Copyright Act (DMCA)** provides two protections directly applicable to RCF:
 
@@ -50,7 +50,7 @@ The **WIPO Copyright Treaty** (1996), adopted by 110+ countries, obligates signa
 
 The core distinction of RCF is the separation of two rights that traditional open-source licenses conflate:
 
-| Right Type | Definition | Status under RCF-PL v2.0.5 |
+| Right Type | Definition | Status under RCF-PL v2.0.6 |
 |---|---|---|
 | **Visibility** | The right to read, study, audit, and manually reference the work | ✅ Granted automatically to all parties |
 | **Usage** | The right to implement, replicate, extract, or train on the logic | ❌ Restricted — requires explicit written authorization |
@@ -113,7 +113,7 @@ This supports enforcement actions by providing independently verifiable evidence
 
 ## 6. Termination of Rights
 
-All rights granted under RCF-PL v2.0.5 are **automatically and immediately terminated** upon any violation of these terms. Termination requires no prior notice, no cure period, and no judicial determination.
+All rights granted under RCF-PL v2.0.6 are **automatically and immediately terminated** upon any violation of these terms. Termination requires no prior notice, no cure period, and no judicial determination.
 
 Upon termination:
 
@@ -128,7 +128,7 @@ Upon termination:
 
 RCF-protected works are provided "as-is" for Visibility purposes. The rights holder makes no warranties regarding the work's fitness for any purpose beyond inspection and audit.
 
-> *This document describes the legal framework of RCF-PL v2.0.5. It is not a substitute for qualified legal counsel. For enforcement actions or jurisdiction-specific guidance, consult a licensed intellectual property attorney.*
+> *This document describes the legal framework of RCF-PL v2.0.6. It is not a substitute for qualified legal counsel. For enforcement actions or jurisdiction-specific guidance, consult a licensed intellectual property attorney.*
 
 ---
 
@@ -136,14 +136,14 @@ RCF-protected works are provided "as-is" for Visibility purposes. The rights hol
 
 | Document | Purpose |
 |---|---|
-| `LICENSE` | Full RCF-PL v2.0.5 license text |
+| `LICENSE` | Full RCF-PL v2.0.6 license text |
 | `LEGAL/DEFINITIONS.md` | Terminology and defined terms |
 | `LEGAL/JURISDICTION.md` | International applicability |
 | `LEGAL/ENFORCEMENT.md` | Enforcement procedures |
-| `WHITE_PAPER_v2.0.5.md` | Technical and legal rationale |
+| `WHITE_PAPER_v2.0.6.md` | Technical and legal rationale |
 | `SPECIFICATION/COMPARISON.md` | RCF vs other licenses |
 
 ---
 
 *© 2026 Aladdin Aliyev · All rights reserved.*  
-*Protected under RCF-PL v2.0.5 · Sovereignty via Restricted Correlation.*
+*Protected under RCF-PL v2.0.6 · Sovereignty via Restricted Correlation.*
