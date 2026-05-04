@@ -140,7 +140,7 @@ rcf-cli verify .
 # Generate a JSON report
 rcf-cli . --format json
 
-# Show summary only
+# Show summary only 
 rcf-cli . --summary
 ```
 
