@@ -1,4 +1,4 @@
-# RCF Whitepaper v2.0.4
+# RCF Whitepaper v2.0.5
 ## Restricted Correlation Framework: Protecting Code in the Age of Large Language Models
 
 > **Document type:** Technical & Legal Whitepaper  
@@ -107,7 +107,7 @@ This is established through layered barriers:
 
 1. `robots.txt` — signals to crawlers before they enter the repository
 2. `NOTICE.md` — top-level legal notice in plain language
-3. Per-file headers — `# NOTICE: This file is protected under RCF-PL v2.0.4`
+3. Per-file headers — `# NOTICE: This file is protected under RCF-PL v2.0.5`
 4. Block-level markers — `[RCF:PROTECTED]` at the point of protected logic
 
 Each layer independently constitutes notice. Together, they create a defensible record that no party can claim ignorance of the license terms.
@@ -198,7 +198,7 @@ For independent developers, researchers, and small labs, RCF provides the first 
 - DMCA §1201: Anti-Circumvention Provisions
 - DMCA §1202: Copyright Management Information
 - WIPO Copyright Treaty (1996), Articles 11–12
-- `RCF-PL v2.0.4` — Full license text: `LICENSE.md`
+- `RCF-PL v2.0.5` — Full license text: `LICENSE.md`
 - `rcf-cli` — Reference implementation: `sdk/python/rcf_cli`
 - `rcf-guardian` — GitHub Action: `aliyevaladddin/rcf-guardian`
 
@@ -207,6 +207,6 @@ For independent developers, researchers, and small labs, RCF provides the first 
 <div align="right">
 
 *Aladdin Aliyev · Sovereign Code Initiative · 2025*  
-*Protected under RCF-PL v2.0.4*
+*Protected under RCF-PL v2.0.5*
 
 </div>

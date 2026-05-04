@@ -1,6 +1,6 @@
 # SOVEREIGN CODE MANIFESTO ⚖️🧠
 
-**Version:**  (RCF v2.0.4 Support)  
+**Version:**  (RCF v2.0.5 Support)  
 **Status:** Active Manifesto  
 **Initiative:** Sovereign Code Initiative  
 

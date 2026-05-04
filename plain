@@ -1,8 +1,8 @@
 rcf-protocol/                           ← Repository root
 │
 ├── README.md                             ← Main file (overview)
-├── LICENSE                               ← RCF-PL v2.0.4 license text
-├── WHITE_PAPER_v2.0.4.md                   ← Technical & Legal Whitepaper
+├── LICENSE                               ← RCF-PL v2.0.5 license text
+├── WHITE_PAPER_v2.0.5.md                   ← Technical & Legal Whitepaper
 ├── SOVEREIGN_CODE.html                   ← Premium Multi-lingual Manifesto
 ├── SOVEREIGN-CODE-MANIFESTO.md           ← Markdown version of the Manifesto
 │
@@ -11,7 +11,7 @@ rcf-protocol/                           ← Repository root
 │   ├── RCF-CORE.md                      ← Core concepts
 │   ├── RCF-ENFORCEMENT.md               ← Technical enforcement measures
 │   ├── RCF-COMPLIANCE.md                ← Compliance checklist
-│   ├── COMPARISON.md                    ← License Comparison Matrix (v2.0.4)
+│   ├── COMPARISON.md                    ← License Comparison Matrix (v2.0.5)
 │   └── RCF-DOS-ADOPTION.md              ← dOS-specific adoption guide
 │
 ├── LEGAL/                               ← Legal documentation
@@ -43,13 +43,13 @@ rcf-protocol/                           ← Repository root
 │   └── RELEASE-NOTES.md                 ← Release details
 │
 ├── sdk/                                 ← SDK and CLI tools
-│   ├── python/                          ← Python implementation (v2.0.4.0)
+│   ├── python/                          ← Python implementation (v2.0.5.0)
 │   │   ├── rcf_cli/                     ← Package source
 │   │   │   ├── cli.py                   ← RCF-CLI logic
 │   │   │   ├── scanner.py               ← Heuristic scanner
 │   │   │   └── action.yml               ← RCF Guardian GitHub Action
 │   │   └── pyproject.toml               ← Packaging config
-│   └── typescript/                      ← Node.js/TypeScript implementation (v2.0.4.0)
+│   └── typescript/                      ← Node.js/TypeScript implementation (v2.0.5.0)
 │       ├── src/                         ← Source code (ESM/NodeNext)
 │       │   ├── cli/                     ← CLI entry point
 │       │   └── core/                    ← Logic, Scanner, Validator

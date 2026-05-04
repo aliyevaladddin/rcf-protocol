@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.4
+// NOTICE: This file is protected under RCF-PL v2.0.5
 // [RCF:PROTECTED]
 
 import { readFileSync, readdirSync, statSync } from 'fs';
@@ -214,7 +214,7 @@ export class Scanner {
   static headerLine(filePath: string): string {
     const ext = extname(filePath).toLowerCase();
     const file = basename(filePath).toLowerCase();
-    const notice = 'NOTICE: This file is protected under RCF-PL v2.0.4';
+    const notice = 'NOTICE: This file is protected under RCF-PL v2.0.5';
     if (['.html', '.xml'].includes(ext)) return `<!-- ${notice} -->\n`;
     if (['.css', '.scss'].includes(ext)) return `/* ${notice} */\n`;
     const prefix = Scanner.commentPrefix(filePath);

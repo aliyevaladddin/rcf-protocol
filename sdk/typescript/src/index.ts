@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.4
+// NOTICE: This file is protected under RCF-PL v2.0.5
 export { MarkerParser } from './core/MarkerParser.js';
 export { Scanner } from './core/Scanner.js';
 export { ComplianceValidator } from './core/ComplianceValidator.js';

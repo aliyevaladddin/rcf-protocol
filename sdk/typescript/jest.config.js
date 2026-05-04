@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.4
+// NOTICE: This file is protected under RCF-PL v2.0.5
 
 /** @type {import('jest').Config} */
 export default {
