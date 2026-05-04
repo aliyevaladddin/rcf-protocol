@@ -1,6 +1,6 @@
 {
   "name": "rcf-protocol-root",
-  "version": "2.0.3.0",
+  "version": "2.0.4",
   "description": "Restricted Correlation Framework - Root Workspace",
   "private": true,
   "scripts": {
@@ -12,6 +12,6 @@
   "author": "Aladdin Aliyev <aladdin@aliyev.site>",
   "license": "RCF-PL v2.0.4",
   "dependencies": {
-    "rcf-protocol": "^2.0.3"
+    "rcf-protocol": "^2.0.4"
   }
 }
