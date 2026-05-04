@@ -191,11 +191,11 @@ jobs:
         working-directory: sdk/typescript
         run: |
           if [ -z "${NODE_AUTH_TOKEN}" ]; then
-            echo "ERROR: NPM_TOKEN is empty! Check your GitHub Secrets."
+            echo "ERROR: NPM_API_TOKEN is empty! Check your GitHub Secrets."
             exit 1
           fi
           npm config set //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
           npm ci
           npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_TOKEN }}
