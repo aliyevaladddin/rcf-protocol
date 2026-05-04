@@ -113,4 +113,4 @@ Example header for protected files:
 
 ## Documentation
 
-For full specification and legal framework details, visit the official site: **[rcf.aliyev.site](https://rcf.aliyev.site)**
+For full specification and legal framework details, visit the official site: **[aliyev.site/rcf](https://aliyev.site/rcf)**

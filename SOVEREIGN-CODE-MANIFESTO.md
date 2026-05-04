@@ -68,4 +68,4 @@ Join the movement. Protect your methodology. Stay open — on your own terms.
 
 **© 2025 Aladdin Aliyev**  
 *Sovereignty via Restricted Correlation.*  
-[rcf.aliyev.site](https://rcf.aliyev.site)
+[aliyev.site/rcf](https://aliyev.site/rcf)

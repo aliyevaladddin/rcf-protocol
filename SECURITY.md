@@ -15,7 +15,7 @@ RCF Protocol and associated tools receive security updates for the following ver
 ### Where to Report
 
 **Email:** aladdin@aliyev.site  
-**PGP Key:** [Download](https://rcf.aliyev.site/pgp-key.txt)  
+**PGP Key:** [Download](https://aliyev.site/rcf/pgp-key.txt)  
 **Fingerprint:** `A1B2 C3D4 E5F6 7890 1234 5678 90AB CDEF 1234 5678`
 
 ### What to Include

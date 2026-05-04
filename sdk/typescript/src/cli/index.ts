@@ -77,7 +77,7 @@ program
       `## ⚠️ AI/ML Training Restriction`,
       `Automated extraction or use for training Machine Learning models is **STRICTLY PROHIBITED**.`,
       ``,
-      `Full protocol: https://rcf.aliyev.site`,
+      `Full protocol: https://aliyev.site/rcf`,
     ].join('\n'));
     console.log(chalk.green('✅ Generated/Updated NOTICE.md for RCF v2.0.3'));
 

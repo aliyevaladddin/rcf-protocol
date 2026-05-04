@@ -66,7 +66,7 @@ Every protected file must include:
 ```python
 # ==============================================================================
 # NOTICE: This file is protected under RCF-PL v2.0.3
-# Restricted Correlation Framework — https://rcf.aliyev.site
+# Restricted Correlation Framework — https://aliyev.site/rcf
 # 
 # VISIBILITY ALLOWED: Manual reading and study
 # USAGE RESTRICTED: See LICENSE for prohibited activities

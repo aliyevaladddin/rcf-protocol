@@ -1,0 +1,193 @@
+name: Sovereign Core Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  release:
+    types: [created]
+  schedule:
+    - cron: '25 11 * * 5' # Для CodeQL
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  security-events: write
+  actions: read
+  id-token: write
+  attestations: write
+  packages: write
+
+jobs:
+  # --- STAGE 1: SECURITY & PREFLIGHT ---
+  security-scan:
+    name: 🛡️ Security Scan (Bearer & Snyk)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      
+      - name: Bearer Scan
+        uses: bearer/bearer-action@828eeb928ce2f4a7ca5ed57fb8b59508cb8c79bc
+        with:
+          api-key: ${{ secrets.BEARER_TOKEN }}
+          format: sarif
+          output: bearer-results.sarif
+          exit-code: 0
+          
+      - name: Snyk Setup
+        uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Snyk Code Test
+        run: |
+          snyk code test --sarif > snyk-code.sarif || true
+          if [ ! -s snyk-code.sarif ]; then
+            echo '{"version":"2.1.0","$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","runs":[{"tool":{"driver":{"name":"Snyk Code"}},"results":[]}]}' > snyk-code.sarif
+          fi
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Upload Security Reports
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: bearer-results.sarif
+          category: bearer
+
+      - name: Upload Snyk Report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk-code.sarif
+          category: snyk
+
+  codeql-analysis:
+    name: 🔍 CodeQL Advanced Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript-typescript', 'python' ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{matrix.language}}"
+
+  # --- STAGE 2: BUILD & TEST ---
+  test-typescript:
+    name: 📦 TypeScript CI
+    needs: [security-scan, codeql-analysis]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20.x
+          cache: 'npm'
+      - name: Install & Test
+        working-directory: ./sdk/typescript
+        run: |
+          npm ci
+          npm test
+
+  test-python:
+    name: 🐍 Python CI
+    needs: [security-scan, codeql-analysis]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.9"
+      - name: Install & Test
+        working-directory: ./sdk/python
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest build
+          pip install -e .
+          pytest tests/
+
+  # --- STAGE 3: COMPLIANCE AUDIT ---
+  rcf-audit:
+    name: ⚖️ RCF Compliance Audit
+    needs: [test-typescript, test-python]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run RCF Audit
+        uses: ./.github/actions/rcf-audit
+        with:
+          license-key: ${{ secrets.RCF_LICENSE_KEY }}
+          path: '.'
+      - name: Upload Audit Report
+        uses: actions/upload-artifact@v7
+        with:
+          name: rcf-audit-report
+          path: RCF-AUDIT-REPORT.json
+
+  # --- STAGE 4: RELEASE & DEPLOY ---
+  publish-pypi:
+    name: 🚀 Publish PyPI & Attest
+    if: github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    needs: rcf-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+      - name: Build
+        working-directory: sdk/python
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+          python -m build
+      - name: Generate build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: 'sdk/python/dist/*'
+      - name: Publish to PyPI
+        working-directory: sdk/python
+        run: python -m twine upload --skip-existing dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v2
+        if: github.event_name == 'release'
+        with:
+          files: sdk/python/dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-npm:
+    name: 🚀 Publish NPM & Attest
+    if: github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    needs: rcf-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install & Publish
+        working-directory: sdk/typescript
+        run: |
+          npm ci
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

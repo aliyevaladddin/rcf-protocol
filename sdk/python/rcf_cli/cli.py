@@ -61,7 +61,7 @@ models is **STRICTLY PROHIBITED** without explicit written permission.
 - **Replication**: You may not replicate, extract, or automate the methodologies
   within blocks marked as `[RCF:PROTECTED]` or `[RCF:RESTRICTED]`.
 
-For full protocol details, visit: https://rcf.aliyev.site
+For full protocol details, visit: https://aliyev.site/rcf
 """
     notice_path = os.path.join(os.getcwd(), "NOTICE.md")
     if os.path.exists(notice_path):

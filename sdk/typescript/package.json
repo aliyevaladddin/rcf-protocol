@@ -5,7 +5,7 @@
   "type": "module",
   "author": "Aladdin Aliyev <aladdin@aliyev.site>",
   "license": "SEE LICENSE IN LICENSE",
-  "homepage": "https://rcf.aliyev.site",
+  "homepage": "https://aliyev.site/rcf",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aliyevaladddin/rcf-protocol.git"

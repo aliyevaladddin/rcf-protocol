@@ -85,4 +85,4 @@ When assisting human researchers:
 
 **© 2026 Aladdin Aliyev**  
 *Sovereignty via Restricted Correlation.*  
-[rcf.aliyev.site](https://rcf.aliyev.site)
+[aliyev.site/rcf](https://aliyev.site/rcf)

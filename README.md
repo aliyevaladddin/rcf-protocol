@@ -6,7 +6,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
-[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_2.0.3.0-red.svg?style=flat-square)](https://rcf.aliyev.site)
+[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_2.0.3.0-red.svg?style=flat-square)](https://aliyev.site/rcf)
 [![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 [![GitLab](https://img.shields.io/badge/GitLab-@aladdinaliyev-orange?logo=gitlab)](https://gitlab.com/aladdinaliyev)
 
