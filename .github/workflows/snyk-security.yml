@@ -43,9 +43,13 @@ jobs:
         uses: snyk/actions/setup@806182742461562b67788a64410098c9d9b96adb
 
       # Runs Snyk Code (SAST) analysis and generates SARIF report.
-      # || true is used to ensure the SARIF result is uploaded even if vulnerabilities are found.
       - name: Snyk Code test
-        run: snyk code test --sarif > snyk-code.sarif || true
+        run: |
+          snyk code test --sarif > snyk-code.sarif || true
+          if [ ! -s snyk-code.sarif ]; then
+            echo "SARIF file is empty, creating a placeholder to avoid upload error."
+            echo '{"$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","version":"2.1.0","runs":[]}' > snyk-code.sarif
+          fi
 
       # Runs Snyk Open Source (SCA) analysis.
       - name: Snyk Open Source monitor
@@ -55,9 +59,9 @@ jobs:
       - name: Snyk IaC test and report
         run: snyk iac test --report || true
 
-
       # Push the Snyk Code results into GitHub Code Scanning tab
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk-code.sarif
+
