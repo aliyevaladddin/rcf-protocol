@@ -1,5 +1,5 @@
 <!-- NOTICE: This file is protected under RCF-PL v2.0.6.0 -->
-![Proof HTML](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/rcf-audit-example.yml/badge.svg)
+![Proof HTML](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml/badge.svg)
 [![GitHub stars](https://img.shields.io/github/stars/aliyevaladddin/rcf-protocol?style=social)](https://github.com/aliyevaladddin/rcf-protocol)
 
 # RCF Protocol — Restricted Correlation Framework
