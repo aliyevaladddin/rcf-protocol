@@ -157,7 +157,7 @@ jobs:
           pip install build twine
           python -m build
       - name: Generate build provenance
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: 'sdk/python/dist/*'
       - name: Publish to PyPI
