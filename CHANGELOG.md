@@ -3,6 +3,14 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.0] - 2026-05-19
+
+### Added
+- **Secure Licensing Verification**: Converted licensing checks from GET query parameters to encrypted HTTP POST requests to prevent leakages in standard access logs.
+- **Dynamic Project Identification**: Automatic contextual project binding based on `NOTICE.md` and `package.json` tags.
+- **Improved Security and Robustness**: Complete database integration using transactional PostgreSQL functions (verify_and_increment_license RPC).
+- **Synchronized SDKs**: Version 2.1.0 release fully matching in NPM and PyPI.
+
 ## [2.0.6.0] - 2026-04-12
 
 ### Added

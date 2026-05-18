@@ -1,4 +1,4 @@
-// NOTICE: This file is protected under RCF-PL v2.0.6
+// NOTICE: This file is protected under RCF-PL
 // [RCF:PROTECTED]
 
 import { readFileSync, readdirSync, statSync } from 'fs';
@@ -6,7 +6,7 @@ import { join, relative, extname } from 'path';
 import { MarkerType, RCFMarker, FileScanResult } from './types.js';
 
 const MARKER_REGEX = /\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE)\]/g;
-const HEADER_REGEX = /NOTICE: This file is protected under RCF-PL v[\d.]+/;
+const HEADER_REGEX = /NOTICE: This file is protected under RCF-PL(?: v[\d.]+)?/;
 
 const SCANNABLE_EXTENSIONS = new Set([
   '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs',

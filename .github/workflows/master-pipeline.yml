@@ -99,7 +99,7 @@ jobs:
       - name: Install & Test
         working-directory: ./sdk/typescript
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm test
 
   test-python:

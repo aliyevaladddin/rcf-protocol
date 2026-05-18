@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.6 -->
-# RCF Ghost Shield — Python Edition 🛡️🐍
+<!-- NOTICE: This file is protected under RCF-PL -->
+# RCF CLI — Python Edition 🛡️🐍
 
-The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol v2.0.6 "Ghost Protocol"**.
+The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol Active Integrity & Audit Framework**.
 
 RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights** using cryptographic integrity chains.
 
@@ -15,46 +15,46 @@ pip install rcf-cli
 
 ## Features
 
-- **Ghost Shield Protection**: Active enforcement of RCF-PL v2.0.6 standards across your codebase.
+- **Audit Shield Protection**: Active enforcement of RCF-PL standards across your codebase.
 - **Project Initialization**: Instantly generate `NOTICE.md` and `.rcfignore` files to protect your project.
-- **Automated Scanning**: Quickly scan projects for RCF compliance and extract Ghost Markers.
-- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL v2.0.6` header.
-- **RCF-Audit v2.0.6**: Generate cryptographically signed compliance reports for enterprise auditing.
-- **Integrity Chains**: Compare current file hashes and Ghost Markers against an audit report to detect unauthorized modifications, tampering, or "Void Shell" imitations.
+- **Automated Scanning**: Quickly scan projects for RCF compliance and extract Audit Markers.
+- **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL` header.
+- **RCF-Audit**: Generate cryptographically signed compliance reports for enterprise auditing.
+- **Integrity Chains**: Compare current file hashes and Audit Markers against an audit report to detect unauthorized modifications or tampering.
 
 
 ## CLI Usage
 
-### 1. Initialize RCF Ghost Shield in your project
+### 1. Initialize RCF in your project
 
 Run this in your project's root directory to generate the legal notice:
 
 ```bash
-rcf-ghost-shield init --project "My awesome app" --author "Aladdin Aliyev"
+rcf-cli init --project "My awesome app" --author "Aladdin Aliyev"
 ```
 
 ### 2. Scan your project
 
 ```bash
 # Scan the current directory
-rcf-ghost-shield .
+rcf-cli .
 
 # Output scan results as JSON
-rcf-ghost-shield . --format json
+rcf-cli . --format json
 
 # Print summary only
-rcf-ghost-shield . --summary
+rcf-cli . --summary
 ```
 
-### 3. Generate an RCF-Audit Report (v2.0.6)
+### 3. Generate an RCF-Audit Report
 
 ```bash
 # Provide license key via flag
-rcf-ghost-shield audit . --license-key RCF-AUDIT-XXXX-XXXX
+rcf-cli audit . --license-key RCF-AUDIT-XXXX-XXXX
 
 # Or use environment variable
 export RCF_LICENSE_KEY=RCF-AUDIT-XXXX-XXXX
-rcf-ghost-shield audit .
+rcf-cli audit .
 ```
 
 ### 4. Verify Project Integrity
@@ -62,10 +62,10 @@ rcf-ghost-shield audit .
 Compare current files with the latest audit report:
 
 ```bash
-rcf-ghost-shield verify .
+rcf-cli verify .
 
 # Show summary only
-rcf-ghost-shield verify . --summary
+rcf-cli verify . --summary
 ```
 
 ## Markers Reference
@@ -74,13 +74,13 @@ RCF uses semantic markers to define protection levels. Place these inside code c
 - `[RCF:PUBLIC]` — Architecture and public concepts. Safe to discuss.
 - `[RCF:PROTECTED]` — Core methodology. Visible but **not replicable**.
 - `[RCF:RESTRICTED]` — Highly sensitive implementation. Minimal rights.
-- `[RCF:GHOST:HASH]` — **New in v2.0.6**: Cryptographic marker for active integrity verification.
+- `[RCF:AUDIT:HASH]` — Cryptographic marker for active integrity verification.
 
 Example header for protected files:
 ```python
-# NOTICE: This file is protected under RCF-PL v2.0.6
+# NOTICE: This file is protected under RCF-PL
 # [RCF:PROTECTED]
-# [RCF:GHOST:6A...F3]
+# [RCF:AUDIT:6A...F3]
 ```
 
 ## Documentation

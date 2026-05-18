@@ -185,7 +185,7 @@ class RCFEnforcement:
 
 To be RCF-compliant, a project MUST:
 
-- [ ] Include `LICENSE` file with RCF-PL v1.3 text
+- [ ] Include `LICENSE` file with RCF-PL text
 - [ ] Include `NOTICE.md` with project-specific warnings
 - [ ] Mark protected code sections with RCF markers
 - [ ] Document protection scope in README
@@ -274,7 +274,7 @@ Community feedback is welcomed through:
 
 ### 7.3 Backwards Compatibility
 
-RCF-PL v1.x licenses remain valid for projects that adopted them,  
+RCF-PL  licenses remain valid for projects that adopted them,  
 even if newer specification versions are released.
 
 ---
