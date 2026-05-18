@@ -7,12 +7,12 @@
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
-[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_2.0.6.0-red.svg?style=flat-square)](https://aliyev.site/rcf)
+[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_2.1.0-red.svg?style=flat-square)](https://aliyev.site/rcf)
 [![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 [![GitLab](https://img.shields.io/badge/GitLab-@aladdinaliyev-orange?logo=gitlab)](https://gitlab.com/aladdinaliyev)
 
 
-**Version:** Active
+**Version:** 2.1.0
 **Status:** Active Specification  
 **Category:** Author-Defined Licensing Protocol  
 **Website:** [aliyev.site/rcf](https://aliyev.site/rcf)
@@ -22,7 +22,7 @@
 ## 🆕 What's New in Active?
 
 - 🛡️ **Sovereign Code Initiative**: New manifesto and technical whitepaper for Active.
-- 📦 **SDK Parity**: Version: Active synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`).
+- 📦 **SDK Parity**: Version: 2.1.0 synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`).
 - 📝 **Documentation Update**: Detailed audit usage guides added to SDK READMEs.
 
 ---
@@ -177,4 +177,4 @@ RCF provides specialized measures for dOS to ensure kernel transparency while pr
 ---
 
 **© 2026 Aladdin Aliyev**  
-**All rights reserved under RCF Protocol License Active**
+**All rights reserved under RCF Protocol License 2.1.0**

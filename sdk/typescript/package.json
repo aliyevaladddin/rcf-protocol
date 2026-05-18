@@ -1,7 +1,7 @@
 {
   "name": "rcf-protocol",
-  "version": "2.0.7",
-  "description": "RCF Ghost Shield — Active Protection Framework (TypeScript Edition)",
+  "version": "2.1.0",
+  "description": "RCF CLI — Active Integrity & Protection Framework (TypeScript Edition)",
   "type": "module",
   "author": "Aladdin Aliyev <aladdin@aliyev.site>",
   "license": "SEE LICENSE IN LICENSE",
@@ -13,8 +13,7 @@
   "main": "dist/cli/index.js",
   "bin": {
     "rcf-cli": "dist/cli/index.js",
-    "rcf-protocol": "dist/cli/index.js",
-    "rcf-ghost-shield": "dist/cli/index.js"
+    "rcf-protocol": "dist/cli/index.js"
   },
   "files": [
     "dist/",
@@ -33,12 +32,12 @@
     "commander": "^14.0.3"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^25.8.0",
     "jest": "^30.4.2",
     "ts-jest": "^29.0.0",
     "ts-node": "^10.9.0",
-    "typescript": "^6.0.3",
-    "@types/jest": "^30.0.0"
+    "typescript": "^6.0.3"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v2.0
+# NOTICE: This file is protected under RCF-PL
 import os
 import re
 from pathlib import Path
@@ -8,10 +8,9 @@ class RCFScanner:
     """Scans files and directories for RCF protocol markers."""
 
     MARKER_PATTERN = re.compile(r'\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE)\]')
-    GHOST_PATTERN  = re.compile(r'\[RCF:GHOST:([a-fA-F0-9]{16,64})\]')
-    HEADER_PATTERN = re.compile(r'NOTICE: This file is protected under RCF-PL v2\.0')
+    HEADER_PATTERN = re.compile(r'NOTICE: This file is protected under RCF-PL(?: v[\d.]+)?')
 
-    # Эвристики: паттерны, указывающие на защищаемую логику
+    # Heuristics: patterns pointing to protected logic
     LOGIC_PATTERNS = [
         re.compile(r'^\s*abstract\s+class\s+\w+', re.MULTILINE | re.IGNORECASE),
         re.compile(r'^\s*(export\s+)?(class|interface|type|enum)\s+\w+', re.MULTILINE | re.IGNORECASE),
@@ -28,18 +27,6 @@ class RCFScanner:
         '.cs', '.rb', '.php', '.swift', '.kt', '.scala', '.tsx',
         '.jsx', '.mjs', '.cjs', '.md', 'makefile', '.s', '.h'
     }
-
-    @staticmethod
-    def generate_ghost_marker(content: str, secret_key: str) -> str:
-        """Generates a dynamic Ghost Marker signature (16-char HMAC)."""
-        import hmac
-        import hashlib
-        signature = hmac.new(
-            secret_key.encode(),
-            content.strip().encode(),
-            hashlib.sha256
-        ).hexdigest()[:16]
-        return f"RCF:GHOST:{signature}"
 
     def __init__(self, root_path, ignore_list=None, verbose=False):
         self.root_path = Path(root_path).resolve()
@@ -89,7 +76,7 @@ class RCFScanner:
         for i, line in enumerate(lines, start=1):
             for pattern in self.LOGIC_PATTERNS:
                 if pattern.search(line):
-                    # Проверяем: есть ли маркер в ближайших 5 строках выше
+                    # Check: has a marker in the 5 lines above
                     context_start = max(0, i - 6)
                     context = '\n'.join(lines[context_start:i])
                     if not self.MARKER_PATTERN.search(context):
@@ -98,7 +85,7 @@ class RCFScanner:
                             'type': _classify_line(line),
                             'snippet': line.strip()[:80]
                         })
-                    break  # одна находка на строку достаточно
+                    break  # one finding per line is enough
 
         return findings
 
@@ -110,7 +97,6 @@ class RCFScanner:
             return {'path': str(file_path), 'error': str(e)}
 
         markers = self.MARKER_PATTERN.findall(content)
-        ghost_markers = self.GHOST_PATTERN.findall(content)
         has_header = bool(self.HEADER_PATTERN.search(content))
         unprotected_logic = self.detect_unprotected_logic(file_path)
 
@@ -120,15 +106,14 @@ class RCFScanner:
             rel_path = str(file_path)
 
         if self.verbose:
-            status = 'PROTECTED' if (markers or has_header or ghost_markers) else 'UNPROTECTED'
-            print(f"[rcf] {status:12s} {rel_path}  markers={markers} ghost={len(ghost_markers)}  unprotected_blocks={len(unprotected_logic)}")
+            status = 'PROTECTED' if (markers or has_header) else 'UNPROTECTED'
+            print(f"[rcf] {status:12s} {rel_path}  markers={markers}  unprotected_blocks={len(unprotected_logic)}")
 
         return {
             'path': rel_path,
             'markers': list(set(markers)),
-            'ghost_markers': [g.lower() for g in ghost_markers],
             'has_header': has_header,
-            'is_protected': bool(markers) or has_header or bool(ghost_markers),
+            'is_protected': bool(markers) or has_header,
             'unprotected_logic': unprotected_logic,
             'has_unprotected_logic': len(unprotected_logic) > 0,
         }

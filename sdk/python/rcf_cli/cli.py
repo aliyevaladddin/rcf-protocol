@@ -1,4 +1,4 @@
-# NOTICE: This file is protected under RCF-PL v2.0.6
+# NOTICE: This file is protected under RCF-PL
 import argparse
 import sys
 import json
@@ -7,6 +7,7 @@ import hashlib
 import re
 from datetime import datetime
 from pathlib import Path
+import urllib.request
 from rcf_cli.scanner import RCFScanner
 
 # [RCF:PROTECTED]
@@ -47,7 +48,7 @@ def init_project(args):
 
     notice_content = f"""# RCF-PL NOTICE
 
-This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v2.0.6 "Ghost Protocol"**.
+This project (**{project_name}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL)**.
 
 Copyright (c) {year} {author_name}. All rights reserved.
 
@@ -68,7 +69,7 @@ For full protocol details, visit: https://aliyev.site/rcf
         print("⚠️  NOTICE.md already exists. Skipping.")
     else:
         Path(notice_path).write_text(notice_content, encoding='utf-8')
-        print("✅ Generated NOTICE.md with RCF-PL v2.0.6 protections.")
+        print("✅ Generated NOTICE.md with RCF-PL protections.")
 
     rcfignore_path = os.path.join(os.getcwd(), ".rcfignore")
     if not os.path.exists(rcfignore_path):
@@ -78,32 +79,81 @@ For full protocol details, visit: https://aliyev.site/rcf
         )
         print("✅ Generated .rcfignore.")
 
-    print(f"🎉 RCF Protocol initialized for '{project_name}'.")
+    print(f"🎉 RCF initialized for '{project_name}'.")
+
+
+def detect_project_name(root: str) -> str:
+    notice_path = os.path.join(root, "NOTICE.md")
+    if os.path.exists(notice_path):
+        try:
+            with open(notice_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                match = re.search(r"This project \(\*\*(.*?)\*\*\)", content)
+                if match:
+                    return match.group(1).strip()
+        except Exception:
+            pass
+
+    pkg_path = os.path.join(root, "package.json")
+    if os.path.exists(pkg_path):
+        try:
+            with open(pkg_path, "r", encoding="utf-8") as f:
+                data = json.loads(f.read())
+                if "name" in data:
+                    return data["name"]
+        except Exception:
+            pass
+
+    return os.path.basename(root)
 
 
 def audit_project(args):
+    target = os.path.abspath(args.path)
     license_key = args.license_key or os.environ.get("RCF_LICENSE_KEY", "")
-    admin_key_hash = "74bc881f2c077802" # RCF Ghost Admin Slice (v2.0.6)
+    admin_key_hash = "74bc881f2c077802" # RCF Admin Slice
     provided_key_hash = hashlib.sha256(license_key.encode()).hexdigest()[:16] if license_key else ""
 
-    if provided_key_hash == admin_key_hash:
-        pass  # admin bypass
-    elif not license_key:
-        print("❌ RCF-PL ERROR: License key missing. 'audit' is a premium feature.")
-        print("   Set --license-key or RCF_LICENSE_KEY env variable.")
-        sys.exit(1)
-    elif not license_key.startswith("RCF-AUDIT-"):
-        print("❌ RCF-PL ERROR: Invalid license key format. Must start with 'RCF-AUDIT-'.")
-        sys.exit(1)
-
-    target = os.path.abspath(args.path)
+    if provided_key_hash != admin_key_hash:
+        if not license_key:
+            print("❌ RCF-PL ERROR: License key missing. 'audit' is a premium feature.")
+            print("   Purchase a key at: https://aliyev.site/rcf")
+            print("   Then set --license-key or RCF_LICENSE_KEY env variable.")
+            sys.exit(1)
+        if not license_key.startswith("RCF-AUDIT-"):
+            print("❌ RCF-PL ERROR: Invalid license key format. Must start with 'RCF-AUDIT-'.")
+            print("   Purchase a valid key at: https://aliyev.site/rcf")
+            sys.exit(1)
+        project_name = detect_project_name(target)
+        print(f"📡 Verifying license key for '{project_name}' with aliyev.site...")
+        try:
+            url = "https://aliyev.site/api/rcf-verify"
+            post_data = json.dumps({"key": license_key, "project": project_name}).encode('utf-8')
+            req = urllib.request.Request(
+                url,
+                data=post_data,
+                headers={"Content-Type": "application/json"},
+                method="POST"
+            )
+            with urllib.request.urlopen(req, timeout=5) as response:
+                if response.getcode() != 200:
+                    raise Exception("Invalid status code")
+                body = response.read().decode('utf-8')
+                data = json.loads(body)
+                if data.get("valid") is not True:
+                    raise Exception("JSON valid flag not true")
+        except Exception:
+            print("❌ RCF-PL ERROR: License key is invalid, expired, or not found in database.")
+            print("   Purchase a valid key at: https://aliyev.site/rcf")
+            sys.exit(1)
+        
+        print("✅ License key verified successfully.")
     scanner = RCFScanner(target, verbose=args.verbose)
     results = scanner.scan_directory(include_protected=True)
 
     audit_report = {
-        "rcf_version": "2.0.6",
+
         "timestamp": datetime.now().isoformat(),
-        "audit_type": "RCF-Audit v2.0.6 (Ghost Shield)",
+        "audit_type": "RCF-Audit",
         "root": target,
         "protected_assets": []
     }
@@ -111,14 +161,10 @@ def audit_project(args):
     for res in results:
         file_path = os.path.join(target, res['path'])
         
-        # Mask ghost markers for the report (only keep prefix/suffix)
-        masked_ghost = [f"{g[:8]}...{g[-8:]}" for g in res.get('ghost_markers', [])]
-        
         try:
             audit_report["protected_assets"].append({
                 "file": res['path'],
                 "markers": res['markers'],
-                "ghost_markers": masked_ghost,
                 "sha256": _sha256(file_path)
             })
         except Exception as e:
@@ -222,7 +268,7 @@ def verify_file_standalone(args):
     print()
 
     if current_hash == stored_hash:
-        print(f"✅ VERIFIED — file matches audit record (RCF v2.0.6)")
+        print(f"✅ VERIFIED — file matches audit record")
         print(f"   SHA-256: {current_hash}")
         sys.exit(0)
     else:
@@ -334,9 +380,9 @@ def protect_project(args):
         # Add file header if missing
         if not res['has_header']:
             if file_path.endswith(('.md', '.html')):
-                header = '<!-- NOTICE: This file is protected under RCF-PL v2.0.6 -->\n'
+                header = '<!-- NOTICE: This file is protected under RCF-PL -->\n'
             else:
-                header = '# NOTICE: This file is protected under RCF-PL v2.0.6\n'
+                header = '# NOTICE: This file is protected under RCF-PL\n'
             new_lines.append(header)
 
         # Insert markers before unprotected logic lines
@@ -384,10 +430,10 @@ def main():
             sys.argv.insert(1, 'verify')
 
     parser = argparse.ArgumentParser(
-        prog='rcf-ghost-shield',
-        description='RCF Ghost Shield v2.0.6 — Active Protection Framework'
+        prog='rcf-cli',
+        description='RCF CLI — Active Protection Framework'
     )
-    parser.add_argument('--version', action='version', version='rcf-ghost-shield 2.0.6')
+    parser.add_argument('--version', action='version', version='rcf-cli 2.1.0')
     subparsers = parser.add_subparsers(dest="command", metavar="<command>")
 
     # init

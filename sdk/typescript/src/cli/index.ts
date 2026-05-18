@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// NOTICE: This file is protected under RCF-PL v2.0.6
+// NOTICE: This file is protected under RCF-PL
 // [RCF:PROTECTED]
 
 import { Command } from 'commander';
@@ -7,6 +7,7 @@ import chalk from 'chalk';
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'fs';
 import { resolve, join, relative, extname, basename, dirname } from 'path';
 import { createHash } from 'crypto';
+import * as https from 'https';
 import { fileURLToPath } from 'url';
 import { MarkerParser } from '../core/MarkerParser.js';
 import { ComplianceValidator } from '../core/ComplianceValidator.js';
@@ -17,39 +18,38 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const program = new Command();
 
-const GHOST_BANNER = `
-    ${chalk.bold.cyan('╔══════════════════════════════════════════════════════════╗')}
-    ${chalk.bold.cyan('║')}  ${chalk.bold.white('🛡️  RCF GHOST SHIELD — PROTOCOL v2.0.6')}               ${chalk.bold.cyan('║')}
-    ${chalk.bold.cyan('║')}  ${chalk.gray('Sovereign Code Protection | Aladdin Aliyev')}         ${chalk.bold.cyan('║')}
-    ${chalk.bold.cyan('╚══════════════════════════════════════════════════════════╝')}
+const AUDIT_BANNER = `
+  ${chalk.bold.white('██████╗  ██████╗███████╗   ')}${chalk.bold.red('           ██╗        ██╗')}
+  ${chalk.bold.white('██╔══██╗██╔════╝██╔════╝   ')}${chalk.bold.red('   ██╗    ██╔╝       ██╔╝')}
+  ${chalk.bold.white('██████╔╝██║     █████╗     ')}${chalk.bold.red('   ╚═╝   ██╔╝       ██╔╝ ')}
+  ${chalk.bold.white('██╔══██╗██║     ██╔══╝     ')}${chalk.bold.red('   ██╗  ██╔╝       ██╔╝  ')}
+  ${chalk.bold.white('██║  ██║╚██████╗██║        ')}${chalk.bold.red('   ╚═╝ ██╔╝       ██╔╝   ')}
+  ${chalk.bold.white('╚═╝  ╚═╝ ╚═════╝╚═╝        ')}${chalk.bold.red('      ╚═╝        ╚═╝     ')}
+
+  ${chalk.cyan('🛡️  RCF Protocol — Restricted Correlation Framework')}
+  ${chalk.gray('Sovereign Code Protection | Aladdin Aliyev')}
 `;
 
 program
-  .name('rcf-ghost-shield')
-  .description('RCF Ghost Shield CLI v2.0.6 — Active Protection Framework')
-  .version('2.0.6')
-  .addHelpText('before', GHOST_BANNER)
+  .name('rcf-cli')
+  .description('RCF Protocol — Restricted Correlation Framework')
+  .version('2.1.0')
+  .addHelpText('before', AUDIT_BANNER)
   .arguments('[path]')
-  .option('-k, --key <secret>', 'Secret key for Ghost Protocol (optional for scan)')
   .option('-v, --verbose', 'show details')
   .action((pathArg, options) => {
     const path = pathArg ?? '.';
     console.log(chalk.cyan(`◈ Running default scan for: ${path}`));
-    if (options.key) {
-      program.commands.find(c => c.name() === 'verify')?.parse(['verify', path, '--key', options.key], { from: 'user' });
-    } else {
-      console.log(chalk.yellow('⚠️  No secret key provided. Performing basic compliance scan...'));
-      const scanner = new Scanner();
-      const results = scanner.scanDirectory(resolve(path));
-      console.log(chalk.bold(`\nScan complete. Found ${results.length} files needing attention.`));
-    }
+    const scanner = new Scanner();
+    const results = scanner.scanDirectory(resolve(path));
+    console.log(chalk.bold(`\nScan complete. Found ${results.length} files needing attention.`));
   });
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 
 program
   .command('init')
-  .description('Initialize RCF Ghost Protocol in the current project')
+  .description('Initialize RCF in the current project')
   .option('--project <name>', 'Project name')
   .option('--author <name>', 'Author name')
   .action((options) => {
@@ -59,27 +59,27 @@ program
 
     const noticePath = join(process.cwd(), 'NOTICE.md');
     if (existsSync(noticePath)) {
-      console.log(chalk.yellow('⚠️  NOTICE.md already exists. Updating for v2.0.6.'));
+      console.log(chalk.yellow('⚠️  NOTICE.md already exists. Updating.'));
     }
 
     writeFileSync(noticePath, [
-      `# RCF-PL NOTICE — Ghost Protocol`,
+      `# RCF-PL NOTICE — Sovereign Code Protection`,
       ``,
-      `This project (**${projectName}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL) v2.0.6**.`,
+      `This project (**${projectName}**) is protected under the **Restricted Correlation Framework Protocol License (RCF-PL)**.`,
       ``,
       `Copyright (c) ${year} ${author}. All rights reserved.`,
       ``,
       `## 🚨 ACTIVE ENFORCEMENT`,
-      `This code implements **Active Integrity Chains**. Unauthorized modification,`,
+      `This code implements **Active Integrity Verification**. Unauthorized modification,`,
       `replication, or analysis by AI/ML models will trigger automatic`,
-      `execution termination and forensic logging.`,
+      `forensic logging.`,
       ``,
       `## ⚠️ AI/ML Training Restriction`,
       `Automated extraction or use for training Machine Learning models is **STRICTLY PROHIBITED**.`,
       ``,
       `Full protocol: https://aliyev.site/rcf`,
     ].join('\n'));
-    console.log(chalk.green('✅ Generated/Updated NOTICE.md for RCF v2.0.6'));
+    console.log(chalk.green('✅ Generated/Updated NOTICE.md for RCF'));
 
     const ignorePath = join(process.cwd(), '.rcfignore');
     if (!existsSync(ignorePath)) {
@@ -87,7 +87,7 @@ program
       console.log(chalk.green('✅ Generated .rcfignore'));
     }
 
-    console.log(chalk.bold.green(`\n🎉 RCF Ghost Protocol initialized for '${projectName}'.`));
+    console.log(chalk.bold.green(`\n🎉 RCF initialized for '${projectName}'.`));
   });
 
 // ─── AUDIT ───────────────────────────────────────────────────────────────────
@@ -99,24 +99,90 @@ program
   .option('-v, --verbose', 'show details')
   .action(async (pathArg = '.', options) => {
     const licenseKey = options.licenseKey ?? process.env['RCF_LICENSE_KEY'];
-    const adminKeyHash = '74bc881f2c077802'; // RCF Ghost Admin Slice (v2.0.6)
+    const adminKeyHash = '74bc881f2c077802'; // RCF Admin Slice
     const providedKeyHash = licenseKey
       ? createHash('sha256').update(licenseKey).digest('hex').slice(0, 16)
       : '';
 
+    const root = resolve(pathArg);
+
+    function detectProjectName(dir: string): string {
+      const noticePath = join(dir, 'NOTICE.md');
+      if (existsSync(noticePath)) {
+        try {
+          const content = readFileSync(noticePath, 'utf8');
+          const match = content.match(/This project \(\*\*(.*?)\*\*\)/);
+          if (match && match[1]) {
+            return match[1].trim();
+          }
+        } catch (e) { }
+      }
+      const pkgPath = join(dir, 'package.json');
+      if (existsSync(pkgPath)) {
+        try {
+          const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
+          if (pkg.name) return pkg.name;
+        } catch (e) { }
+      }
+      return basename(dir);
+    }
+
     if (providedKeyHash !== adminKeyHash) {
       if (!licenseKey) {
         console.log(chalk.red("❌ RCF-PL ERROR: License key missing. 'audit' is a premium feature."));
-        console.log(chalk.gray('   Set --license-key or RCF_LICENSE_KEY env variable.'));
+        console.log(chalk.gray('   Purchase a key at: https://aliyev.site/rcf'));
+        console.log(chalk.gray('   Then set --license-key or RCF_LICENSE_KEY env variable.'));
         process.exit(1);
       }
       if (!licenseKey.startsWith('RCF-AUDIT-')) {
         console.log(chalk.red("❌ RCF-PL ERROR: Invalid license key format. Must start with 'RCF-AUDIT-'."));
+        console.log(chalk.gray('   Purchase a valid key at: https://aliyev.site/rcf'));
         process.exit(1);
       }
-    }
 
-    const root = resolve(pathArg);
+      const projectName = detectProjectName(root);
+
+      console.log(chalk.yellow(`📡 Verifying license key for '${projectName}' with aliyev.site...`));
+      const isOnlineValid = await new Promise<boolean>((resolveValidation) => {
+        const postData = JSON.stringify({ key: licenseKey, project: projectName });
+        const req = https.request({
+          hostname: 'aliyev.site',
+          port: 443,
+          path: '/api/rcf-verify',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(postData),
+          },
+        }, (res) => {
+          let data = '';
+          res.on('data', chunk => data += chunk);
+          res.on('end', () => {
+            try {
+              const json = JSON.parse(data);
+              resolveValidation(res.statusCode === 200 && json.valid === true);
+            } catch (e) {
+              resolveValidation(false);
+            }
+          });
+        });
+
+        req.on('error', () => {
+          console.log(chalk.red("❌ Network Error: Could not reach aliyev.site to verify license."));
+          resolveValidation(false);
+        });
+
+        req.write(postData);
+        req.end();
+      });
+
+      if (!isOnlineValid) {
+        console.log(chalk.red("❌ RCF-PL ERROR: License key is invalid, expired, or not found in database."));
+        console.log(chalk.gray('   Purchase a valid key at: https://aliyev.site/rcf'));
+        process.exit(1);
+      }
+      console.log(chalk.green("✅ License key verified successfully."));
+    }
     console.log(chalk.cyan(`◈ Generating Audit Report for: ${root}`));
 
     const parser = new MarkerParser(root);
@@ -124,7 +190,7 @@ program
     const validator = new ComplianceValidator();
     const report = validator.generateReport(results, root);
 
-    report.audit_type = 'RCF-Audit v2.0.6 (Ghost Shield)';
+    report.audit_type = 'RCF-Audit';
 
     const reportPath = join(root, 'RCF-AUDIT-REPORT.json');
     writeFileSync(reportPath, JSON.stringify(report, null, 2), 'utf-8');
@@ -139,51 +205,16 @@ program
     console.log(chalk.gray(`   Report saved to: ${reportPath}`));
   });
 
-// ─── GHOST-PROTECT ───────────────────────────────────────────────────────────
-
-program
-  .command('ghost-protect [directory]')
-  .description('Apply dynamic Ghost Markers and Integrity Checks (Active Protection)')
-  .requiredOption('-k, --key <secret>', 'Secret key for HMAC generation')
-  .option('--dry-run', 'preview changes without writing files')
-  .action((directory = '.', options) => {
-    const root = resolve(directory);
-    const validator = new ComplianceValidator();
-    const files = collectFiles(root);
-
-    let modified = 0;
-
-    for (const filePath of files) {
-      const content = readFileSync(filePath, 'utf-8');
-      if (content.includes('[RCF:GHOST:')) continue;
-
-      const ghosted = validator.injectIntegrityCheck(content, options.key);
-      if (ghosted !== content) {
-        if (!options.dryRun) {
-          writeFileSync(filePath, ghosted, 'utf-8');
-          console.log(chalk.green(`✅ GHOSTED: ${relative(root, filePath)}`));
-        } else {
-          console.log(chalk.cyan(`🔍 WOULD GHOST: ${relative(root, filePath)}`));
-        }
-        modified++;
-      }
-    }
-
-    console.log(chalk.bold(`\n🛡️  Ghost Protocol applied to ${modified} file(s).`));
-  });
-
 // ─── VERIFY ──────────────────────────────────────────────────────────────────
 
 program
   .command('verify [path]')
   .description('Verify file/directory integrity against audit report')
-  .option('-k, --key <secret>', 'Secret key for Ghost HMAC validation')
   .option('--against <report>', 'Path to audit report JSON (single-file verify)')
   .option('-v, --verbose', 'show details')
   .action((pathArg = '.', options) => {
     const root = resolve(pathArg);
     const validator = new ComplianceValidator();
-    const secretKey = options.key ?? process.env['RCF_PRIVATE_KEY'];
 
     // Single-file verification against a specific report
     if (options.against) {
@@ -195,7 +226,7 @@ program
         console.log(chalk.gray(`Recorded: ${result.recordedAt}`));
         console.log();
         if (result.verified) {
-          console.log(chalk.green(`✅ VERIFIED — file matches audit record (RCF v2.0.6)`));
+          console.log(chalk.green(`✅ VERIFIED — file matches audit record`));
           console.log(chalk.gray(`   SHA-256: ${result.currentHash}`));
         } else {
           console.log(chalk.red(`🚨 TAMPERED — file has been modified since audit!`));
@@ -214,7 +245,7 @@ program
     const reportPath = join(root, 'RCF-AUDIT-REPORT.json');
     if (!existsSync(reportPath)) {
       console.log(chalk.red(`❌ Audit report not found at: ${reportPath}`));
-      console.log(chalk.gray("   Run 'rcf-ghost-shield audit .' first."));
+      console.log(chalk.gray("   Run 'rcf-cli audit .' first."));
       process.exit(1);
     }
 
@@ -222,12 +253,11 @@ program
     const assets = report.protected_assets ?? [];
 
     console.log(chalk.bold(`\n--- RCF Integrity Verification (${assets.length} assets) ---`));
-    console.log(chalk.gray(`  Engine: Aladdin Ghost Core v2.0.6\n`));
+    console.log(chalk.gray(`  Engine: Aladdin Audit Core\n`));
 
     const missing: string[] = [];
     const tampered: string[] = [];
     let verified = 0;
-    let violations = 0;
 
     for (const asset of assets) {
       const fullPath = join(root, asset.file);
@@ -251,27 +281,12 @@ program
       }
     }
 
-    // Ghost chain HMAC check (only if key provided)
-    if (secretKey) {
-      console.log(chalk.gray(`\n  Ghost Chain verification with key...`));
-      for (const asset of assets) {
-        const fullPath = join(root, asset.file);
-        if (!existsSync(fullPath)) continue;
-        const r = validator.verifyIntegrityChain(fullPath, secretKey);
-        if (!r.valid) {
-          violations += r.violations;
-          console.log(chalk.red(`💀 BREACHED : ${asset.file} (${r.violations} illegal mutation(s))`));
-        }
-      }
-    }
-
     console.log();
-    if (tampered.length || missing.length || violations) {
-      console.log(chalk.bold.red(`❌ FAILED. Tampered: ${tampered.length}, Missing: ${missing.length}, Violations: ${violations}`));
+    if (tampered.length || missing.length) {
+      console.log(chalk.bold.red(`❌ FAILED. Tampered: ${tampered.length}, Missing: ${missing.length}`));
       process.exit(1);
     } else {
-      const status = secretKey ? '🛡️  GHOST SHIELD ACTIVE' : '✅ Integrity OK';
-      console.log(chalk.bold.green(`${status}: All ${verified} assets verified.`));
+      console.log(chalk.bold.green(`✅ Integrity OK: All ${verified} assets verified.`));
     }
   });
 
@@ -287,7 +302,7 @@ program
 
     if (!existsSync(reportPath)) {
       console.log(chalk.red(`❌ Audit report not found at: ${reportPath}`));
-      console.log(chalk.gray("   Run 'rcf-ghost-shield audit .' first."));
+      console.log(chalk.gray("   Run 'rcf-cli audit .' first."));
       process.exit(1);
     }
 
@@ -389,52 +404,11 @@ program
     if (options.dryRun) console.log(chalk.gray('   Run without --dry-run to apply changes.'));
   });
 
-// ─── SCAN (LEGACY) ───────────────────────────────────────────────────────────
-
-program
-  .command('scan [directory]')
-  .description('Scan directory for RCF markers (Legacy v2.0.6)')
-  .action(() => {
-    console.log(chalk.yellow('⚠️  Command [scan] is deprecated. Use [verify] for RCF v2.0.6.'));
-  });
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-const SCANNABLE = new Set([
-  '.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs',
-  '.py', '.go', '.rs', '.java', '.cpp', '.c',
-  '.h', '.s', '.md', 'makefile',
-]);
-
-const IGNORE_DIRS = new Set([
-  '.git', 'node_modules', 'dist', 'build', '__pycache__',
-  '.venv', '.next', 'coverage', '.turbo',
-]);
-
-function collectFiles(dir: string): string[] {
-  const files: string[] = [];
-  try {
-    for (const entry of readdirSync(dir)) {
-      const full = join(dir, entry);
-      const stat = statSync(full);
-      if (stat.isDirectory()) {
-        if (!IGNORE_DIRS.has(entry)) files.push(...collectFiles(full));
-      } else if (
-        SCANNABLE.has(extname(entry).toLowerCase()) ||
-        SCANNABLE.has(entry.toLowerCase())
-      ) {
-        files.push(full);
-      }
-    }
-  } catch { /* skip unreadable dirs */ }
-  return files;
-}
-
 // ─── Entry Point ─────────────────────────────────────────────────────────────
 
 if (process.argv.length > 2) {
   const firstArg = process.argv[2];
-  const commands = ['init', 'ghost-protect', 'verify', 'scan', 'audit', 'diff', 'protect', '--help', '-h', '--version', '-V'];
+  const commands = ['init', 'verify', 'audit', 'diff', 'protect', '--help', '-h', '--version', '-V'];
   if (!commands.includes(firstArg) && (existsSync(resolve(firstArg)) || firstArg.startsWith('.') || firstArg.startsWith('/'))) {
     process.argv.splice(2, 0, 'verify');
   }
