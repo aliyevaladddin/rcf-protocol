@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.6 -->
+<!-- NOTICE: This file is protected under RCF-PL -->
 # RCF-DOS-ADOPTION — Adoption for Decentralized Operating Systems
 
-**Version:** 2.0.6  
+**Version:** Active  
 **Target:** dOS Kernels, P2P Protocols, Consensus Engines  
 **Status:** SUPPLEMENTAL GUIDE
 
@@ -15,7 +15,7 @@ RCF provides a framework to maintain **Visibility** while strictly controlling *
 
 ## 2. Implementing RCF in dOS Architecture
 
-### 2.1 Marker Placement in Low-Level Code
+### Marker Placement in Low-Level Code
 
 When implementing RCF in C or Rust kernels, use the following comment patterns:
 
@@ -39,7 +39,7 @@ pub fn process_state_transition(msg: ConsensusMsg) -> Result<(), Error> {
 }
 ```
 
-### 2.2 Decentralized Enforcement Mechanisms
+### Decentralized Enforcement Mechanisms
 
 dOS projects should leverage their distributed nature for RCF enforcement:
 

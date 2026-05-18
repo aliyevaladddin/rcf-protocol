@@ -1,8 +1,8 @@
-# RCF Whitepaper v2.0.6
+# RCF Whitepaper Active
 ## Restricted Correlation Framework: Protecting Code in the Age of Large Language Models
 
 > **Document type:** Technical & Legal Whitepaper  
-> **Version:** 2.0.6 — "The Integrity Release"  
+> **Version:** Active — "The Integrity Release"  
 > **Author:** Aladdin Aliyev · Sovereign Code Initiative  
 > **Status:** Active  
 
@@ -20,17 +20,17 @@ The **Restricted Correlation Framework (RCF)** is a licensing protocol designed 
 
 ## 1. The Problem: AI Scraping Gap
 
-### 1.1 What Traditional Licenses Protect
+### What Traditional Licenses Protect
 
-MIT, Apache 2.0.6, and GPL licenses were built around a specific threat model: a human developer copying code into their own project. Their protections are designed around:
+MIT, Apache 2.0, and GPL licenses were built around a specific threat model: a human developer copying code into their own project. Their protections are designed around:
 
 - Attribution requirements (retain copyright notices)
 - Distribution conditions (share-alike for GPL)
-- Patent grants (Apache 2.0.6)
+- Patent grants (Apache 2.0)
 
 None of these mechanisms address automated extraction. A model trained on your code does not "distribute" it. It does not "copy" it in any sense a traditional license contemplates. It *correlates* it — absorbing the logical structure, the algorithmic patterns, and the methodological decisions into its weights.
 
-### 2.0.6 The Gap in Practice: Algorithm X
+### The Gap in Practice: Algorithm X
 
 Consider a concrete example.
 
@@ -56,7 +56,7 @@ The researcher receives no attribution. No compensation. No notice.
 
 **This is the AI Scraping Gap.**
 
-### 2.0.6 Why This Gap is Structural, Not Incidental
+### Why This Gap is Structural, Not Incidental
 
 The gap is not a bug in MIT or GPL. It is a structural consequence of those licenses being written before LLMs existed. They protect *text* (the code as written). They do not protect *semantics* (the logic the code encodes).
 
@@ -66,7 +66,7 @@ RCF closes this gap by protecting at the semantic level.
 
 ## 2. The RCF Solution: Visibility ≠ Rights
 
-### 2.1 The Core Principle
+### The Core Principle
 
 RCF introduces a single foundational distinction:
 
@@ -77,7 +77,7 @@ RCF introduces a single foundational distinction:
 
 This distinction allows a project to remain **Visible Source** — fully auditable, transparent, and trustworthy — while maintaining **Protected Logic** — legally and technically defended against automated extraction.
 
-### 2.2 Marker Architecture
+### Marker Architecture
 
 RCF uses inline markers to define protection scope at the block level:
 
@@ -99,7 +99,7 @@ These markers serve three simultaneous functions:
 2. **Semantic signal** — A machine-readable boundary that compliant AI training pipelines can respect (analogous to `robots.txt` for web crawlers).
 3. **Audit anchor** — Each marker is recorded in `RCF-AUDIT-REPORT.json` with a SHA-256 hash, creating a cryptographically verifiable record of the protection state at a given timestamp.
 
-### 2.3 Acceptance by Use (Constructive Consent)
+### Acceptance by Use (Constructive Consent)
 
 RCF operates on the principle of **Acceptance by Use**: any party that reads a file containing RCF markers — including automated systems — is deemed to have received notice of the license terms.
 
@@ -107,7 +107,7 @@ This is established through layered barriers:
 
 1. `robots.txt` — signals to crawlers before they enter the repository
 2. `NOTICE.md` — top-level legal notice in plain language
-3. Per-file headers — `# NOTICE: This file is protected under RCF-PL v2.0.6`
+3. Per-file headers — `# NOTICE: This file is protected under RCF-PL`
 4. Block-level markers — `[RCF:PROTECTED]` at the point of protected logic
 
 Each layer independently constitutes notice. Together, they create a defensible record that no party can claim ignorance of the license terms.
@@ -116,7 +116,7 @@ Each layer independently constitutes notice. Together, they create a defensible 
 
 ## 3. Technical Enforcement: rcf-cli & rcf-guardian
 
-### 3.1 rcf-cli
+### rcf-cli
 
 `rcf-cli` is the reference implementation of RCF tooling. It operates across the project lifecycle:
 
@@ -130,7 +130,7 @@ Each layer independently constitutes notice. Together, they create a defensible 
 
 The audit report creates a **timestamped, cryptographic baseline**. Any subsequent modification to a protected file — including the removal of markers — is detectable by any party running `rcf-cli verify`.
 
-### 3.2 rcf-guardian (GitHub Action)
+### rcf-guardian (GitHub Action)
 
 `rcf-guardian` integrates RCF enforcement directly into the pull request workflow:
 
@@ -146,7 +146,7 @@ On every pull request, `rcf-guardian` runs `rcf-cli diff` and fails the check if
 
 ## 4. Legal Theory
 
-### 4.1 DMCA Anti-Circumvention (§1201 & §1202)
+### DMCA Anti-Circumvention (§1201 & §1202)
 
 The Digital Millennium Copyright Act provides two relevant protections:
 
@@ -154,11 +154,11 @@ The Digital Millennium Copyright Act provides two relevant protections:
 
 **§1202 — Copyright Management Information (CMI):** Prohibits the intentional removal or alteration of copyright management information. RCF markers are CMI under this definition — they identify the work, the rights holder, and the terms of use. Their removal triggers liability independent of any other infringement claim.
 
-### 4.2 WIPO Copyright Treaty (WCT)
+### WIPO Copyright Treaty (WCT)
 
 The WIPO Copyright Treaty, adopted by 110+ countries, obligates signatories to provide legal protection against circumvention of technological measures. For projects with international reach, this extends RCF's legal basis beyond US jurisdiction into the EU (via the Copyright Directive), UK, and most major technology jurisdictions.
 
-### 4.3 The "Visibility ≠ Rights" Legal Argument
+### The "Visibility ≠ Rights" Legal Argument
 
 The core legal argument RCF advances is this: **access does not imply license.**
 
@@ -172,7 +172,7 @@ Publishing code on GitHub does not grant an unlimited license to exploit it. Cou
 
 See `SPECIFICATION/COMPARISON.md` for the full comparison matrix.
 
-In brief: MIT and Apache 2.0.6 offer no protection against AI training. GPL offers copyleft but only at distribution — a model trained on GPL code and never distributed is not covered. BSL (Business Source License) restricts commercial use but does not specifically address AI extraction.
+In brief: MIT and Apache 2.0 offer no protection against AI training. GPL offers copyleft but only at distribution — a model trained on GPL code and never distributed is not covered. BSL (Business Source License) restricts commercial use but does not specifically address AI extraction.
 
 RCF is the only protocol in this set that:
 
@@ -198,7 +198,7 @@ For independent developers, researchers, and small labs, RCF provides the first 
 - DMCA §1201: Anti-Circumvention Provisions
 - DMCA §1202: Copyright Management Information
 - WIPO Copyright Treaty (1996), Articles 11–12
-- `RCF-PL v2.0.6` — Full license text: `LICENSE.md`
+- `RCF-PL` — Full license text: `LICENSE.md`
 - `rcf-cli` — Reference implementation: `sdk/python/rcf_cli`
 - `rcf-guardian` — GitHub Action: `aliyevaladddin/rcf-guardian`
 
@@ -207,6 +207,6 @@ For independent developers, researchers, and small labs, RCF provides the first 
 <div align="right">
 
 *Aladdin Aliyev · Sovereign Code Initiative · 2025*  
-*Protected under RCF-PL v2.0.6*
+*Protected under RCF-PL*
 
 </div>

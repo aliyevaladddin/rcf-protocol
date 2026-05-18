@@ -1,7 +1,7 @@
-<!-- NOTICE: This file is protected under RCF-PL v2.0.6 -->
+<!-- NOTICE: This file is protected under RCF-PL -->
 # RCF-CORE — Core Concepts
 
-**Version:** 2.0.6  
+**Version:** Active  
 **Document Type:** Conceptual Overview  
 **Status:** Active
 
@@ -9,7 +9,7 @@
 
 ## 1. Fundamental Principles
 
-### 2.0.6 The Visibility Paradox
+### The Visibility Paradox
 
 Traditional intellectual property faces a dilemma:
 
@@ -20,7 +20,7 @@ Traditional intellectual property faces a dilemma:
 
 **RCF solves this** by creating a third path: **Visible but Protected**.
 
-### 2.0.6 Core Axioms
+### Core Axioms
 
 1. **Visibility ≠ Permission**
    - Seeing code does not grant rights to use it
@@ -38,7 +38,7 @@ Traditional intellectual property faces a dilemma:
 
 ## 2. The RCF Model
 
-### 2.1 Dual Rights System
+### Dual Rights System
 ┌─────────────────────────────────────────┐
 │           RCF DUAL RIGHTS               │
 ├─────────────────────────────────────────┤
@@ -56,11 +56,11 @@ Traditional intellectual property faces a dilemma:
 │                      │                  |
 └─────────────────────────────────────────┘
 
-### 2.2 Protection Layers (Defense in Depth)
+### Protection Layers (Defense in Depth)
 
 | Layer | Purpose | Mechanism |
 |-------|---------|-----------|
-| **Legal** | Establish rights | RCF-PL v2.0.6 license text |
+| **Legal** | Establish rights | RCF-PL license text |
 | **Notice** | Communicate terms | NOTICE.md, file headers |
 | **Markers** | Granular control | `[RCF:PUBLIC]`, `[RCF:PROTECTED]` |
 | **Technical** | Active prevention | Rate limiting, obfuscation |
@@ -70,7 +70,7 @@ Traditional intellectual property faces a dilemma:
 
 ## 3. Key Concepts
 
-### 3.1 Correlation Methodology
+### Correlation Methodology
 
 **Definition:** The specific techniques, algorithms, patterns, or logic used to analyze, correlate, or derive insights from data.
 
@@ -82,7 +82,7 @@ Traditional intellectual property faces a dilemma:
 - Pattern recognition logic
 - Analytical frameworks
 
-### 3.2 Automated Extraction
+### Automated Extraction
 
 **Definition:** Any use of software, scripts, AI/ML systems, or automated means to analyze, process, extract, or replicate elements of Protected Work.
 
@@ -98,7 +98,7 @@ Traditional intellectual property faces a dilemma:
 - Human-powered research and note-taking
 - Responsible security auditing
 
-### 3.3 Self-Enforcement
+### Self-Enforcement
 
 **Definition:** The automatic termination of all granted rights upon license violation, without requirement for prior notice or warning.
 
@@ -113,11 +113,11 @@ Traditional intellectual property faces a dilemma:
 
 ## 4. RCF Markers Explained
 
-### 4.1 Marker Philosophy
+### Marker Philosophy
 
 RCF markers are **semantic annotations** that communicate protection level. They are not technical barriers but **legal signals**.
 
-### 4.2 Marker Hierarchy
+### Marker Hierarchy
 PERMISSIVENESS SCALE
 
 [RCF:PUBLIC]        ← Most permissive
@@ -128,7 +128,7 @@ PERMISSIVENESS SCALE
       ▼
 [RCF:RESTRICTED]    ← Most restrictive
 
-### 4.3 Marker Combinations
+### Marker Combinations
 
 Markers can be combined for nuanced protection:
 
@@ -142,7 +142,7 @@ Markers can be combined for nuanced protection:
 
 ## 5. Comparison with Other Models
 
-### 5.1 vs. Open Source (MIT, GPL, Apache)
+### vs. Open Source (MIT, GPL, Apache)
 
 | Aspect | Open Source | RCF |
 |--------|-------------|-----|
@@ -152,7 +152,7 @@ Markers can be combined for nuanced protection:
 | Commercial Use | ✅ Allowed | ❌ Restricted |
 | AI/ML Training | ✅ Allowed | ❌ Prohibited |
 
-### 5.2 vs. Proprietary/Closed Source
+### vs. Proprietary/Closed Source
 
 | Aspect | Proprietary | RCF |
 |--------|-------------|-----|
@@ -161,7 +161,7 @@ Markers can be combined for nuanced protection:
 | Trust | Low (black box) | High (visible) |
 | Protection | Strong | Strong |
 
-### 5.3 vs. Creative Commons
+### vs. Creative Commons
 
 | Aspect | CC BY-NC | RCF |
 |--------|----------|-----|
@@ -174,7 +174,7 @@ Markers can be combined for nuanced protection:
 
 ## 6. Use Cases
 
-### 6.1 Ideal for RCF
+### Ideal for RCF
 
 - Research projects with unique methodologies
 - OSINT tools with proprietary correlation logic
@@ -182,7 +182,7 @@ Markers can be combined for nuanced protection:
 - Security tools with novel detection algorithms
 - Data analysis platforms with unique insights
 
-### 6.2 Not Suitable for RCF
+### Not Suitable for RCF
 
 - Standards and reference implementations
 - Educational examples for learning
@@ -194,7 +194,7 @@ Markers can be combined for nuanced protection:
 
 ## 7. Ethical Framework
 
-### 7.1 Intent of RCF
+### Intent of RCF
 
 RCF is designed to:
 
@@ -203,7 +203,7 @@ RCF is designed to:
 3. **Prevent mass replication** — Stop automated dilution of value
 4. **Maintain control** — Keep authors in charge of their work's destiny
 
-### 7.2 Responsible Use
+### Responsible Use
 
 Authors adopting RCF should:
 
@@ -223,14 +223,14 @@ Users encountering RCF should:
 
 ## 8. Future Directions
 
-### 8.1 Potential Enhancements
+### Potential Enhancements
 
 - **Time-Decay Protection:** Automatic transition to permissive license after N years
 - **Research License:** Streamlined authorization for academic use
 - **Commercial Tiers:** Standardized commercial licensing options
 - **Technical Standards:** Reference implementations of enforcement tools
 
-### 8.2 Community Governance
+### Community Governance
 
 Future versions may explore:
 
@@ -250,7 +250,7 @@ Future versions may explore:
 ---
 
 **Document Control:**
-- Version: 2.0.6
+- Version: Active
 - Last Updated: 2026
 - Status: Active
 

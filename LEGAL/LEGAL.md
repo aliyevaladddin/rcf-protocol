@@ -1,9 +1,9 @@
 # RCF-LEGAL — Legal Framework
 
-**Version:** 2.0.6  
+**Version:** Active  
 **Status:** Active  
 **Category:** Legal Basis  
-**Supersedes:** RCF-LEGAL v2.0.6  
+**Supersedes:** RCF-LEGAL  
 
 ---
 
@@ -11,13 +11,13 @@
 
 The Restricted Correlation Framework (RCF) is grounded in three independent bodies of law that operate simultaneously and reinforce each other.
 
-### 2.0.6 Copyright Law
+### Copyright Law
 
-RCF-protected works are protected under the **Berne Convention** (179 signatory states) and applicable national copyright law. The `RCF-PL v2.0.6` license constitutes a **conditional grant**: it grants Visibility rights unconditionally, while Usage rights require explicit written authorization.
+RCF-protected works are protected under the **Berne Convention** (179 signatory states) and applicable national copyright law. The `RCF-PL` license constitutes a **conditional grant**: it grants Visibility rights unconditionally, while Usage rights require explicit written authorization.
 
 The act of publishing source code does not constitute an implied license to exploit it. Courts have consistently construed implied licenses narrowly. RCF eliminates ambiguity by making terms explicit and machine-readable at the block level.
 
-### 2.0.6 Contract Law — Acceptance by Use
+### Contract Law — Acceptance by Use
 
 RCF operates on the doctrine of **Acceptance by Use** (constructive consent). Any party — human or automated — that accesses a file containing RCF markers is deemed to have received legal notice and to have accepted the license terms.
 
@@ -27,12 +27,12 @@ Notice is established through four independent layers:
 |---|---|---|
 | 1 | Crawler signal | `robots.txt` |
 | 2 | Top-level notice | `NOTICE.md` |
-| 3 | Per-file header | `# NOTICE: This file is protected under RCF-PL v2.0.6` |
+| 3 | Per-file header | `# NOTICE: This file is protected under RCF-PL` |
 | 4 | Block-level marker | `[RCF:PROTECTED]`, `[RCF:RESTRICTED]` |
 
 Each layer independently constitutes notice. No party may claim ignorance of the license terms after accessing any file bearing these markers.
 
-### 2.0.6 DMCA Anti-Circumvention
+### DMCA Anti-Circumvention
 
 The **Digital Millennium Copyright Act (DMCA)** provides two protections directly applicable to RCF:
 
@@ -40,7 +40,7 @@ The **Digital Millennium Copyright Act (DMCA)** provides two protections directl
 
 **§1202 — Copyright Management Information (CMI):** RCF markers are **CMI** as defined by §1202(c) — they identify the work, the rights holder, and the terms of use. Intentional removal or alteration of RCF markers constitutes a separate violation independent of any underlying infringement claim. Statutory damages: $2,500–$25,000 per violation.
 
-### 1.4 WIPO Copyright Treaty (WCT)
+### WIPO Copyright Treaty (WCT)
 
 The **WIPO Copyright Treaty** (1996), adopted by 110+ countries, obligates signatories to provide legal protection against circumvention of effective technological measures. This extends RCF's legal basis into the EU (via the Copyright Directive 2001/29/EC, Article 6), the UK (CDPA §296ZA), and most major technology jurisdictions.
 
@@ -50,7 +50,7 @@ The **WIPO Copyright Treaty** (1996), adopted by 110+ countries, obligates signa
 
 The core distinction of RCF is the separation of two rights that traditional open-source licenses conflate:
 
-| Right Type | Definition | Status under RCF-PL v2.0.6 |
+| Right Type | Definition | Status under RCF-PL |
 |---|---|---|
 | **Visibility** | The right to read, study, audit, and manually reference the work | ✅ Granted automatically to all parties |
 | **Usage** | The right to implement, replicate, extract, or train on the logic | ❌ Restricted — requires explicit written authorization |
@@ -91,15 +91,15 @@ The following activities are prohibited without explicit written authorization f
 
 ## 5. Enforcement
 
-### 5.1 Cryptographic Audit Trail
+### Cryptographic Audit Trail
 
 `RCF-AUDIT-REPORT.json` records the SHA-256 hash of each protected file at the time of audit. This creates a **timestamped, cryptographically verifiable baseline** of the protection state. Any subsequent modification — including marker removal — is independently verifiable by any party running `rcf-cli verify`.
 
-### 5.2 DMCA Takedown
+### DMCA Takedown
 
 Rights holders may issue DMCA §512 takedown notices to platforms hosting infringing content. The combination of `[RCF:PROTECTED]` markers and a published audit report provides the documentation required to support a takedown claim.
 
-### 5.3 Third-Party Verification
+### Third-Party Verification
 
 Any party may independently verify the integrity of an RCF-protected file without accessing the author's systems:
 
@@ -113,7 +113,7 @@ This supports enforcement actions by providing independently verifiable evidence
 
 ## 6. Termination of Rights
 
-All rights granted under RCF-PL v2.0.6 are **automatically and immediately terminated** upon any violation of these terms. Termination requires no prior notice, no cure period, and no judicial determination.
+All rights granted under RCF-PL are **automatically and immediately terminated** upon any violation of these terms. Termination requires no prior notice, no cure period, and no judicial determination.
 
 Upon termination:
 
@@ -128,7 +128,7 @@ Upon termination:
 
 RCF-protected works are provided "as-is" for Visibility purposes. The rights holder makes no warranties regarding the work's fitness for any purpose beyond inspection and audit.
 
-> *This document describes the legal framework of RCF-PL v2.0.6. It is not a substitute for qualified legal counsel. For enforcement actions or jurisdiction-specific guidance, consult a licensed intellectual property attorney.*
+> *This document describes the legal framework of RCF-PL. It is not a substitute for qualified legal counsel. For enforcement actions or jurisdiction-specific guidance, consult a licensed intellectual property attorney.*
 
 ---
 
@@ -136,14 +136,14 @@ RCF-protected works are provided "as-is" for Visibility purposes. The rights hol
 
 | Document | Purpose |
 |---|---|
-| `LICENSE` | Full RCF-PL v2.0.6 license text |
+| `LICENSE` | Full RCF-PL license text |
 | `LEGAL/DEFINITIONS.md` | Terminology and defined terms |
 | `LEGAL/JURISDICTION.md` | International applicability |
 | `LEGAL/ENFORCEMENT.md` | Enforcement procedures |
-| `WHITE_PAPER_v2.0.6.md` | Technical and legal rationale |
+| `WHITE_PAPER.md` | Technical and legal rationale |
 | `SPECIFICATION/COMPARISON.md` | RCF vs other licenses |
 
 ---
 
 *© 2026 Aladdin Aliyev · All rights reserved.*  
-*Protected under RCF-PL v2.0.6 · Sovereignty via Restricted Correlation.*
+*Protected under RCF-PL · Sovereignty via Restricted Correlation.*

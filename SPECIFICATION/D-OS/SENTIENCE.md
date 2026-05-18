@@ -1,9 +1,9 @@
 [RCF:PROTECTED]
-NOTICE: This file is protected under RCF-PL v2.0.6.
+NOTICE: This file is protected under RCF-PL.
 
 # RCF-DOS-SENTIENCE: Emotional Transduction Standard
 
-**Version:** 1.0  
+**Version:** Active  
 **Status:** STANDARD PROTOCOL  
 **Domain:** Human Intelligence (HI) Engines
 

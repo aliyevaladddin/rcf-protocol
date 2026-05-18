@@ -1,6 +1,6 @@
 # RCF-GOVERNANCE — Protocol Evolution
 
-**Version:** 2.0.6  
+**Version:** Active  
 
 ---
 
