@@ -458,7 +458,7 @@ def main():
         prog='rcf-cli',
         description='RCF CLI — Active Protection Framework'
     )
-    parser.add_argument('--version', action='version', version='rcf-cli 2.1.1')
+    parser.add_argument('--version', action='version', version='rcf-cli 2.1.2')
     subparsers = parser.add_subparsers(dest="command", metavar="<command>")
 
     # init
