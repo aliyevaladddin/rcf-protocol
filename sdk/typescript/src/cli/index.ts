@@ -33,7 +33,7 @@ const AUDIT_BANNER = `
 program
   .name('rcf-cli')
   .description('RCF Protocol — Restricted Correlation Framework')
-  .version('2.1.0')
+  .version('2.1.1')
   .addHelpText('before', AUDIT_BANNER)
   .arguments('[path]')
   .option('-v, --verbose', 'show details')
