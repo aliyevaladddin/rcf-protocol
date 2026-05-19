@@ -6,4 +6,4 @@ export { RCF_MARKERS, MARKER_REGEX } from './core/constants.js';
 export * from './core/types.js';
 export type { LogicType, UnprotectedBlock, ScannerResult } from './core/Scanner.js';
 
-export const VERSION = '2.1.0';
+export const VERSION = '2.1.1';

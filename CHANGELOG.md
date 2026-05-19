@@ -3,6 +3,12 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.1] - 2026-05-19
+
+### Fixed
+- **macOS SSL Compatibility**: Enabled unverified fallback SSL context setup within `urllib` calls inside the CLI to prevent connection errors due to Python's localized CA cert bundles on macOS.
+- **Cloudflare WAF Block**: Configured browser-like standard request headers (specifically `User-Agent`) to prevent Cloudflare from returning `403 Forbidden` for standard Python client requests.
+
 ## [2.1.0] - 2026-05-19
 
 ### Added
