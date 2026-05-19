@@ -39,10 +39,10 @@ program
   .option('-v, --verbose', 'show details')
   .action((pathArg, options) => {
     const path = pathArg ?? '.';
-    console.log(chalk.cyan(`◈ Running default scan for: ${path}`));
+    console.log(chalk.cyan('◈ Running default scan for: ' + path));
     const scanner = new Scanner();
     const results = scanner.scanDirectory(resolve(path));
-    console.log(chalk.bold(`\nScan complete. Found ${results.length} files needing attention.`));
+    console.log(chalk.bold('\nScan complete. Found ' + results.length + ' files needing attention.'));
   });
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
@@ -87,7 +87,7 @@ program
       console.log(chalk.green('✅ Generated .rcfignore'));
     }
 
-    console.log(chalk.bold.green(`\n🎉 RCF initialized for '${projectName}'.`));
+    console.log(chalk.bold.green('\n🎉 RCF initialized for \'' + projectName + '\'.'));
   });
 
 // ─── AUDIT ───────────────────────────────────────────────────────────────────
@@ -142,7 +142,7 @@ program
 
       const projectName = detectProjectName(root);
 
-      console.log(chalk.yellow(`📡 Verifying license key for '${projectName}' with aliyev.site...`));
+      console.log(chalk.yellow('📡 Verifying license key for \'' + projectName + '\' with aliyev.site...'));
       const isOnlineValid = await new Promise<boolean>((resolveValidation) => {
         const postData = JSON.stringify({ key: licenseKey, project: projectName });
         const req = https.request({
@@ -183,7 +183,7 @@ program
       }
       console.log(chalk.green("✅ License key verified successfully."));
     }
-    console.log(chalk.cyan(`◈ Generating Audit Report for: ${root}`));
+    console.log(chalk.cyan('◈ Generating Audit Report for: ' + root));
 
     const parser = new MarkerParser(root);
     const results = await parser.scanAll();
@@ -197,12 +197,12 @@ program
 
     if (options.verbose) {
       for (const asset of report.protected_assets) {
-        console.log(chalk.gray(`  ◈ ${asset.file}  markers=[${asset.markers.join(',')}]`));
+        console.log(chalk.gray('  ◈ ' + asset.file + '  markers=[' + asset.markers.join(',') + ']'));
       }
     }
 
-    console.log(chalk.green(`✅ Audit complete. ${report.protected_assets.length} assets recorded.`));
-    console.log(chalk.gray(`   Report saved to: ${reportPath}`));
+    console.log(chalk.green('✅ Audit complete. ' + report.protected_assets.length + ' assets recorded.'));
+    console.log(chalk.gray('   Report saved to: ' + reportPath));
   });
 
 // ─── VERIFY ──────────────────────────────────────────────────────────────────
@@ -221,21 +221,21 @@ program
       try {
         const result = validator.verifyFile(root, resolve(options.against));
         console.log(chalk.bold('--- RCF File Verification ---'));
-        console.log(chalk.gray(`File    : ${result.file}`));
-        console.log(chalk.gray(`Report  : ${result.reportPath}`));
-        console.log(chalk.gray(`Recorded: ${result.recordedAt}`));
+        console.log(chalk.gray('File    : ' + result.file));
+        console.log(chalk.gray('Report  : ' + result.reportPath));
+        console.log(chalk.gray('Recorded: ' + result.recordedAt));
         console.log();
         if (result.verified) {
           console.log(chalk.green('✅ VERIFIED — file matches audit record'));
-          console.log(chalk.gray(`   SHA-256: ${result.currentHash}`));
+          console.log(chalk.gray('   SHA-256: ' + result.currentHash));
         } else {
           console.log(chalk.red('🚨 TAMPERED — file has been modified since audit!'));
-          console.log(chalk.red(`   stored : ${result.storedHash}`));
-          console.log(chalk.red(`   current: ${result.currentHash}`));
+          console.log(chalk.red('   stored : ' + result.storedHash));
+          console.log(chalk.red('   current: ' + result.currentHash));
           process.exit(1);
         }
       } catch (e: any) {
-        console.log(chalk.red(`❌ ${e.message}`));
+        console.log(chalk.red('❌ ' + e.message));
         process.exit(1);
       }
       return;
@@ -244,7 +244,7 @@ program
     // Directory verification: SHA-256 against RCF-AUDIT-REPORT.json
     const reportPath = join(root, 'RCF-AUDIT-REPORT.json');
     if (!existsSync(reportPath)) {
-      console.log(chalk.red(`❌ Audit report not found at: ${reportPath}`));
+      console.log(chalk.red('❌ Audit report not found at: ' + reportPath));
       console.log(chalk.gray("   Run 'rcf-cli audit .' first."));
       process.exit(1);
     }
@@ -252,7 +252,7 @@ program
     const report: AuditReport = JSON.parse(readFileSync(reportPath, 'utf-8'));
     const assets = report.protected_assets ?? [];
 
-    console.log(chalk.bold(`\n--- RCF Integrity Verification (${assets.length} assets) ---`));
+    console.log(chalk.bold('\n--- RCF Integrity Verification (' + assets.length + ' assets) ---'));
     console.log(chalk.gray('  Engine: Aladdin Audit Core\n'));
 
     const missing: string[] = [];
@@ -263,30 +263,30 @@ program
       const fullPath = join(root, asset.file);
       if (!existsSync(fullPath)) {
         missing.push(asset.file);
-        console.log(chalk.red(`❌ MISSING  : ${asset.file}`));
+        console.log(chalk.red('❌ MISSING  : ' + asset.file));
         continue;
       }
 
       const current = createHash('sha256').update(readFileSync(fullPath)).digest('hex');
       if (current === asset.sha256) {
         verified++;
-        if (options.verbose) console.log(chalk.green(`✅ VERIFIED : ${asset.file}`));
+        if (options.verbose) console.log(chalk.green('✅ VERIFIED : ' + asset.file));
       } else {
         tampered.push(asset.file);
-        console.log(chalk.red(`🚨 TAMPERED : ${asset.file}`));
+        console.log(chalk.red('🚨 TAMPERED : ' + asset.file));
         if (options.verbose) {
-          console.log(chalk.gray(`   stored : ${asset.sha256}`));
-          console.log(chalk.gray(`   current: ${current}`));
+          console.log(chalk.gray('   stored : ' + asset.sha256));
+          console.log(chalk.gray('   current: ' + current));
         }
       }
     }
 
     console.log();
     if (tampered.length || missing.length) {
-      console.log(chalk.bold.red(`❌ FAILED. Tampered: ${tampered.length}, Missing: ${missing.length}`));
+      console.log(chalk.bold.red('❌ FAILED. Tampered: ' + tampered.length + ', Missing: ' + missing.length));
       process.exit(1);
     } else {
-      console.log(chalk.bold.green(`✅ Integrity OK: All ${verified} assets verified.`));
+      console.log(chalk.bold.green('✅ Integrity OK: All ' + verified + ' assets verified.'));
     }
   });
 
@@ -301,7 +301,7 @@ program
     const reportPath = join(root, 'RCF-AUDIT-REPORT.json');
 
     if (!existsSync(reportPath)) {
-      console.log(chalk.red(`❌ Audit report not found at: ${reportPath}`));
+      console.log(chalk.red('❌ Audit report not found at: ' + reportPath));
       console.log(chalk.gray("   Run 'rcf-cli audit .' first."));
       process.exit(1);
     }
@@ -314,23 +314,23 @@ program
 
     if (options.verbose && diff.newUnprotectedFiles.length) {
       for (const f of diff.newUnprotectedFiles) {
-        console.log(chalk.yellow(`⚠️  NEW UNPROTECTED LOGIC: ${f}`));
+        console.log(chalk.yellow('⚠️  NEW UNPROTECTED LOGIC: ' + f));
       }
     }
 
     if (!diff.passed) {
-      console.log(chalk.red(`\n🚨 COMPLIANCE VIOLATIONS: ${diff.violations.length}`));
+      console.log(chalk.red('\n🚨 COMPLIANCE VIOLATIONS: ' + diff.violations.length));
       for (const v of diff.violations) {
-        console.log(chalk.red(`   [${v.type.toUpperCase()}] ${v.file}: ${v.detail}`));
+        console.log(chalk.red('   [' + v.type.toUpperCase() + '] ' + v.file + ': ' + v.detail));
       }
       if (diff.newUnprotectedFiles.length) {
-        console.log(chalk.yellow(`⚠️  ${diff.newUnprotectedFiles.length} new file(s) with unprotected logic.`));
+        console.log(chalk.yellow('⚠️  ' + diff.newUnprotectedFiles.length + ' new file(s) with unprotected logic.'));
       }
       process.exit(1);
     } else {
       console.log(chalk.green('\n✅ No marker violations detected. All audited assets compliant.'));
       if (diff.newUnprotectedFiles.length) {
-        console.log(chalk.yellow(`   ⚠️  ${diff.newUnprotectedFiles.length} new file(s) with unprotected logic (run 'protect').`));
+        console.log(chalk.yellow('   ⚠️  ' + diff.newUnprotectedFiles.length + ' new file(s) with unprotected logic (run \'protect\').'));
       }
     }
   });
