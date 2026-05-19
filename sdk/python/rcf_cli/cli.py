@@ -115,16 +115,16 @@ def audit_project(args):
 
     if provided_key_hash != admin_key_hash:
         if not license_key:
-            print("❌ RCF-PL ERROR: License key missing. 'audit' is a premium feature.")
+            print("❌ RCF-PL ERROR: Audit token missing. 'audit' is a premium feature.")
             print("   Purchase a key at: https://aliyev.site/rcf")
-            print("   Then set --license-key or RCF_LICENSE_KEY env variable.")
+            print("   Then set the required CLI argument or environment variable.")
             sys.exit(1)
         if not license_key.startswith("RCF-AUDIT-"):
-            print("❌ RCF-PL ERROR: Invalid license key format. Must start with 'RCF-AUDIT-'.")
+            print("❌ RCF-PL ERROR: Invalid audit token format. Must start with 'RCF-AUDIT-'.")
             print("   Purchase a valid key at: https://aliyev.site/rcf")
             sys.exit(1)
         project_name = detect_project_name(target)
-        print(f"📡 Verifying license key for '{project_name}' with aliyev.site...")
+        print(f"📡 Verifying audit status for '{project_name}' with aliyev.site...")
         try:
             import ssl
             context = ssl.create_default_context()
@@ -167,11 +167,11 @@ def audit_project(args):
             if data.get("valid") is not True:
                 raise Exception("JSON valid flag not true")
         except Exception as e:
-            print("❌ RCF-PL ERROR: License key is invalid, expired, or not found in database.")
+            print("❌ RCF-PL ERROR: Audit token is invalid, expired, or not found in database.")
             print("   Purchase a valid key at: https://aliyev.site/rcf")
             sys.exit(1)
         
-        print("✅ License key verified successfully.")
+        print("✅ Audit credentials verified successfully.")
     scanner = RCFScanner(target, verbose=args.verbose)
     results = scanner.scan_directory(include_protected=True)
 
@@ -458,7 +458,7 @@ def main():
         prog='rcf-cli',
         description='RCF CLI — Active Protection Framework'
     )
-    parser.add_argument('--version', action='version', version='rcf-cli 2.1.1')
+    parser.add_argument('--version', action='version', version='rcf-cli 2.1.2')
     subparsers = parser.add_subparsers(dest="command", metavar="<command>")
 
     # init

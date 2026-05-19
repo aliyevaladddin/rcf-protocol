@@ -40,7 +40,9 @@ class RCFScanner:
 
     def _load_rcfignore(self):
         """Loads ignore patterns from .rcfignore if it exists."""
-        ignore_file = self.root_path / '.rcfignore'
+        ignore_file = (self.root_path / '.rcfignore').resolve()
+        if not str(ignore_file).startswith(str(self.root_path)):
+            raise ValueError("Path traversal detected")
         if ignore_file.exists():
             for line in ignore_file.read_text(encoding='utf-8').splitlines():
                 line = line.strip()
