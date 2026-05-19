@@ -2,7 +2,7 @@
 // [RCF:PROTECTED]
 
 import { readFileSync, readdirSync, statSync } from 'fs';
-import { join, relative, extname } from 'path';
+import { join, relative, extname, resolve } from 'path';
 import { MarkerType, RCFMarker, FileScanResult } from './types.js';
 
 const MARKER_REGEX = /\[RCF:(PUBLIC|PROTECTED|RESTRICTED|NOTICE)\]/g;
@@ -33,7 +33,12 @@ export class MarkerParser {
 
   private loadRcfIgnore(): void {
     try {
-      const content = readFileSync(join(this.root, '.rcfignore'), 'utf-8');
+      const basePath = resolve(this.root);
+      const safePath = resolve(join(basePath, '.rcfignore'));
+      if (safePath.indexOf(basePath) !== 0) {
+        throw new Error('Path traversal detected');
+      }
+      const content = readFileSync(safePath, 'utf-8');
       for (const line of content.split('\n')) {
         const trimmed = line.trim();
         if (trimmed && !trimmed.startsWith('#')) {

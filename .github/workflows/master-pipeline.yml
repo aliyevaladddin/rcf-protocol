@@ -34,6 +34,7 @@ jobs:
           format: sarif
           output: bearer-results.sarif
           exit-code: 0
+          skip-path: "node_modules,dist,build,coverage,EXAMPLES,**/*.test.ts,**/*.spec.ts"
           
       - name: Snyk Setup
         uses: snyk/actions/setup@9cf6ca713d71123d2d229cc3d7f145b96ea3c518

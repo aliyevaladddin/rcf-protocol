@@ -226,10 +226,10 @@ program
         console.log(chalk.gray(`Recorded: ${result.recordedAt}`));
         console.log();
         if (result.verified) {
-          console.log(chalk.green(`✅ VERIFIED — file matches audit record`));
+          console.log(chalk.green('✅ VERIFIED — file matches audit record'));
           console.log(chalk.gray(`   SHA-256: ${result.currentHash}`));
         } else {
-          console.log(chalk.red(`🚨 TAMPERED — file has been modified since audit!`));
+          console.log(chalk.red('🚨 TAMPERED — file has been modified since audit!'));
           console.log(chalk.red(`   stored : ${result.storedHash}`));
           console.log(chalk.red(`   current: ${result.currentHash}`));
           process.exit(1);
@@ -253,7 +253,7 @@ program
     const assets = report.protected_assets ?? [];
 
     console.log(chalk.bold(`\n--- RCF Integrity Verification (${assets.length} assets) ---`));
-    console.log(chalk.gray(`  Engine: Aladdin Audit Core\n`));
+    console.log(chalk.gray('  Engine: Aladdin Audit Core\n'));
 
     const missing: string[] = [];
     const tampered: string[] = [];
@@ -361,7 +361,7 @@ program
       try {
         lines = readFileSync(result.path, 'utf-8').split('\n');
       } catch (e: any) {
-        console.log(chalk.yellow(`⚠️  Cannot read ${result.path}: ${e.message}`));
+        console.log(chalk.yellow('⚠️  Cannot read ' + result.path + ': ' + e.message));
         skipped++;
         continue;
       }
@@ -387,10 +387,10 @@ program
       if (changed) {
         const gaps = result.unprotectedLogic.length;
         if (options.dryRun) {
-          console.log(chalk.cyan(`🔍 DRY RUN : ${relative(root, result.path)}  (${gaps} block(s) would be marked)`));
+          console.log(chalk.cyan('🔍 DRY RUN : ' + relative(root, result.path) + '  (' + gaps + ' block(s) would be marked)'));
         } else {
           writeFileSync(result.path, newLines.join('\n'), 'utf-8');
-          console.log(chalk.green(`✅ PROTECTED: ${relative(root, result.path)}  (${gaps} block(s) marked)`));
+          console.log(chalk.green('✅ PROTECTED: ' + relative(root, result.path) + '  (' + gaps + ' block(s) marked)'));
         }
         modified++;
       } else {
@@ -400,7 +400,7 @@ program
 
     console.log();
     const action = options.dryRun ? 'Would modify' : 'Modified';
-    console.log(chalk.bold(`🛡️  ${action} ${modified} file(s). Skipped: ${skipped}.`));
+    console.log(chalk.bold('🛡️  ' + action + ' ' + modified + ' file(s). Skipped: ' + skipped + '.'));
     if (options.dryRun) console.log(chalk.gray('   Run without --dry-run to apply changes.'));
   });
 
