@@ -126,22 +126,32 @@ def audit_project(args):
         project_name = detect_project_name(target)
         print(f"📡 Verifying license key for '{project_name}' with aliyev.site...")
         try:
+            import ssl
+            context = ssl._create_unverified_context()
+        except Exception:
+            context = None
+
+        try:
             url = "https://aliyev.site/api/rcf-verify"
             post_data = json.dumps({"key": license_key, "project": project_name}).encode('utf-8')
             req = urllib.request.Request(
                 url,
                 data=post_data,
-                headers={"Content-Type": "application/json"},
+                headers={
+                    "Content-Type": "application/json",
+                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                },
                 method="POST"
             )
-            with urllib.request.urlopen(req, timeout=5) as response:
+            with urllib.request.urlopen(req, timeout=5, context=context) as response:
                 if response.getcode() != 200:
                     raise Exception("Invalid status code")
                 body = response.read().decode('utf-8')
                 data = json.loads(body)
                 if data.get("valid") is not True:
                     raise Exception("JSON valid flag not true")
-        except Exception:
+        except Exception as e:
+            print(f"❌ RCF-PL DEBUG ERROR: {str(e)}")
             print("❌ RCF-PL ERROR: License key is invalid, expired, or not found in database.")
             print("   Purchase a valid key at: https://aliyev.site/rcf")
             sys.exit(1)
