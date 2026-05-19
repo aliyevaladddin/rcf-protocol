@@ -129,20 +129,20 @@ program
 
     if (providedKeyHash !== adminKeyHash) {
       if (!licenseKey) {
-        console.log(chalk.red("❌ RCF-PL ERROR: License key missing. 'audit' is a premium feature."));
+        console.log(chalk.red("❌ RCF-PL ERROR: Audit token missing. 'audit' is a premium feature."));
         console.log(chalk.gray('   Purchase a key at: https://aliyev.site/rcf'));
-        console.log(chalk.gray('   Then set --license-key or RCF_LICENSE_KEY env variable.'));
+        console.log(chalk.gray('   Then set the required CLI argument or environment variable.'));
         process.exit(1);
       }
       if (!licenseKey.startsWith('RCF-AUDIT-')) {
-        console.log(chalk.red("❌ RCF-PL ERROR: Invalid license key format. Must start with 'RCF-AUDIT-'."));
+        console.log(chalk.red("❌ RCF-PL ERROR: Invalid audit token format. Must start with 'RCF-AUDIT-'."));
         console.log(chalk.gray('   Purchase a valid key at: https://aliyev.site/rcf'));
         process.exit(1);
       }
 
       const projectName = detectProjectName(root);
 
-      console.log(chalk.yellow('📡 Verifying license key for \'' + projectName + '\' with aliyev.site...'));
+      console.log(chalk.yellow('📡 Verifying audit status for \'' + projectName + '\' with aliyev.site...'));
       const isOnlineValid = await new Promise<boolean>((resolveValidation) => {
         const postData = JSON.stringify({ key: licenseKey, project: projectName });
         const req = https.request({
@@ -168,7 +168,7 @@ program
         });
 
         req.on('error', () => {
-          console.log(chalk.red("❌ Network Error: Could not reach aliyev.site to verify license."));
+          console.log(chalk.red("❌ Network Error: Could not reach aliyev.site to verify credentials."));
           resolveValidation(false);
         });
 
@@ -177,11 +177,11 @@ program
       });
 
       if (!isOnlineValid) {
-        console.log(chalk.red("❌ RCF-PL ERROR: License key is invalid, expired, or not found in database."));
+        console.log(chalk.red("❌ RCF-PL ERROR: Audit token is invalid, expired, or not found in database."));
         console.log(chalk.gray('   Purchase a valid key at: https://aliyev.site/rcf'));
         process.exit(1);
       }
-      console.log(chalk.green("✅ License key verified successfully."));
+      console.log(chalk.green("✅ Audit credentials verified successfully."));
     }
     console.log(chalk.cyan('◈ Generating Audit Report for: ' + root));
 
