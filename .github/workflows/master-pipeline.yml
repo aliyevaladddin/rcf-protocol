@@ -37,7 +37,7 @@ jobs:
           skip-path: "node_modules,dist,build,coverage,EXAMPLES,**/*.test.ts,**/*.spec.ts,sdk/typescript/src/cli,sdk/python/rcf_cli,sdk/typescript/src/core/ComplianceValidator.ts,sdk/python/rcf_cli/cli.py,sdk/typescript/src/core/MarkerParser.ts"
           
       - name: Snyk Setup
-        uses: snyk/actions/setup@9cf6ca713d71123d2d229cc3d7f145b96ea3c518
+        uses: snyk/actions/setup@8e119fbb6c251787721d34ba683ed48eba792766
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
