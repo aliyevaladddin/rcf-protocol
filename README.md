@@ -7,12 +7,12 @@
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
-[![License: RCF-PL](https://img.shields.io/badge/License-RCF--PL_2.1.2-red.svg?style=flat-square)](https://aliyev.site/rcf)
+[![License: RCF-PL](https://img.shields.io/npm/v/rcf-protocol?label=RCF-PL&color=red&style=flat-square)](https://aliyev.site/rcf)
 [![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 [![GitLab](https://img.shields.io/badge/GitLab-@aladdinaliyev-orange?logo=gitlab)](https://gitlab.com/aladdinaliyev)
 
 
-**Version:** 2.1.2
+**Version:** see [`package.json`](package.json) / [`sigma.json`](SPECIFICATION/sigma.json) — single source of truth
 **Status:** Active Specification  
 **Category:** Author-Defined Licensing Protocol  
 **Website:** [aliyev.site/rcf](https://aliyev.site/rcf)
@@ -22,7 +22,7 @@
 ## 🆕 What's New in Active?
 
 - 🛡️ **Sovereign Code Initiative**: New manifesto and technical whitepaper for Active.
-- 📦 **SDK Parity**: Version: 2.1.2 synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`).
+- 📦 **SDK Parity**: a single version is synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`); the canonical number lives in `package.json` / `pyproject.toml`.
 - 📝 **Documentation Update**: Detailed audit usage guides added to SDK READMEs.
 
 ---
@@ -151,7 +151,7 @@ rcf-cli . --summary
 
 | Directory | Description | Key Documents |
 |:---|:---|:---|
-| [**SPECIFICATION/**](SPECIFICATION/) | Technical protocol definition | [RCF-SPEC](SPECIFICATION/RCF-SPEC.md), [RCF-CORE](SPECIFICATION/RCF-CORE.md) |
+| [**SPECIFICATION/**](SPECIFICATION/) | Technical protocol definition | [RCF-SPEC](SPECIFICATION/RCF-SPEC.md), [RCF-CORE](SPECIFICATION/RCF-CORE.md), [RCF-CORRELATION](SPECIFICATION/RCF-CORRELATION.md), [RCF-SIGMA](SPECIFICATION/RCF-SIGMA.md) |
 | [**LEGAL/**](LEGAL/) | Legal framework and basis | [LEGAL](LEGAL/LEGAL.md), [JURISDICTION](LEGAL/JURISDICTION.md) |
 | [**IMPLEMENTATION/**](IMPLEMENTATION/) | Practical adoption tools | [MARKERS](IMPLEMENTATION/CODE-MARKERS.md), [MEASURES](IMPLEMENTATION/TECHNICAL-MEASURES.md) |
 | [**ADOPTION/**](ADOPTION/) | Guides for project authors | [ADOPTION-GUIDE](ADOPTION/ADOPTION-GUIDE.md), [FAQ](ADOPTION/FAQ.md) |
