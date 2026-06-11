@@ -1,0 +1,34 @@
+{
+  "_notice": "This file is protected under RCF-PL. [RCF:PROTECTED]",
+  "sigma_version": "2.1.2",
+  "alphabet_hash": "sha256:2a23a3927c01961040dafccef26a37ab3e896c5231cb80c68ddb4f2c9161a29a",
+  "alphabet_hash_doc": "SHA-256 over the canonical alphabet form { nodes: {class: sorted(ops)}, edges: sorted(keys) }, json-compact with sorted keys. EXCLUDES sigma_version and all doc strings. This is the true comparability key: two fingerprints are comparable iff their alphabet_hash matches, even across differing sigma_version strings (see RCF-SIGMA.md §7).",
+  "description": "RCF v3 semantic alphabet Σ — the language-independent label set for PDG nodes and edges. Source of truth for all language normalizers. Closed and versioned: adding a label is a breaking change that invalidates existing fingerprints and the surprisal corpus.",
+  "principles": [
+    "Identifiers are NOT in Σ — names are discarded.",
+    "Concrete types are NOT in Σ — int vs float is an implementation detail.",
+    "Σ is closed and versioned — sigma_version is part of every fingerprint.",
+    "Labels are two-level: (class, op). class is robust; class.op is sensitive. WL granularity is a knob, not a Σ change."
+  ],
+  "nodes": {
+    "CONST":  { "ops": ["NUM", "STR", "BOOL", "NULL", "COLL"], "doc": "Literal constants." },
+    "REF":    { "ops": ["PARAM", "LOCAL", "GLOBAL", "FIELD", "INDEX"], "doc": "References to values." },
+    "ASSIGN": { "ops": ["BIND", "UPDATE"], "doc": "Binding a value to a slot." },
+    "ARITH":  { "ops": ["ADD", "SUB", "MUL", "DIV", "FLOORDIV", "MOD", "POW", "NEG"], "doc": "Arithmetic operations." },
+    "BIT":    { "ops": ["AND", "OR", "XOR", "NOT", "SHL", "SHR"], "doc": "Bitwise operations." },
+    "CMP":    { "ops": ["EQ", "NE", "LT", "LE", "GT", "GE", "IS", "IN"], "doc": "Comparisons." },
+    "LOGIC":  { "ops": ["AND", "OR", "NOT"], "doc": "Boolean logic (short-circuit)." },
+    "BRANCH": { "ops": ["IF", "SWITCH", "TERNARY", "GUARD"], "doc": "Control-flow branching." },
+    "LOOP":   { "ops": ["FOR", "WHILE", "ITER", "COMPREH"], "doc": "Iteration constructs." },
+    "CALL":   { "ops": ["FUNC", "METHOD", "CONSTRUCT", "BUILTIN"], "doc": "Invocations." },
+    "RET":    { "ops": ["RETURN", "YIELD", "RAISE", "BREAK", "CONTINUE"], "doc": "Exit and interruption of flow." },
+    "AGG":    { "ops": ["LIST", "MAP", "SET", "TUPLE", "RECORD"], "doc": "Collection construction." },
+    "CAST":   { "ops": ["CONVERT"], "doc": "Type conversion." },
+    "EFFECT": { "ops": ["EXTERN"], "doc": "External effect (I/O) — coarse by design." }
+  },
+  "edges": {
+    "DATA":  { "doc": "Data dependence (def-use): a value flows into an operation.", "normative": true },
+    "CTRL":  { "doc": "Control dependence: execution of the node is guarded by the source.", "normative": true },
+    "ORDER": { "doc": "Weak sequential ordering. Optional; off by default (refactoring-fragile).", "normative": false }
+  }
+}
