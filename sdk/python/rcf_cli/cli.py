@@ -179,13 +179,17 @@ def audit_project(args):
 
         "timestamp": datetime.now().isoformat(),
         "audit_type": "RCF-Audit",
-        "root": target,
         "protected_assets": []
     }
 
     for res in results:
+        # Only record genuinely protected assets — keeps the report a snapshot
+        # of ownership, and keeps it byte-identical to the TS SDK report.
+        if not res.get('is_protected'):
+            continue
+
         file_path = os.path.join(target, res['path'])
-        
+
         try:
             audit_report["protected_assets"].append({
                 "file": res['path'],

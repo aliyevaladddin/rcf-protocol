@@ -1,5 +1,6 @@
 # NOTICE: This file is protected under RCF-PL
 import os
+import hashlib
 import pytest
 from pathlib import Path
 from rcf_cli.scanner import RCFScanner
@@ -55,6 +56,30 @@ def test_scanner_ignores_files(temp_workspace):
     
     scanner = RCFScanner(temp_workspace)
     results = scanner.scan_directory(include_protected=True)
-    
+
     # Should be 3, node_modules is ignored
     assert len(results) == 3
+
+
+def _build_assets(root):
+    """Reproduces the asset list that 'audit' records (see cli.audit_project)."""
+    results = RCFScanner(root).scan_directory(include_protected=True)
+    assets = []
+    for res in results:
+        if not res.get('is_protected'):
+            continue
+        with open(os.path.join(root, res['path']), 'rb') as f:
+            digest = hashlib.sha256(f.read()).hexdigest()
+        assets.append({'file': res['path'], 'markers': res['markers'], 'sha256': digest})
+    return assets
+
+
+def test_audit_excludes_unprotected_files(temp_workspace):
+    # normal_code.py has neither header nor markers — it must NOT land in the
+    # audit report. Recording it would (a) break parity with the TS SDK and
+    # (b) put unprotected code into a snapshot-of-ownership artifact.
+    assets = _build_assets(temp_workspace)
+    recorded = {os.path.basename(a['file']) for a in assets}
+
+    assert 'normal_code.py' not in recorded
+    assert recorded == {'protected_code.py', 'public_code.py'}
