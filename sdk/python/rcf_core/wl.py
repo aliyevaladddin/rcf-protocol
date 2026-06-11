@@ -35,7 +35,7 @@ from .pdg import PDG
 
 def _stable_hash(text: str) -> str:
     """Short, deterministic feature id. Not security-sensitive; stable across runs."""
-    return hashlib.sha1(text.encode()).hexdigest()[:16]
+    return hashlib.sha256(text.encode()).hexdigest()[:16]
 
 
 def wl_features(pdg: PDG, iterations: int = 2) -> dict[str, int]:

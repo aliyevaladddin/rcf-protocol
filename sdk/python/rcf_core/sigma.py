@@ -98,8 +98,13 @@ def load_sigma(path: str | Path | None = None, *, verify_hash: bool = True) -> S
     verify_hash is True — on alphabet_hash drift between the stored value and the
     value recomputed from the node/edge structure.
     """
-    p = Path(path) if path is not None else _DEFAULT_SIGMA_PATH
-    if not p.exists():
+    # Resolve to an absolute, normalized path and constrain the input: the Σ
+    # alphabet is only ever a .json file. This rejects traversal-style input and
+    # non-JSON targets before any read happens.
+    p = (Path(path) if path is not None else _DEFAULT_SIGMA_PATH).resolve()
+    if p.suffix.lower() != ".json":
+        raise SigmaError(f"Σ source must be a .json file, got: {p.name}")
+    if not p.is_file():
         raise SigmaError(f"sigma.json not found at: {p}")
 
     try:
