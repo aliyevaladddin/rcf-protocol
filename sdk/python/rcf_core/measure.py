@@ -145,20 +145,24 @@ def measure_project(root: str, corpus: Corpus, sigma: Sigma | None = None) -> li
     Measure the PROTECTED function units of a project — the things the author
     declared worth protecting. Reuses rcf_cli.scanner for the is_protected verdict.
     """
+    from pathlib import Path
+
     from rcf_cli.scanner import RCFScanner
+    from .corpus import _safe_join_within
 
     sigma = sigma or load_sigma()
+    base = Path(root).resolve()
     scanner = RCFScanner(root)
     reports: list[UnitReport] = []
     for res in scanner.scan_directory(include_protected=True):
         if not res.get("is_protected"):
             continue
-        fpath = os.path.join(root, res["path"])
-        if not fpath.endswith(".py"):
+        if not res["path"].endswith(".py"):
             continue
         try:
-            src = open(fpath, encoding="utf-8", errors="ignore").read()
-        except Exception:
+            fpath = _safe_join_within(base, res["path"])  # reject path traversal
+            src = fpath.read_text(encoding="utf-8", errors="ignore")
+        except (ValueError, OSError):
             continue
         for rep in measure_source(src, corpus, sigma):
             rep.label = f"{res['path']} :: {rep.label}"

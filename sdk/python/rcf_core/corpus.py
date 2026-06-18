@@ -47,6 +47,19 @@ from .wl import wl_features
 _DEFAULT_CORPUS_PATH = Path(__file__).resolve().parent / "data" / "p_nat.json"
 
 
+def _safe_join_within(base: Path, rel: str) -> Path:
+    """
+    Resolve `rel` under `base` and refuse anything that escapes `base` — a
+    path-traversal guard for paths coming from a scanner result (dynamic input).
+    Mirrors the constraint already used in rcf_cli.scanner._load_rcfignore.
+    """
+    base = base.resolve()
+    p = (base / rel).resolve()
+    if base != p and base not in p.parents:
+        raise ValueError(f"path escapes project root: {rel!r}")
+    return p
+
+
 # ─── splitting a module into independent function units ───────────────────────
 
 def iter_function_units(source: str) -> list[str]:
@@ -161,7 +174,11 @@ def build_corpus(
 
 def freeze(corpus: Corpus, path: str | Path | None = None) -> Path:
     """Write a corpus to JSON. Creates the parent dir if needed."""
-    p = Path(path) if path is not None else _DEFAULT_CORPUS_PATH
+    # Resolve and constrain the target: a corpus is only ever a .json file. This
+    # normalizes any dynamic input before it reaches a filesystem write.
+    p = (Path(path) if path is not None else _DEFAULT_CORPUS_PATH).resolve()
+    if p.suffix.lower() != ".json":
+        raise SigmaError(f"corpus target must be a .json file, got: {p.name}")
     p.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "alphabet_hash": corpus.alphabet_hash,
@@ -232,9 +249,10 @@ def collect_stdlib_sources(limit: int | None = None) -> list[str]:
     stdlib_dir = sysconfig.get_paths().get("stdlib")
     if not stdlib_dir or not os.path.isdir(stdlib_dir):
         return []
+    base = Path(stdlib_dir).resolve()
 
     units: list[str] = []
-    for root, dirs, files in os.walk(stdlib_dir):
+    for root, dirs, files in os.walk(base):
         # prune noise: tests, site-packages, dunder dirs
         dirs[:] = [
             d for d in dirs
@@ -244,10 +262,12 @@ def collect_stdlib_sources(limit: int | None = None) -> list[str]:
         for fname in files:
             if not fname.endswith(".py"):
                 continue
-            fpath = os.path.join(root, fname)
             try:
-                src = Path(fpath).read_text(encoding="utf-8", errors="ignore")
-            except Exception:
+                fpath = (Path(root) / fname).resolve()
+                if base != fpath and base not in fpath.parents:
+                    continue  # stay within the stdlib tree
+                src = fpath.read_text(encoding="utf-8", errors="ignore")
+            except (ValueError, OSError):
                 continue
             for unit in iter_function_units(src):
                 units.append(unit)
@@ -267,17 +287,18 @@ def collect_project_background_sources(root: str) -> list[str]:
     """
     from rcf_cli.scanner import RCFScanner
 
+    base = Path(root).resolve()
     scanner = RCFScanner(root)
     units: list[str] = []
     for res in scanner.scan_directory(include_protected=True):
         if res.get("is_protected"):
             continue  # background is the *un*protected world only
-        fpath = os.path.join(root, res["path"])
-        if not fpath.endswith(".py"):
+        if not res["path"].endswith(".py"):
             continue
         try:
-            src = Path(fpath).read_text(encoding="utf-8", errors="ignore")
-        except Exception:
+            fpath = _safe_join_within(base, res["path"])  # reject path traversal
+            src = fpath.read_text(encoding="utf-8", errors="ignore")
+        except (ValueError, OSError):
             continue
         units.extend(iter_function_units(src))
     return units
