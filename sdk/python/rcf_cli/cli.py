@@ -1,4 +1,6 @@
 # NOTICE: This file is protected under RCF-PL
+from __future__ import annotations
+
 import argparse
 import sys
 import json
@@ -35,6 +37,116 @@ def _make_marker_line(file_path: str, marker: str = 'RCF:PROTECTED') -> str:
         return f'<!-- [{marker}] -->\n'
     prefix = _comment_prefix(file_path)
     return f'{prefix} [{marker}]\n'
+
+
+# ---------------------------------------------------------------------------
+# robots.txt — the RCF law on the project's threshold
+# ---------------------------------------------------------------------------
+#
+# RCF declares itself in the entry ritual every crawler/agent performs
+# (robots.txt is read first, before any code). This is the *announcing* half:
+# only aligned bots honor robots.txt — it is a declaration, not a lock. A
+# thief who strips it is caught by the other half (audit correlation).
+#
+# These lists and the block text are a shared contract: they MUST stay
+# byte-identical to the TypeScript SDK so a project is described the same way
+# whichever SDK generated its robots.txt.
+
+SEARCH_BOTS = ["Googlebot", "Bingbot", "DuckDuckBot"]
+
+AI_TRAINING_BOTS = [
+    "GPTBot",
+    "ClaudeBot",
+    "anthropic-ai",
+    "Google-Extended",
+    "CCBot",
+    "PerplexityBot",
+    "Bytespider",
+    "Amazonbot",
+]
+
+ROBOTS_BEGIN = "# >>> RCF-managed (Restricted Correlation Framework) >>>"
+ROBOTS_END = "# <<< RCF-managed <<<"
+
+
+def _render_rcf_robots_block() -> str:
+    """The RCF-managed robots.txt block. Byte-identical to the TS SDK."""
+    lines = [
+        ROBOTS_BEGIN,
+        "# This project is protected under RCF-PL. See NOTICE.md.",
+        "# Human reading and search indexing are welcome.",
+        "# AI/ML training and automated method extraction are restricted.",
+        "# robots.txt is honored only by aligned bots — a declaration, not a lock.",
+        "# Protocol: https://aliyev.site/rcf",
+        "",
+        "# Search engines — welcome (discovery / indexing)",
+    ]
+    lines += [f"User-agent: {bot}" for bot in SEARCH_BOTS]
+    lines += [
+        "Allow: /",
+        "",
+        "# AI/ML training crawlers — restricted (RCF-PL AI Training Restriction)",
+    ]
+    lines += [f"User-agent: {bot}" for bot in AI_TRAINING_BOTS]
+    lines += [
+        "Disallow: /",
+        ROBOTS_END,
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def _merge_robots_block(existing: str | None, block: str) -> str:
+    """
+    Idempotently merge the RCF block into an existing robots.txt.
+
+    - If a previous RCF-managed block exists (between the delimiters), replace
+      it in place — never duplicate, never touch surrounding lines.
+    - Otherwise append the block (preserving any existing content).
+    - If there is no existing file, the block is the whole file.
+    """
+    block = block.rstrip("\n") + "\n"
+    if not existing or not existing.strip():
+        return block
+
+    start = existing.find(ROBOTS_BEGIN)
+    end = existing.find(ROBOTS_END)
+    if start != -1 and end != -1 and end > start:
+        end_full = end + len(ROBOTS_END)
+        before = existing[:start]
+        after = existing[end_full:]
+        # Drop a single trailing newline left over from the old block so the
+        # spacing around the replacement stays stable across repeated runs.
+        if after.startswith("\n"):
+            after = after[1:]
+        merged = before + block.rstrip("\n") + ("\n" + after if after.strip() else "\n")
+        return merged
+
+    sep = "" if existing.endswith("\n") else "\n"
+    return existing + sep + "\n" + block
+
+
+def _write_rcf_robots(target: str, dry_run: bool) -> None:
+    """Generate / idempotently update robots.txt at the project root."""
+    robots_path = os.path.join(target, "robots.txt")
+    existing = None
+    if os.path.exists(robots_path):
+        try:
+            existing = Path(robots_path).read_text(encoding="utf-8")
+        except Exception as e:
+            print(f"⚠️  Cannot read robots.txt: {e}")
+            return
+
+    merged = _merge_robots_block(existing, _render_rcf_robots_block())
+    if merged == existing:
+        return  # already up to date — no churn
+
+    if dry_run:
+        verb = "update" if existing else "create"
+        print(f"🔍 DRY RUN : robots.txt would {verb} the RCF-managed block")
+        return
+
+    Path(robots_path).write_text(merged, encoding="utf-8")
+    print(f"✅ ROBOTS   : RCF law written to robots.txt (search allowed, AI training restricted)")
 
 
 # ---------------------------------------------------------------------------
@@ -387,8 +499,12 @@ def protect_project(args):
     scanner = RCFScanner(target, verbose=args.verbose)
     results = scanner.scan_directory()  # only files needing attention
 
+    write_robots = not getattr(args, "no_robots", False)
+
     if not results:
-        print("✅ No unprotected logic found. Nothing to do.")
+        print("✅ No unprotected logic found.")
+        if write_robots:
+            _write_rcf_robots(target, args.dry_run)
         return
 
     modified = 0
@@ -443,6 +559,10 @@ def protect_project(args):
     print()
     action = "Would modify" if args.dry_run else "Modified"
     print(f"🛡️  {action} {modified} file(s). Skipped: {skipped}.")
+
+    if write_robots:
+        _write_rcf_robots(target, args.dry_run)
+
     if args.dry_run:
         print("   Run without --dry-run to apply changes.")
 
@@ -506,6 +626,7 @@ def main():
     )
     p_protect.add_argument("path", nargs="?", default=".", metavar="PATH")
     p_protect.add_argument("--dry-run", action="store_true", help="Preview changes without writing")
+    p_protect.add_argument("--no-robots", action="store_true", help="Skip generating/updating robots.txt")
     p_protect.add_argument("--verbose", "-v", action="store_true")
 
     args = parser.parse_args()

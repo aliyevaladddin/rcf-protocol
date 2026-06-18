@@ -13,6 +13,35 @@ import { MarkerParser } from '../core/MarkerParser.js';
 import { ComplianceValidator } from '../core/ComplianceValidator.js';
 import { AuditReport } from '../core/types.js';
 import { Scanner } from '../core/Scanner.js';
+import { renderRcfRobotsBlock, mergeRobotsBlock } from '../core/constants.js';
+
+// Generate / idempotently update robots.txt at the project root — the RCF law
+// on the threshold. Shared block text lives in constants.ts (byte-identical to
+// the Python SDK).
+function writeRcfRobots(root: string, dryRun: boolean): void {
+  const robotsPath = join(root, 'robots.txt');
+  let existing: string | null = null;
+  if (existsSync(robotsPath)) {
+    try {
+      existing = readFileSync(robotsPath, 'utf-8');
+    } catch (e: any) {
+      console.log(chalk.yellow('⚠️  Cannot read robots.txt: ' + e.message));
+      return;
+    }
+  }
+
+  const merged = mergeRobotsBlock(existing, renderRcfRobotsBlock());
+  if (merged === existing) return; // already up to date — no churn
+
+  if (dryRun) {
+    const verb = existing ? 'update' : 'create';
+    console.log(chalk.cyan('🔍 DRY RUN : robots.txt would ' + verb + ' the RCF-managed block'));
+    return;
+  }
+
+  writeFileSync(robotsPath, merged, 'utf-8');
+  console.log(chalk.green('✅ ROBOTS   : RCF law written to robots.txt (search allowed, AI training restricted)'));
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -341,15 +370,18 @@ program
   .command('protect [path]')
   .description('Auto-insert RCF markers into unprotected logic blocks')
   .option('--dry-run', 'preview changes without writing files')
+  .option('--no-robots', 'skip generating/updating robots.txt')
   .option('-v, --verbose', 'show details')
   .action((pathArg = '.', options) => {
     const root = resolve(pathArg);
+    const writeRobots = options.robots !== false; // commander sets .robots=false for --no-robots
     const scanner = new Scanner();
     const results = scanner.scanDirectory(root);
     const needsWork = results.filter(r => r.hasUnprotectedLogic || !r.hasHeader);
 
     if (!needsWork.length) {
-      console.log(chalk.green('✅ No unprotected logic found. Nothing to do.'));
+      console.log(chalk.green('✅ No unprotected logic found.'));
+      if (writeRobots) writeRcfRobots(root, !!options.dryRun);
       return;
     }
 
@@ -401,6 +433,9 @@ program
     console.log();
     const action = options.dryRun ? 'Would modify' : 'Modified';
     console.log(chalk.bold('🛡️  ' + action + ' ' + modified + ' file(s). Skipped: ' + skipped + '.'));
+
+    if (writeRobots) writeRcfRobots(root, !!options.dryRun);
+
     if (options.dryRun) console.log(chalk.gray('   Run without --dry-run to apply changes.'));
   });
 

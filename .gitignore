@@ -27,6 +27,9 @@ dist/
 *.pyc
 *.pyo
 
+# RCF v3 surprisal corpus — generated artifact (rebuild via python -m rcf_core.corpus)
+sdk/python/rcf_core/data/p_nat.json
+
 # Node.js build artifacts
 node_modules/
 dist/
