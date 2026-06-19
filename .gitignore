@@ -30,6 +30,9 @@ dist/
 # RCF v3 surprisal corpus — generated artifact (rebuild via python -m rcf_core.corpus)
 sdk/python/rcf_core/data/p_nat.json
 
+# RCF v3 null model — generated court exhibit (rebuild via python -m rcf_core.proof build-null)
+sdk/python/rcf_core/data/null_model.json
+
 # Node.js build artifacts
 node_modules/
 dist/
