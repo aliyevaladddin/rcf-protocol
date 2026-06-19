@@ -126,6 +126,11 @@ jobs:
     name: ⚖️ RCF Compliance Audit
     needs: [test-typescript, test-python]
     runs-on: ubuntu-latest
+    # Dependabot PRs run with a restricted token and CANNOT read secrets
+    # (RCF_LICENSE_KEY is empty there), so the premium `audit` gate would always
+    # fail on them — a missing-secret failure, not a compliance violation. Skip
+    # the gate for the bot; it still runs on every human PR and on push.
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v6
       - name: Run RCF Audit
