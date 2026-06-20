@@ -2,7 +2,7 @@
 <!-- [RCF:PROTECTED] -->
 # RCF-CORRELATION — The Mathematical Core of Restricted Correlation
 
-**Status:** Research / Draft — theoretical core defined, implementation in progress
+**Status:** Research / Draft — theoretical core defined; §4–§5 implemented in the `rcf_core` reference engine (Python-only first ring), §6 (canary) and cross-language lowering still ahead
 **Document Type:** Mathematical Specification
 **Generation:** RCF v3 (the correlation core; not a release number)
 **Author:** Aladdin Aliyev
@@ -27,7 +27,9 @@ RCF v3 makes the protocol's middle name literal. It defines **correlation** as a
 measurable, language-invariant quantity, and turns "this looks similar" into
 **"independent origin is statistically excluded."** This document fixes that
 mathematics. It is normative for the *definitions* and the *invariants*; the
-reference implementation is tracked separately and is not yet complete.
+reference implementation lives in `rcf_core/` (Python). §4 (surprisal corpus +
+measure) and §5 (p-value / E-value) are implemented as the first, Python-only
+ring; cross-language lowering (§8.1) and the canary (§6) are still ahead.
 
 ---
 
@@ -217,6 +219,16 @@ This — not "87% similar" — is what the premium audit must sell:
 
 That is the legally durable claim.
 
+**Implemented (`rcf_core/proof.py`).** `build_null` draws the null distribution
+of `corr` over distinct corpus-unit pairs (seeded, reproducible); `prove` /
+`evaluate` report the score against it. Honesty is built in: the *empirical*
+p-value has a hard resolution floor of `1/(K+1)` and cannot reach `10⁻⁹` at any
+realistic `K`, so the headline rides a *parametric* normal-tail model that is
+always labeled `MODEL EXTRAPOLATION`, with the empirical p and its floor reported
+beside it — never collapsed into one unlabeled number. The null is built from
+Python units, so it judges independence *within Python* (first ring); a
+cross-language null is a later ring over the same interface.
+
 ---
 
 ## 6. Methodology Canary — Designed Evidence
@@ -247,13 +259,13 @@ RCF v3  =   surprisal-weighted WL-kernel        (origin)
             + methodology canary                 (designed evidence)
 ```
 
-| Component | Role | Status of art |
-|-----------|------|---------------|
-| **PDG** | survives language translation | known; needs per-language lowering |
-| **WL-kernel** | computable, rename-invariant similarity | known |
-| **surprisal weight** | turns similarity into *origin* | **RCF contribution** |
-| **p-value / E-value** | turns score into court-grade proof | known (BLAST analogy) |
-| **methodology canary** | near-zero-false-positive designed evidence | **RCF contribution** |
+| Component | Role | Status of art | In `rcf_core` |
+|-----------|------|---------------|---------------|
+| **PDG** | survives language translation | known; needs per-language lowering | ✅ Python (`normalize_python`) |
+| **WL-kernel** | computable, rename-invariant similarity | known | ✅ `wl.py` |
+| **surprisal weight** | turns similarity into *origin* | **RCF contribution** | ✅ `corpus.py` + `measure.py` |
+| **p-value / E-value** | turns score into court-grade proof | known (BLAST analogy) | ✅ `proof.py` |
+| **methodology canary** | near-zero-false-positive designed evidence | **RCF contribution** | ⏳ not yet |
 
 ---
 
@@ -304,7 +316,7 @@ This section is normative: RCF must not overclaim.
 ---
 
 **Document Control:**
-- Status: Research / Draft — theoretical core fixed; reference implementation in progress
+- Status: Research / Draft — theoretical core fixed; §4–§5 implemented in `rcf_core` (Python first ring), §6 + cross-language lowering ahead
 - Generation: RCF v3 (correlation core)
 - Scope: Normative for definitions and invariants; non-normative for implementation
 
