@@ -233,19 +233,130 @@ cross-language null is a later ring over the same interface.
 
 ## 6. Methodology Canary — Designed Evidence
 
-Surprisal exploits idiosyncrasy that *already exists*. A **canary** *injects* it on
-purpose: a deliberately arbitrary, functionally-neutral choice planted in the
-protected work — a specific constant, an extra-but-load-bearing step, a unique
-edge-case handling.
+> **Implementation status:** Designed; not yet implemented in `rcf_core`.
+> This section is a normative specification for the planned canary mechanism.
+> See §7 status table. The analysis below draws on the same PDG/surprisal
+> invariants that §4–§5 already implement.
 
-- Functionally inert: removing it does not change correct behavior.
-- If it surfaces in a third party's implementation **in any language**, it is a
-  smoking gun with **near-zero false-positive rate**, because an honest, independent
-  implementation has *no reason* to reproduce it.
+Surprisal (§4) exploits idiosyncrasy that *already exists* in the protected work.
+A **canary** *injects* it deliberately: a functionally-neutral, arbitrary choice
+planted in the codebase before publication — a specific constant, a redundant
+intermediate step, a unique edge-case branch. If that exact idiosyncrasy surfaces
+in a third party's implementation in any language, its presence is a
+**near-zero-false-positive signal**, because an honest independent author has no
+reason to reproduce it.
 
-Among all signals, the canary is the **cleanest** for legal use: it is engineered for
-near-zero false positives, whereas behavioral equivalence (§3.3) false-positives on
-converging solutions.
+Among all signals in the RCF v3 stack, the canary is the **cleanest for legal
+use**: its false-positive rate approaches zero by construction, whereas behavioral
+equivalence (§3.3) false-positives on convergent solutions and surprisal (§4)
+still leaves a residual coincidence probability.
+
+### 6.1 Design Constraints
+
+A valid canary must satisfy three constraints simultaneously:
+
+1. **Functionally neutral** — no observable behavior changes on any input.
+   Removing the canary must not break, slow, or alter any test.
+2. **Semantic, not textual** — the canary must survive translation into another
+   language. As §1.1 establishes, only PDG topology and semantic labels survive
+   translation; token-level choices (variable names, comments, whitespace) are
+   rewritten immediately. A canary embedded only in naming is useless.
+3. **Low `P_nat(f)`, high plausibility** — arbitrary enough that independent
+   reimplementation is implausible (`w(f)` large), but natural-looking enough that
+   it is not removed during code review as dead code or refactored away by
+   an optimizer.
+
+### 6.2 Implementation Techniques
+
+The following techniques produce canaries that satisfy all three constraints and
+are detectable via the PDG / WL-kernel pipeline of §3–§4.
+
+**Technique 1 — Redundant intermediate step**
+
+Instead of a direct operation, introduce a semantically equivalent but
+structurally distinct path:
+
+```python
+# Direct (no canary):
+x ^= mask
+
+# Canary variant — identical result, extra PDG node + edge:
+tmp = x ^ CANARY_A
+x   = tmp ^ (CANARY_A ^ mask)   # CANARY_A cancels; result is x ^ mask
+```
+
+The constant `CANARY_A` appears in two nodes; the intermediate `tmp` creates a
+data-dependence edge that is absent in any direct implementation. WL iteration
+*k=1* captures this extra local structure.
+
+**Technique 2 — Non-trivial commutative ordering**
+
+When steps `a`, `b`, `c` are mutually independent and any order yields the same
+result, choose a statistically rare permutation:
+
+```python
+# Natural order (high P_nat): a → b → c
+# Canary order (low P_nat):   c → a → b
+```
+
+This changes the topological sort of the PDG without altering the data-dependence
+graph or observable output. WL captures the ordering through the relative
+iterations of neighbor labels.
+
+**Technique 3 — Redundant edge-case branch**
+
+Add a branch for an input that is structurally reachable but provably never
+occurs in this function's call context — and whose handler is the identity:
+
+```python
+if value == CANARY_SENTINEL:   # unreachable in practice
+    return value               # identity — no effect
+# ... normal logic ...
+```
+
+This inserts a `BRANCH` node and a `CONST` node into the PDG. Both survive
+translation because they are semantic. The specific sentinel value is recorded
+in the private registry (§6.3) as part of the canary specification.
+
+**Technique 4 — Structurally redundant decomposition**
+
+Split one computation into two in a non-obvious, non-standard way:
+
+```python
+# Standard bit-fold (high P_nat):
+result = x & 0xFFFF
+
+# Canary decomposition (low P_nat):
+high  = (x >> 8) & 0xFF
+low   = x & 0xFF
+result = (high << 8) | low     # identical; unusual grouping
+```
+
+The extra nodes and edges in the PDG are not produced by any straightforward
+implementation of the same operation.
+
+### 6.3 Operational Requirements
+
+A canary is legally useful only if the following conditions hold:
+
+1. **Private canary registry (pre-publication)**
+   Before publishing the protected code, record each canary in a private,
+   timestamped document (not in the public repository): date, file, location,
+   technique used, specific constants/values, and a hash of the surrounding
+   context. Without this record, the canary is an anomaly, not evidence of
+   priority.
+
+2. **Survive optimization and refactoring**
+   Verify that no linter, compiler, or formatter removes the canary as dead
+   code. If a CI pass eliminates it, it provides no protection. Techniques 1
+   and 4 are more vulnerable here than Techniques 2 and 3.
+
+3. **Multiple independent canaries**
+   A single matching canary can be attributed to coincidence. Three or more
+   independent canaries (different files, different techniques) matching
+   simultaneously constitute evidence that is statistically irrefutable under
+   the E-value framework of §5. Plant canaries at the module level, not only
+   at the function level.
 
 ---
 
@@ -283,8 +394,10 @@ This section is normative: RCF must not overclaim.
 4. **RCF cannot prevent an AI from learning.** This is physically impossible at the
    license layer. RCF v3 is a layer of **detection, proof, and deterrence** — not DRM.
    The proof *is* the market value.
-5. **Behavioral equivalence false-positives on convergent solutions.** Prefer the
-   canary (§6) for legal claims; treat §3.3 as corroborating, not decisive.
+5. **Behavioral equivalence false-positives on convergent solutions.** When the
+   canary mechanism is implemented (§6, currently ahead), prefer it for legal
+   claims — its false-positive rate approaches zero by construction. Until then,
+   treat §3.3 as corroborating evidence only, not as standalone proof.
 
 ---
 
