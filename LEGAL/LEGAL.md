@@ -7,6 +7,22 @@
 
 ---
 
+> **Nature of this document — read first.**
+> This is the legal framework RCF-PL *asserts*. The positions below — that RCF
+> markers function as a Technological Protection Measure, that accessing a marked
+> file constitutes acceptance of the license, that rights terminate automatically
+> on violation — are **good-faith legal theories, not adjudicated facts**. Most
+> have not been tested in court, and their force varies by jurisdiction and on the
+> specific facts of a case. The dollar figures cited are **statutory ranges that a
+> court may award if infringement is proven**, not amounts that accrue
+> automatically. RCF holds its technical claims to a strict honesty standard (it
+> labels its own limits — "first ring", "model extrapolation", "a declaration, not
+> a lock"); this document is held to the same standard. Treat it as a stated
+> position to be argued, not a settled outcome. It is not legal advice — for any
+> enforcement action, consult a licensed IP attorney (see §7).
+
+---
+
 ## 1. Legal Basis of RCF
 
 The Restricted Correlation Framework (RCF) is grounded in three independent bodies of law that operate simultaneously and reinforce each other.
@@ -19,7 +35,7 @@ The act of publishing source code does not constitute an implied license to expl
 
 ### Contract Law — Acceptance by Use
 
-RCF operates on the doctrine of **Acceptance by Use** (constructive consent). Any party — human or automated — that accesses a file containing RCF markers is deemed to have received legal notice and to have accepted the license terms.
+RCF invokes the doctrine of **Acceptance by Use** (constructive consent): RCF-PL asserts that any party — human or automated — that accesses a file containing RCF markers has received legal notice and accepted the license terms. How far constructive consent reaches, especially to automated access with no human assent, is unsettled and varies by jurisdiction; this is an asserted position, not an established rule.
 
 Notice is established through four independent layers:
 
@@ -30,15 +46,15 @@ Notice is established through four independent layers:
 | 3 | Per-file header | `# NOTICE: This file is protected under RCF-PL` |
 | 4 | Block-level marker | `[RCF:PROTECTED]`, `[RCF:RESTRICTED]` |
 
-Each layer independently constitutes notice. No party may claim ignorance of the license terms after accessing any file bearing these markers.
+Each layer is intended to constitute notice. RCF-PL's position is that, given four overlapping layers, a party cannot credibly claim ignorance of the license terms after accessing a file bearing these markers — though whether notice is legally effective in a given case remains for a court to decide.
 
 ### DMCA Anti-Circumvention
 
 The **Digital Millennium Copyright Act (DMCA)** provides two protections directly applicable to RCF:
 
-**§1201 — Anti-Circumvention:** RCF markers combined with `rcf-cli` verification constitute a **Technological Protection Measure (TPM)**. Automated systems that strip, ignore, or work around RCF markers to facilitate training or extraction may constitute circumvention under §1201, triggering statutory damages of $200–$2,500 per act (17 U.S.C. §1203).
+**§1201 — Anti-Circumvention:** RCF-PL takes the position that RCF markers combined with `rcf-cli` verification can function as a **Technological Protection Measure (TPM)**. This is a contested reading — §1201 was written for measures that control *access* (e.g. encryption), and a marker that declares terms without technically blocking access may not qualify; no court has ruled on RCF. On that theory, automated systems that strip, ignore, or work around RCF markers to facilitate training or extraction may constitute circumvention under §1201, for which the statute provides damages of $200–$2,500 per act *if a violation is established* (17 U.S.C. §1203).
 
-**§1202 — Copyright Management Information (CMI):** RCF markers are **CMI** as defined by §1202(c) — they identify the work, the rights holder, and the terms of use. Intentional removal or alteration of RCF markers constitutes a separate violation independent of any underlying infringement claim. Statutory damages: $2,500–$25,000 per violation.
+**§1202 — Copyright Management Information (CMI):** RCF-PL asserts that RCF markers are **CMI** within §1202(c) — they identify the work, the rights holder, and the terms of use. On this reading, *intentional* removal or alteration of RCF markers — done knowing, or with reason to know, it would conceal infringement — could be a violation independent of any underlying infringement claim. §1202 requires that knowing/intentional mental state; it is not automatic. Where established, the statute provides damages of $2,500–$25,000 per violation (17 U.S.C. §1203).
 
 ### WIPO Copyright Treaty (WCT)
 
