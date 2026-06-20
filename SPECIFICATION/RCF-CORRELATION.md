@@ -233,10 +233,12 @@ cross-language null is a later ring over the same interface.
 
 ## 6. Methodology Canary — Designed Evidence
 
-> **Implementation status:** Designed; not yet implemented in `rcf_core`.
-> This section is a normative specification for the planned canary mechanism.
-> See §7 status table. The analysis below draws on the same PDG/surprisal
-> invariants that §4–§5 already implement.
+> **Implementation status:** the *designed* canary of this section is not yet
+> implemented in `rcf_core`. A weaker, free relative — the **natural sentinel**
+> (`sentinel.py`) — is implemented and described in §6.4; it is explicitly *not*
+> a designed canary. This section is a normative specification for the planned
+> canary mechanism. See §7 status table. The analysis below draws on the same
+> PDG/surprisal invariants that §4–§5 already implement.
 
 Surprisal (§4) exploits idiosyncrasy that *already exists* in the protected work.
 A **canary** *injects* it deliberately: a functionally-neutral, arbitrary choice
@@ -358,6 +360,32 @@ A canary is legally useful only if the following conditions hold:
    the E-value framework of §5. Plant canaries at the module level, not only
    at the function level.
 
+### 6.4 Natural Sentinels — Implemented, and Why They Are Weaker
+
+A **designed canary** (§6.1–§6.3) must be *authored*: an arbitrary,
+functionally-neutral choice planted on purpose. A cheaper relative is available
+for free from the §4 machinery, and is implemented in `rcf_core/sentinel.py`:
+rank a project's existing protected functions by surprisal mass
+(`measure_project`) and watch the heaviest. No new code is written — you simply
+select the functions that *already* stand out (e.g. a hand-rolled bit-mixer).
+
+This is **not** a designed canary, and the tool says so. The distinction is
+load-bearing:
+
+| | Designed canary (§6.1–§6.3) | Natural sentinel (§6.4) |
+|---|---|---|
+| Origin | authored, functionally **neutral** | a real, load-bearing function |
+| Convergence | immune — no reason to reproduce | **vulnerable** — an independent author can converge on a similar shape |
+| Proof strength | near-zero false-positive ("impossible by chance") | a lead, not a verdict ("unlikely by chance") |
+| Cost | must be planted | free — pick from what exists |
+| Over-time stability | stable — useless code never appears naturally | **decays silently** — surprisal is corpus-relative; if the pattern spreads (a future stdlib, a popular library), the sentinel ages out without warning |
+
+Because of the decay risk, `sentinel.py` never freezes its list: it re-measures
+live on every run, and its banner instructs re-running before each audit. A
+sentinel hit is a reason to run §5 (`proof.py`) against the suspect, not a
+finding on its own. The designed canary of §6.1–§6.3 remains the instrument for
+the legally decisive, convergence-proof claim, and is still to be built.
+
 ---
 
 ## 7. The v3 Core, Synthesized
@@ -376,7 +404,7 @@ RCF v3  =   surprisal-weighted WL-kernel        (origin)
 | **WL-kernel** | computable, rename-invariant similarity | known | ✅ `wl.py` |
 | **surprisal weight** | turns similarity into *origin* | **RCF contribution** | ✅ `corpus.py` + `measure.py` |
 | **p-value / E-value** | turns score into court-grade proof | known (BLAST analogy) | ✅ `proof.py` |
-| **methodology canary** | near-zero-false-positive designed evidence | **RCF contribution** | ⏳ not yet |
+| **methodology canary** | near-zero-false-positive designed evidence | **RCF contribution** | ⏳ designed canary not yet; `sentinel.py` ranks *natural* signatures (weaker — see §6.4) |
 
 ---
 
