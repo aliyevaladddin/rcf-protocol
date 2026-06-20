@@ -31,7 +31,7 @@ The Restricted Correlation Framework (RCF) is grounded in three independent bodi
 
 RCF-protected works are protected under the **Berne Convention** (179 signatory states) and applicable national copyright law. The `RCF-PL` license constitutes a **conditional grant**: it grants Visibility rights unconditionally, while Usage rights require explicit written authorization.
 
-The act of publishing source code does not constitute an implied license to exploit it. Courts have consistently construed implied licenses narrowly. RCF eliminates ambiguity by making terms explicit and machine-readable at the block level.
+RCF-PL's position is that publishing source code does not, by itself, grant an implied license to exploit it — and courts have often construed implied copyright licenses narrowly. RCF aims to reduce ambiguity by making terms explicit and machine-readable at the block level; whether that succeeds in a given dispute is for a court to weigh.
 
 ### Contract Law — Acceptance by Use
 
@@ -83,7 +83,7 @@ This distinction applies regardless of whether access is by a human or an automa
 | `[RCF:PROTECTED]` | Core methodology and algorithmic logic | Visibility permitted. Replication, extraction, and AI/ML training prohibited. |
 | `[RCF:RESTRICTED]` | Sensitive implementation details | Minimal access. No reproduction in any form without written license. |
 
-Markers removed from a file after the generation of `RCF-AUDIT-REPORT.json` constitute evidence of intentional circumvention under DMCA §1202.
+Markers removed from a file after the generation of `RCF-AUDIT-REPORT.json` can serve as *evidence* toward a §1202 claim of intentional circumvention — the audit report establishes the prior state — but intent and the §1202 elements still have to be proven; the removal alone is not a finding of violation.
 
 ---
 
@@ -129,7 +129,7 @@ This supports enforcement actions by providing independently verifiable evidence
 
 ## 6. Termination of Rights
 
-All rights granted under RCF-PL are **automatically and immediately terminated** upon any violation of these terms. Termination requires no prior notice, no cure period, and no judicial determination.
+By its terms, RCF-PL provides that all rights it grants **terminate automatically and immediately** upon any violation, with no prior notice and no cure period. This is how the license is *written* to operate; whether a violation in fact occurred — and therefore whether termination was triggered — is ultimately a question a court resolves if the matter is disputed.
 
 Upon termination:
 
