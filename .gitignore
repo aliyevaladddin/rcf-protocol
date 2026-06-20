@@ -10,6 +10,7 @@ keys/
 # Local-only SDK docs
 sdk/README.md
 .pytest_cache/
+.devcontainer/
 
 # Audit reports (generated)
 RCF-AUDIT-REPORT.json

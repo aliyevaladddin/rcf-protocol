@@ -25,7 +25,7 @@
 
 ## 1. Legal Basis of RCF
 
-The Restricted Correlation Framework (RCF) is grounded in three independent bodies of law that operate simultaneously and reinforce each other.
+The Restricted Correlation Framework (RCF) rests on three independent legal theories — copyright, contract, and DMCA anti-circumvention — that RCF-PL advances together. Each is addressed below, including where its application to RCF is untested or contested.
 
 ### Copyright Law
 
@@ -58,7 +58,7 @@ The **Digital Millennium Copyright Act (DMCA)** provides two protections directl
 
 ### WIPO Copyright Treaty (WCT)
 
-The **WIPO Copyright Treaty** (1996), adopted by 110+ countries, obligates signatories to provide legal protection against circumvention of effective technological measures. This extends RCF's legal basis into the EU (via the Copyright Directive 2001/29/EC, Article 6), the UK (CDPA §296ZA), and most major technology jurisdictions.
+The **WIPO Copyright Treaty** (1996), adopted by 110+ countries, obligates signatories to provide legal protection against circumvention of effective technological measures — implemented domestically via the EU Copyright Directive (2001/29/EC, Article 6), the UK CDPA §296ZA, and equivalents in most major technology jurisdictions. As with §1201, these provisions share the same "effective technological measure" threshold, and whether a declarative marker meets that threshold has not been tested in any of these jurisdictions either.
 
 ---
 
@@ -89,7 +89,7 @@ Markers removed from a file after the generation of `RCF-AUDIT-REPORT.json` can 
 
 ## 4. Prohibited Activities
 
-The following activities are prohibited without explicit written authorization from the rights holder:
+Under RCF-PL's legal theory, the following activities are prohibited without explicit written authorization from the rights holder. As above, the enforceability of any given prohibition depends on which of the legal bases in §1 a court accepts in a given jurisdiction and on the specific facts of the case.
 
 1. **Automated Extraction** — Any automated harvesting, scraping, or parsing of RCF-protected logic, including crawlers, LLM training pipelines, and data ingestion systems.
 
