@@ -1,9 +1,10 @@
 ---
 name: Bug report
 about: Create a report to help us improve the RCF Protocol
-title: '[BUG] '
-labels: 'bug'
+title: "[BUG] "
+labels: bug
 assignees: ''
+
 ---
 
 **Describe the bug**
