@@ -25,7 +25,7 @@ jobs:
     name: 🛡️ Security Scan (Bearer & Snyk)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Bearer Scan
         uses: bearer/bearer-action@828eeb928ce2f4a7ca5ed57fb8b59508cb8c79bc
@@ -71,7 +71,7 @@ jobs:
         language: [ 'javascript-typescript', 'python' ]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
@@ -90,7 +90,7 @@ jobs:
     needs: [security-scan, codeql-analysis]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Use Node.js 20.x
         uses: actions/setup-node@v6
         with:
@@ -108,7 +108,7 @@ jobs:
     needs: [security-scan, codeql-analysis]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Set up Python 3.9
         uses: actions/setup-python@v6
         with:
@@ -132,7 +132,7 @@ jobs:
     # the gate for the bot; it still runs on every human PR and on push.
     if: github.actor != 'dependabot[bot]'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Run RCF Audit
         uses: ./.github/actions/rcf-audit
         with:
