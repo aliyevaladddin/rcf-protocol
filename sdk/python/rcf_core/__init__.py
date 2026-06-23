@@ -14,8 +14,11 @@ shipped CLI; rcf_core is the research engine. They share nothing but intent.
 from .sigma import Sigma, SigmaError, load_sigma
 from .pdg import PDG
 from .normalize_python import normalize_python
+from .normalize import normalize_by_extension
 from .wl import wl_features
 from .correlate import correlate, unit_weight, surprisal_weight_from_corpus
+from .canary import CanaryRegistry, CanaryRecord, find_subgraph_isomorphisms
+from .noise import inject_adversarial_noise_python
 
 # NOTE: the research/CLI layer (corpus, measure, proof) is deliberately NOT
 # re-exported here — those modules are `python -m`-runnable and importing them
@@ -24,6 +27,8 @@ from .correlate import correlate, unit_weight, surprisal_weight_from_corpus
 
 __all__ = [
     "Sigma", "SigmaError", "load_sigma",
-    "PDG", "normalize_python",
+    "PDG", "normalize_python", "normalize_by_extension",
     "wl_features", "correlate", "unit_weight", "surprisal_weight_from_corpus",
+    "CanaryRegistry", "CanaryRecord", "find_subgraph_isomorphisms",
+    "inject_adversarial_noise_python",
 ]

@@ -11,6 +11,12 @@ keys/
 sdk/README.md
 .pytest_cache/
 .devcontainer/
+test_api.cjs
+test_norm.cjs
+test_require.cjs
+test_ts.cjs
+test_norm.ts
+test_export.cjs
 
 # Audit reports (generated)
 RCF-AUDIT-REPORT.json

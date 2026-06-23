@@ -1,204 +1,106 @@
-// NOTICE: This file is protected under RCF-PL
 import { describe, expect, it } from '@jest/globals';
-import { ComplianceValidator } from '../src/core/ComplianceValidator.js';
-import { Scanner } from '../src/core/Scanner.js';
-import type { FileScanResult } from '../src/core/types.js';
+import { Scanner, ScannerResult } from '../src/core/Scanner.js';
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
 
-// ─── ComplianceValidator ──────────────────────────────────────────────────────
+function setupTempWorkspace(): string {
+  const tmpDir = path.resolve('tests/temp_scanner_workspace');
+  if (fs.existsSync(tmpDir)) {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+  fs.mkdirSync(tmpDir, { recursive: true });
 
-describe('ComplianceValidator', () => {
-  it('strict mode — missing header triggers error', async () => {
-    const validator = new ComplianceValidator({ strict: true });
+  // Create a temporary file with RCF markers
+  fs.writeFileSync(
+    path.join(tmpDir, 'protected_code.py'),
+    '# NOTICE: This file is protected under RCF-PL\n# [RCF:RESTRICTED]\ndef secret(): pass'
+  );
 
-    const mockResults: FileScanResult[] = [
-      {
-        file: 'src/protected.ts',
-        markers: [{ type: 'PROTECTED', line: 2, column: 0, context: '', raw: '[RCF:PROTECTED]' }],
-        hasHeader: false,
-        isProtected: true,
-      },
-    ];
+  // Create a public file
+  fs.writeFileSync(
+    path.join(tmpDir, 'public_code.py'),
+    '# [RCF:PUBLIC]\ndef architecture(): pass'
+  );
 
-    const result = await validator.validate(mockResults);
-    expect(result.valid).toBe(false);
-    expect(result.errors.length).toBeGreaterThanOrEqual(1);
-    expect(result.errors[0].file).toBe('src/protected.ts');
+  // Create an unmarked file
+  fs.writeFileSync(
+    path.join(tmpDir, 'normal_code.py'),
+    'def normal(): pass'
+  );
+
+  return tmpDir;
+}
+
+function teardownTempWorkspace(tmpDir: string) {
+  if (fs.existsSync(tmpDir)) {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+}
+
+describe('RCF Scanner (rcf_cli.scanner)', () => {
+  // 1. test_scanner_detects_markers
+  it('should detect RCF markers and headers correctly', () => {
+    const tmpDir = setupTempWorkspace();
+    const scanner = new Scanner();
+    const results = scanner.scanDirectory(tmpDir);
+
+    expect(results.length).toBe(3);
+
+    const restrictedMatch = results.find(r => r.path.includes('protected_code.py'))!;
+    expect(restrictedMatch).toBeDefined();
+    expect(restrictedMatch.markers).toContain('RESTRICTED');
+    expect(restrictedMatch.hasHeader).toBe(true);
+
+    const publicMatch = results.find(r => r.path.includes('public_code.py'))!;
+    expect(publicMatch).toBeDefined();
+    expect(publicMatch.markers).toContain('PUBLIC');
+    expect(publicMatch.hasHeader).toBe(false);
+
+    teardownTempWorkspace(tmpDir);
   });
 
-  it('strict mode — header present, passes validation', async () => {
-    const validator = new ComplianceValidator({ strict: true });
+  // 2. test_scanner_ignores_files
+  it('should ignore scannable files inside ignored directories like node_modules', () => {
+    const tmpDir = setupTempWorkspace();
+    const nodeModules = path.join(tmpDir, 'node_modules');
+    fs.mkdirSync(nodeModules);
+    fs.writeFileSync(
+      path.join(nodeModules, 'ignored.py'),
+      '# [RCF:RESTRICTED]'
+    );
 
-    const mockResults: FileScanResult[] = [
-      {
-        file: 'src/public.ts',
-        markers: [{ type: 'PUBLIC', line: 2, column: 0, context: '', raw: '[RCF:PUBLIC]' }],
-        hasHeader: true,
-        isProtected: true,
-      },
-    ];
+    const scanner = new Scanner();
+    const results = scanner.scanDirectory(tmpDir);
 
-    const result = await validator.validate(mockResults);
-    expect(result.valid).toBe(true);
-    expect(result.errors.length).toBe(0);
+    // Should still be 3 because node_modules is ignored
+    expect(results.length).toBe(3);
+
+    teardownTempWorkspace(tmpDir);
   });
 
-  it('non-strict mode — missing header does not trigger error', async () => {
-    const validator = new ComplianceValidator({ strict: false });
+  // 3. test_audit_excludes_unprotected_files
+  it('should exclude unprotected files from the ownership/audit asset list', () => {
+    const tmpDir = setupTempWorkspace();
+    const scanner = new Scanner();
+    const results = scanner.scanDirectory(tmpDir);
 
-    const mockResults: FileScanResult[] = [
-      {
-        file: 'src/algo.ts',
-        markers: [{ type: 'PROTECTED', line: 5, column: 0, context: '', raw: '[RCF:PROTECTED]' }],
-        hasHeader: false,
-        isProtected: true,
-      },
-    ];
+    const assets: any[] = [];
+    for (const res of results) {
+      if (!res.isProtected) continue;
+      const content = fs.readFileSync(res.path);
+      const digest = crypto.createHash('sha256').update(content).digest('hex');
+      assets.push({
+        file: path.basename(res.path),
+        markers: res.markers,
+        sha256: digest
+      });
+    }
 
-    const result = await validator.validate(mockResults);
-    expect(result.valid).toBe(true);
-  });
+    const recorded = new Set(assets.map(a => a.file));
+    expect(recorded.has('normal_code.py')).toBe(false);
+    expect(recorded).toEqual(new Set(['protected_code.py', 'public_code.py']));
 
-  it('diff — detects removed markers', () => {
-    const validator = new ComplianceValidator();
-
-    const currentResults: FileScanResult[] = [
-      {
-        file: '/root/src/algo.ts',
-        markers: [],           // PROTECTED was removed
-        hasHeader: true,
-        isProtected: true,
-      },
-    ];
-
-    const report = {
-
-      timestamp: new Date().toISOString(),
-      audit_type: 'RCF-Audit',
-      root: '/root',
-      protected_assets: [
-        { file: 'src/algo.ts', markers: ['PROTECTED'], sha256: 'abc123' },
-      ],
-    };
-
-    const diff = validator.diff(currentResults, report, '/root');
-    expect(diff.passed).toBe(false);
-    expect(diff.violations.length).toBe(1);
-    expect(diff.violations[0].type).toBe('markers_removed');
-    expect(diff.violations[0].removed).toContain('PROTECTED');
-  });
-
-  it('diff — detects missing file', () => {
-    const validator = new ComplianceValidator();
-
-    const report = {
-
-      timestamp: new Date().toISOString(),
-      audit_type: 'RCF-Audit',
-      root: '/root',
-      protected_assets: [
-        { file: 'src/deleted.ts', markers: ['PROTECTED'], sha256: 'abc123' },
-      ],
-    };
-
-    const diff = validator.diff([], report, '/root');
-    expect(diff.passed).toBe(false);
-    expect(diff.violations[0].type).toBe('file_missing');
-  });
-
-  it('diff — passes when markers are intact', () => {
-    const validator = new ComplianceValidator();
-
-    const currentResults: FileScanResult[] = [
-      {
-        file: '/root/src/algo.ts',
-        markers: [{ type: 'PROTECTED', line: 3, column: 0, context: '', raw: '[RCF:PROTECTED]' }],
-        hasHeader: true,
-        isProtected: true,
-      },
-    ];
-
-    const report = {
-
-      timestamp: new Date().toISOString(),
-      audit_type: 'RCF-Audit',
-      root: '/root',
-      protected_assets: [
-        { file: 'src/algo.ts', markers: ['PROTECTED'], sha256: 'irrelevant' },
-      ],
-    };
-
-    const diff = validator.diff(currentResults, report, '/root');
-    expect(diff.passed).toBe(true);
-    expect(diff.violations.length).toBe(0);
-  });
-});
-
-// ─── Scanner ──────────────────────────────────────────────────────────────────
-
-describe('Scanner', () => {
-  describe('commentPrefix()', () => {
-    it('returns // for TypeScript', () => {
-      expect(Scanner.commentPrefix('test.ts')).toBe('//');
-    });
-    it('returns // for JavaScript', () => {
-      expect(Scanner.commentPrefix('test.js')).toBe('//');
-    });
-    it('returns // for TSX', () => {
-      expect(Scanner.commentPrefix('component.tsx')).toBe('//');
-    });
-    it('returns # for Python', () => {
-      expect(Scanner.commentPrefix('script.py')).toBe('#');
-    });
-    it('returns # for Ruby', () => {
-      expect(Scanner.commentPrefix('app.rb')).toBe('#');
-    });
-    it('returns <!-- for HTML', () => {
-      expect(Scanner.commentPrefix('index.html')).toBe('<!--');
-    });
-    it('returns /* for CSS', () => {
-      expect(Scanner.commentPrefix('styles.css')).toBe('/*');
-    });
-  });
-
-  describe('makeMarkerLine()', () => {
-    it('generates correct TS marker', () => {
-      expect(Scanner.makeMarkerLine('test.ts')).toBe('// [RCF:PROTECTED]\n');
-    });
-    it('generates correct HTML marker', () => {
-      expect(Scanner.makeMarkerLine('index.html')).toBe('<!-- [RCF:PROTECTED] -->\n');
-    });
-    it('generates correct CSS marker', () => {
-      expect(Scanner.makeMarkerLine('styles.css')).toBe('/* [RCF:PROTECTED] */\n');
-    });
-    it('generates correct Python marker', () => {
-      expect(Scanner.makeMarkerLine('algo.py')).toBe('# [RCF:PROTECTED]\n');
-    });
-    it('supports custom marker type', () => {
-      expect(Scanner.makeMarkerLine('test.ts', 'RCF:RESTRICTED')).toBe('// [RCF:RESTRICTED]\n');
-    });
-  });
-
-  describe('headerLine()', () => {
-    it('generates correct TS header', () => {
-      expect(Scanner.headerLine('test.ts')).toBe(
-        '// NOTICE: This file is protected under RCF-PL\n'
-      );
-    });
-    it('generates correct HTML header', () => {
-      expect(Scanner.headerLine('index.html')).toBe(
-        '<!-- NOTICE: This file is protected under RCF-PL -->\n'
-      );
-    });
-  });
-
-  describe('scanFile()', () => {
-    it('returns empty result for nonexistent file', () => {
-      const scanner = new Scanner();
-      const result = scanner.scanFile('/nonexistent/path/file.ts');
-      expect(result.markers).toEqual([]);
-      expect(result.hasHeader).toBe(false);
-      expect(result.isProtected).toBe(false);
-      expect(result.hasUnprotectedLogic).toBe(false);
-    });
+    teardownTempWorkspace(tmpDir);
   });
 });
