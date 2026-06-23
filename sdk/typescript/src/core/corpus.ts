@@ -7,7 +7,8 @@ import Parser from 'tree-sitter';
 // @ts-ignore
 import TypeScript from 'tree-sitter-typescript';
 import { PDG } from './pdg.js';
-import { Sigma, loadSigma, SigmaError } from './sigma.js';
+import { Sigma, loadSigma, SigmaError, timingSafeHashEqual } from './sigma.js';
+
 import { wlFeatures } from './wl.js';
 import { normalizeTypescript } from './normalize_typescript.js';
 import { normalizeByExtension } from './normalize.js';
@@ -178,11 +179,9 @@ export function loadCorpus(
 
   if (verifyAlphabet) {
     const live = (sigma || loadSigma()).alphabetHash;
-    if (data.alphabet_hash !== live) {
+    if (!timingSafeHashEqual(data.alphabet_hash ?? '', live)) {
       throw new SigmaError(
-        `corpus alphabet_hash mismatch — rebuild the corpus for this Σ.\n` +
-        `  corpus: ${data.alphabet_hash}\n` +
-        `  live  : {live}`
+        `corpus alphabet_hash mismatch — rebuild the corpus for this Σ.`
       );
     }
   }

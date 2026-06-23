@@ -4,7 +4,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import path from 'path';
 import { PDG } from './pdg.js';
-import { Sigma, loadSigma, SigmaError } from './sigma.js';
+import { Sigma, loadSigma, SigmaError, timingSafeHashEqual } from './sigma.js';
 import { normalizeTypescript } from './normalize_typescript.js';
 
 /**
@@ -220,8 +220,8 @@ export class CanaryRegistry {
       const data = JSON.parse(content);
       const records = data.canaries || [];
       for (const r of records) {
-        if (r.alphabet_hash !== this.sigma.alphabetHash) {
-          console.warn(`⚠️ Warning: Canary '${r.name}' built with a different alphabet hash. Skipping.`);
+        if (!timingSafeHashEqual(r.alphabet_hash ?? '', this.sigma.alphabetHash)) {
+          console.warn('⚠️ Warning: A canary entry was built with a different alphabet hash. Skipping.');
           continue;
         }
         const record = CanaryRecord.fromDict(r, this.sigma);

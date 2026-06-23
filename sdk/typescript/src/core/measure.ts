@@ -4,7 +4,7 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import { PDG } from './pdg.js';
-import { Sigma, loadSigma, SigmaError } from './sigma.js';
+import { Sigma, loadSigma, SigmaError, timingSafeHashEqual } from './sigma.js';
 import { wlFeatures } from './wl.js';
 import { normalizeTypescript } from './normalize_typescript.js';
 import { Corpus, iterFunctionUnits, safeJoinWithin } from './corpus.js';
@@ -61,11 +61,9 @@ export function measureUnit(
   const iterations = options?.iterations !== undefined ? options.iterations : 2;
   const banalPercentile = options?.banalPercentile !== undefined ? options.banalPercentile : BANAL_PERCENTILE;
 
-  if (pdg.sigma.alphabetHash !== corpus.alphabetHash) {
+  if (!timingSafeHashEqual(pdg.sigma.alphabetHash, corpus.alphabetHash)) {
     throw new SigmaError(
-      `incomparable: PDG and corpus alphabet_hash differ\n` +
-      `  pdg   : ${pdg.sigma.alphabetHash}\n` +
-      `  corpus: ${corpus.alphabetHash}`
+      `incomparable: PDG and corpus alphabet_hash differ`
     );
   }
 

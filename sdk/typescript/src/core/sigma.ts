@@ -4,7 +4,18 @@
 import { fileURLToPath } from 'url';
 import { dirname, join, resolve } from 'path';
 import { readFileSync, existsSync } from 'fs';
-import { createHash } from 'crypto';
+import { createHash, timingSafeEqual } from 'crypto';
+
+/**
+ * Constant-time string comparison for hash values.
+ * Prevents timing side-channel attacks on alphabet hash checks.
+ */
+export function timingSafeHashEqual(a: string, b: string): boolean {
+  const bufA = Buffer.from(a, 'utf-8');
+  const bufB = Buffer.from(b, 'utf-8');
+  if (bufA.length !== bufB.length) return false;
+  return timingSafeEqual(bufA, bufB);
+}
 
 export class SigmaError extends Error {
   constructor(message: string) {
@@ -130,11 +141,11 @@ export function loadSigma(filePath?: string, verifyHash = true): Sigma {
   }
 
   const recomputed = computeAlphabetHash(nodes, edges);
-  if (verifyHash && recomputed !== data.alphabet_hash) {
+  if (verifyHash && !timingSafeHashEqual(recomputed, data.alphabet_hash)) {
     throw new SigmaError(
       `alphabet_hash drift — sigma.json was edited without recomputing the hash.\n` +
-      `  stored    : ${data.alphabet_hash}\n` +
-      `  recomputed: ${recomputed}\n` +
+      `  stored    : [redacted]\n` +
+      `  recomputed: [redacted]\n` +
       `Either revert the change or update alphabet_hash (this is a breaking Σ change).`
     );
   }

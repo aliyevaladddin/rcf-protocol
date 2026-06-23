@@ -2,7 +2,7 @@
 // [RCF:PROTECTED]
 
 import { PDG } from './pdg.js';
-import { SigmaError } from './sigma.js';
+import { SigmaError, timingSafeHashEqual } from './sigma.js';
 import { wlFeatures } from './wl.js';
 
 export type WeightFn = (feature: string) => number;
@@ -59,11 +59,9 @@ export function correlate(
   const iterations = options?.iterations !== undefined ? options.iterations : 2;
   const weight = options?.weight !== undefined ? options.weight : unitWeight;
 
-  if (a.sigma.alphabetHash !== b.sigma.alphabetHash) {
+  if (!timingSafeHashEqual(a.sigma.alphabetHash, b.sigma.alphabetHash)) {
     throw new SigmaError(
-      `incomparable: alphabet_hash mismatch\n` +
-      `  A: ${a.sigma.alphabetHash}\n` +
-      `  B: ${b.sigma.alphabetHash}`
+      `incomparable: alphabet_hash mismatch`
     );
   }
 

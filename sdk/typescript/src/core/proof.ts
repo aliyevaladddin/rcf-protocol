@@ -4,7 +4,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import path from 'path';
 import { PDG } from './pdg.js';
-import { Sigma, loadSigma, SigmaError } from './sigma.js';
+import { Sigma, loadSigma, SigmaError, timingSafeHashEqual } from './sigma.js';
 import { wlFeatures } from './wl.js';
 import { normalizeTypescript } from './normalize_typescript.js';
 import { Corpus, iterFunctionUnits, loadCorpus } from './corpus.js';
@@ -181,11 +181,9 @@ export function buildNull(
   }
 ): NullModel {
   const s = sigma || loadSigma();
-  if (corpus.alphabetHash !== s.alphabetHash) {
+  if (!timingSafeHashEqual(corpus.alphabetHash, s.alphabetHash)) {
     throw new SigmaError(
-      `incomparable: corpus and live Σ alphabet_hash differ\n` +
-      `  corpus: ${corpus.alphabetHash}\n` +
-      `  live  : ${s.alphabetHash}`
+      `incomparable: corpus and live Σ alphabet_hash differ`
     );
   }
 
@@ -302,9 +300,12 @@ export function prove(
     null: nullModel.alphabetHash,
   };
 
-  if (new Set(Object.values(hashes)).size !== 1) {
-    const detail = Object.entries(hashes).map(([k, v]) => `  ${k.padEnd(6)}: ${v}`).join('\n');
-    throw new SigmaError('incomparable: alphabet_hash mismatch\n' + detail);
+  if (
+    !timingSafeHashEqual(hashes.A, hashes.B) ||
+    !timingSafeHashEqual(hashes.A, hashes.corpus) ||
+    !timingSafeHashEqual(hashes.A, hashes.null)
+  ) {
+    throw new SigmaError('incomparable: alphabet_hash mismatch');
   }
 
   if (iterations !== nullModel.iterations) {
@@ -395,11 +396,9 @@ export function loadNull(
 
   if (verifyAlphabet) {
     const live = (sigma || loadSigma()).alphabetHash;
-    if (data.alphabet_hash !== live) {
+    if (!timingSafeHashEqual(data.alphabet_hash ?? '', live)) {
       throw new SigmaError(
-        `null model alphabet_hash mismatch — rebuild the null for this Σ.\n` +
-        `  null: ${data.alphabet_hash}\n` +
-        `  live: ${live}`
+        `null model alphabet_hash mismatch — rebuild the null for this Σ.`
       );
     }
   }

@@ -25,6 +25,20 @@ from .normalize_python import normalize_python
 from .corpus import iter_function_units
 
 
+def _safe_resolve_registry(raw: Path | str) -> Path:
+    """Resolve a registry path and validate it is a .json file.
+
+    Raises ``ValueError`` if the path has an unexpected suffix, preventing
+    path traversal into arbitrary files.
+    """
+    p = Path(raw).resolve()
+    if p.suffix.lower() != ".json":
+        raise ValueError(
+            f"Registry path must point to a .json file, got: '{p.suffix}'"
+        )
+    return p
+
+
 def find_subgraph_isomorphisms(g_c: PDG, g_t: PDG) -> list[dict[int, int]]:
     """
     Find all injective subgraph isomorphism mappings f: V_c -> V_t.
@@ -159,7 +173,7 @@ class CanaryRegistry:
     """Manages the private registry of timestamped designed canaries."""
 
     def __init__(self, registry_path: Path, sigma: Sigma):
-        self.registry_path = registry_path
+        self.registry_path = _safe_resolve_registry(registry_path)
         self.sigma = sigma
         self.canaries: dict[str, CanaryRecord] = {}
         self.load()
@@ -176,7 +190,7 @@ class CanaryRegistry:
                 # verify alphabet hash match before loading
                 if r.get("alphabet_hash") != self.sigma.alphabet_hash:
                     print(
-                        f"⚠️ Warning: Canary '{r['name']}' built with a different alphabet hash. Skipping.",
+                        "⚠️ Warning: A canary entry was built with a different alphabet hash. Skipping.",
                         file=sys.stderr,
                     )
                     continue

@@ -343,10 +343,16 @@ def prove_sources_from_files(
     """
     from .normalize import normalize_by_extension
     sigma = sigma or load_sigma()
-    src_a = Path(file_a).read_text(encoding="utf-8")
-    src_b = Path(file_b).read_text(encoding="utf-8")
-    a = normalize_by_extension(src_a, file_a, sigma)
-    b = normalize_by_extension(src_b, file_b, sigma)
+    p_a = Path(file_a).resolve()
+    p_b = Path(file_b).resolve()
+    if not p_a.is_file():
+        raise FileNotFoundError(f"File not found: {p_a}")
+    if not p_b.is_file():
+        raise FileNotFoundError(f"File not found: {p_b}")
+    src_a = p_a.read_text(encoding="utf-8")
+    src_b = p_b.read_text(encoding="utf-8")
+    a = normalize_by_extension(src_a, p_a, sigma)
+    b = normalize_by_extension(src_b, p_b, sigma)
     return prove(a, b, null, corpus, iterations=iterations, search_space=search_space)
 
 

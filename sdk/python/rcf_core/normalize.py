@@ -92,15 +92,18 @@ def normalize_by_extension(
             f"Please ensure the repository structure is intact."
         )
 
-    # Run Node.js to normalize
-    cmd = ["node", "test_export.cjs", source, Path(file_path).suffix]
+    # Run Node.js to normalize — source is passed via stdin (not a CLI arg)
+    # to prevent OS command injection from untrusted source code content.
+    cmd = ["node", "test_export.cjs", Path(file_path).suffix]
     try:
         res = subprocess.run(
             cmd,
+            input=source,
             capture_output=True,
             text=True,
             cwd=str(ts_dir),
-            check=True
+            check=True,
+            timeout=30,
         )
     except subprocess.CalledProcessError as err:
         raise RuntimeError(
@@ -108,6 +111,8 @@ def normalize_by_extension(
             f"stdout: {err.stdout}\n"
             f"stderr: {err.stderr}"
         ) from err
+    except subprocess.TimeoutExpired as err:
+        raise RuntimeError("Node.js normalizer subprocess timed out after 30s.") from err
     except FileNotFoundError as err:
         raise RuntimeError(
             "Node.js (node executable) is required to run cross-language normalizers "
