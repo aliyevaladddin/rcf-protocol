@@ -41,44 +41,50 @@ def _safe_resolve_registry(raw: Path | str) -> Path:
     raw_str = str(raw)
     if ".." in raw_str or not _SAFE_PATH_RE.match(raw_str):
         raise ValueError("Invalid registry path: directory traversal or unsafe characters detected.")
-    
-    p = Path(raw_str).resolve()
-    
-    # Enforce that the resolved path resides within CWD or temporary directory
+        
     cwd = Path.cwd().resolve()
     tmp = Path(tempfile.gettempdir()).resolve()
     
-    in_cwd = False
-    try:
-        rel_p = p.relative_to(cwd)
-        base_dir = cwd
-        in_cwd = True
-    except ValueError:
-        pass
-        
-    if not in_cwd:
+    p = Path(raw_str)
+    is_temp = False
+    rel_path_str = raw_str
+    
+    if p.is_absolute():
+        p_resolved = p.resolve()
+        in_cwd = False
         try:
-            rel_p = p.relative_to(tmp)
-            base_dir = tmp
-        except ValueError as e:
-            raise ValueError("Registry path must be located inside the current working directory or temporary directory.") from e
+            rel_p = p_resolved.relative_to(cwd)
+            rel_path_str = str(rel_p)
+            in_cwd = True
+        except ValueError:
+            pass
+            
+        if not in_cwd:
+            try:
+                rel_p = p_resolved.relative_to(tmp)
+                rel_path_str = str(rel_p)
+                is_temp = True
+            except ValueError as e:
+                raise ValueError("Registry path must be located inside the current working directory or temporary directory.") from e
+    else:
+        is_temp = "tmp" in raw_str or "temp" in raw_str
 
     # Split relative path and sanitize each component to satisfy Bearer static analysis
     safe_parts = []
-    for part in rel_p.parts:
+    for part in Path(rel_path_str).parts:
         clean = re.sub(r'[^a-zA-Z0-9_\-\.]', '', part)
         if clean and clean not in ("..", "."):
             safe_parts.append(clean)
             
-    # Reconstruct from secure components
+    base_dir = tmp if is_temp else cwd
     safe_path_str = os.path.join(str(base_dir), *safe_parts)
-    p = Path(safe_path_str)
+    final_p = Path(safe_path_str)
 
-    if p.suffix.lower() != ".json":
+    if final_p.suffix.lower() != ".json":
         raise ValueError(
-            f"Registry path must point to a .json file, got: '{p.suffix}'"
+            f"Registry path must point to a .json file, got: '{final_p.suffix}'"
         )
-    return p
+    return final_p
 
 
 def find_subgraph_isomorphisms(g_c: PDG, g_t: PDG) -> list[dict[int, int]]:

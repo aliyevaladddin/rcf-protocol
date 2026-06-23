@@ -208,22 +208,24 @@ export class CanaryRegistry {
     if (registryPath.includes('..') || !/^[a-zA-Z0-9_\-\.\/\\ ]+$/.test(registryPath)) {
       throw new Error('Invalid registry path: directory traversal or unsafe characters detected.');
     }
-    const resolved = path.resolve(registryPath);
     const cwd = process.cwd();
     const tmp = os.tmpdir();
     
-    const relativeToCwd = path.relative(cwd, resolved);
-    const relativeToTmp = path.relative(tmp, resolved);
+    let isTemp = false;
+    let relPath = registryPath;
     
-    const inCwd = !relativeToCwd.startsWith('..') && !path.isAbsolute(relativeToCwd);
-    const inTmp = !relativeToTmp.startsWith('..') && !path.isAbsolute(relativeToTmp);
-    
-    if (!inCwd && !inTmp) {
-      throw new Error('Registry path must be located inside the current working directory or temporary directory.');
+    if (path.isAbsolute(registryPath)) {
+      if (registryPath.startsWith(tmp)) {
+        isTemp = true;
+        relPath = path.relative(tmp, registryPath);
+      } else if (registryPath.startsWith(cwd)) {
+        relPath = path.relative(cwd, registryPath);
+      } else {
+        throw new Error('Registry path must be located inside the current working directory or temporary directory.');
+      }
+    } else {
+      isTemp = registryPath.includes('tmp') || registryPath.includes('temp');
     }
-
-    const baseDir = inCwd ? cwd : tmp;
-    const relPath = inCwd ? relativeToCwd : relativeToTmp;
     
     // Split and sanitize each component to prevent traversal
     const safeParts = relPath.split(/[/\\]/).map(part => {
@@ -234,7 +236,8 @@ export class CanaryRegistry {
       return clean;
     }).filter(Boolean);
 
-    this.registryPath = path.join(baseDir, ...safeParts);
+    const baseDir = isTemp ? tmp : cwd;
+    this.registryPath = path.resolve(baseDir, ...safeParts);
     this.sigma = sigma;
     this.canaries = {};
     this.load();

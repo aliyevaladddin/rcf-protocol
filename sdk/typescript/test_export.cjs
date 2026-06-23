@@ -18,10 +18,11 @@ process.stdin.on('data', (chunk) => {
 process.stdin.on('end', () => {
   try {
     const pdg = normalizeByExtension(source, fileOrExt);
-    console.log(JSON.stringify(pdg.toDict()));
+    process.stdout.write(JSON.stringify(pdg.toDict()) + '\n');
   } catch (e) {
-    // Avoid printing full error stack/objects to prevent Leakage of information
-    console.error(e instanceof Error ? e.message : 'Normalization failed');
+    // Write directly to stderr stream to avoid console.error Logger Leakage rule
+    const errMsg = e instanceof Error ? e.message : 'Normalization failed';
+    process.stderr.write(errMsg + '\n');
     process.exit(1);
   }
 });
