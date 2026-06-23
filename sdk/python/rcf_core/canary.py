@@ -30,6 +30,8 @@ import re
 # Strict path validation pattern allowing only standard path characters and rejecting '..'
 _SAFE_PATH_RE = re.compile(r'^[a-zA-Z0-9_\-\.\/\\ ]+$')
 
+import tempfile
+
 def _safe_resolve_registry(raw: Path | str) -> Path:
     """Resolve a registry path and validate it is a .json file.
 
@@ -41,6 +43,28 @@ def _safe_resolve_registry(raw: Path | str) -> Path:
         raise ValueError("Invalid registry path: directory traversal or unsafe characters detected.")
     
     p = Path(raw_str).resolve()
+    
+    # Enforce that the resolved path resides within CWD or temporary directory
+    cwd = Path.cwd().resolve()
+    tmp = Path(tempfile.gettempdir()).resolve()
+    
+    in_cwd = False
+    try:
+        p.relative_to(cwd)
+        in_cwd = True
+    except ValueError:
+        pass
+        
+    in_tmp = False
+    try:
+        p.relative_to(tmp)
+        in_tmp = True
+    except ValueError:
+        pass
+        
+    if not (in_cwd or in_tmp):
+        raise ValueError("Registry path must be located inside the current working directory or temporary directory.")
+
     if p.suffix.lower() != ".json":
         raise ValueError(
             f"Registry path must point to a .json file, got: '{p.suffix}'"

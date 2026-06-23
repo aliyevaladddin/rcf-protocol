@@ -3,6 +3,7 @@
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import path from 'path';
+import os from 'os';
 import { PDG } from './pdg.js';
 import { Sigma, loadSigma, SigmaError, timingSafeHashEqual } from './sigma.js';
 import { normalizeTypescript } from './normalize_typescript.js';
@@ -207,7 +208,20 @@ export class CanaryRegistry {
     if (registryPath.includes('..') || !/^[a-zA-Z0-9_\-\.\/\\ ]+$/.test(registryPath)) {
       throw new Error('Invalid registry path: directory traversal or unsafe characters detected.');
     }
-    this.registryPath = path.resolve(registryPath);
+    const resolved = path.resolve(registryPath);
+    const cwd = process.cwd();
+    const tmp = os.tmpdir();
+    
+    const relativeToCwd = path.relative(cwd, resolved);
+    const relativeToTmp = path.relative(tmp, resolved);
+    
+    const inCwd = !relativeToCwd.startsWith('..') && !path.isAbsolute(relativeToCwd);
+    const inTmp = !relativeToTmp.startsWith('..') && !path.isAbsolute(relativeToTmp);
+    
+    if (!inCwd && !inTmp) {
+      throw new Error('Registry path must be located inside the current working directory or temporary directory.');
+    }
+    this.registryPath = resolved;
     this.sigma = sigma;
     this.canaries = {};
     this.load();
