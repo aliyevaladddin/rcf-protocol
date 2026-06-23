@@ -109,10 +109,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: sdk/typescript/package-lock.json
+
+      - name: Build TypeScript SDK (required for cross-lang normalizer tests)
+        working-directory: ./sdk/typescript
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+
       - name: Set up Python 3.9
         uses: actions/setup-python@v6
         with:
           python-version: "3.9"
+
       - name: Install & Test
         working-directory: ./sdk/python
         run: |

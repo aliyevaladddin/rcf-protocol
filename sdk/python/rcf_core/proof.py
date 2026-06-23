@@ -159,6 +159,11 @@ class ProofReport:
         """True when the score saturates the null — empirical p can't resolve finer."""
         return self.p_empirical <= self.p_empirical_floor + 1e-300
 
+    @property
+    def significant(self) -> bool:
+        """Alias for empirical_is_floored to match CLI expectations."""
+        return self.empirical_is_floored
+
 
 # ─── building the null ─────────────────────────────────────────────────────────
 
@@ -317,6 +322,37 @@ def prove_sources(
     sigma = sigma or load_sigma()
     a = normalize_python(src_a, sigma)
     b = normalize_python(src_b, sigma)
+    return prove(a, b, null, corpus, iterations=iterations, search_space=search_space)
+
+
+def prove_sources_from_files(
+    file_a: str | Path,
+    file_b: str | Path,
+    null: NullModel,
+    corpus: Corpus,
+    sigma: Sigma | None = None,
+    *,
+    iterations: int = 2,
+    search_space: int = 1,
+) -> ProofReport:
+    """Language-aware prove: reads *file_a* and *file_b* from disk,
+    selects the normalizer by extension (.py, .go, .rs), and calls prove().
+
+    Raises ``ValueError`` for unsupported extensions and ``ImportError``
+    if the required tree-sitter grammar is not installed.
+    """
+    from .normalize import normalize_by_extension
+    sigma = sigma or load_sigma()
+    p_a = Path(file_a).resolve()
+    p_b = Path(file_b).resolve()
+    if not p_a.is_file():
+        raise FileNotFoundError(f"File not found: {p_a}")
+    if not p_b.is_file():
+        raise FileNotFoundError(f"File not found: {p_b}")
+    src_a = p_a.read_text(encoding="utf-8")
+    src_b = p_b.read_text(encoding="utf-8")
+    a = normalize_by_extension(src_a, p_a, sigma)
+    b = normalize_by_extension(src_b, p_b, sigma)
     return prove(a, b, null, corpus, iterations=iterations, search_space=search_space)
 
 

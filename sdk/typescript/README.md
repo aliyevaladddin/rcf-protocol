@@ -96,6 +96,60 @@ rcf-cli audit-protect . --key YOUR_SECRET_KEY
 rcf-cli audit-protect . --key YOUR_SECRET_KEY --dry-run
 ```
 
+### 8. Forensic Analysis & Code Similarity
+
+The TypeScript SDK CLI includes commands to analyze code uniqueness, generate watch-lists (sentinels), and compute similarity proof reports.
+
+#### Build Background Corpus
+Builds a probability database of language structures (`p_nat.json`) using standard library and project files:
+```bash
+rcf-cli build-corpus src/ --project . --out tests/corpus.json
+```
+
+#### Rank Sentinels (Watch-List)
+Surfaces the highest-surprisal-mass functions in a codebase that are the most unique and worth watching:
+```bash
+rcf-cli sentinel . --corpus tests/corpus.json --top 5
+```
+
+#### Build Null Distribution Model
+Calibrates a Monte Carlo null distribution (`null_model.json`) of similarity scores for independent code pairs:
+```bash
+rcf-cli build-null src/ --project . --corpus tests/corpus.json --n-pairs 1000 --out tests/null_model.json
+```
+
+#### Compute Similarity Proof (Prove)
+Compares two files and calculates statistical significance (Z-score, p-empirical, p-parametric, E-value):
+```bash
+rcf-cli prove src/core/wl.ts src/core/wl.ts --corpus tests/corpus.json --null tests/null_model.json --search-space 1
+```
+
+#### Register and Scan Designed Canaries
+Register a functional canary to track code theft:
+```bash
+# Register canary
+rcf-cli canary register --name "my_canary" --desc "integrity check" --source "function c(x) { return x ^ 0xAB; }" --registry tests/rcf_canaries.json
+
+# Scan codebase for the canary
+rcf-cli canary scan . --registry tests/rcf_canaries.json
+```
+
+#### AST Adversarial Noise
+Inject adversarial AST structures into protected files to break AI models trying to analyze the code:
+```bash
+rcf-cli noise src/
+```
+
+#### Export WAF Gateway
+Exports production-ready Edge/WAF configurations to protect repositories and assets from AI scrapers and automated bots:
+```bash
+# Export Cloudflare Worker WAF script (cloudflare_worker.ts)
+rcf-cli gateway cloudflare --out ./output_dir
+
+# Export Nginx Lua WAF script (rcf_waf.lua) and nginx.conf snippet
+rcf-cli gateway nginx --out ./output_dir
+```
+
 ## Markers Reference
 
 RCF uses semantic markers to define protection levels. Place these inside code comments:

@@ -21,9 +21,10 @@
 
 ## 🆕 What's New in Active?
 
-- 🛡️ **Sovereign Code Initiative**: New manifesto and technical whitepaper for Active.
-- 📦 **SDK Parity**: a single version is synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`); the canonical number lives in `package.json` / `pyproject.toml`.
-- 📝 **Documentation Update**: Detailed audit usage guides added to SDK READMEs.
+- 🛡️ **Active Defense**: Introduced Designed Canaries and AST Adversarial Noise to protect against source code harvesting.
+- 🌐 **WAF Gateways**: Native `gateway` subcommand to export Cloudflare Worker and Nginx WAF configurations.
+- 📦 **SDK Parity**: A single version is synchronized across NPM (`rcf-protocol`) and PyPI (`rcf-cli`); the canonical number lives in `package.json` / `pyproject.toml`.
+- 📝 **Documentation Update**: Detailed audit and active defense usage guides added to SDK READMEs and the specification.
 
 ---
 
@@ -123,26 +124,33 @@ pip install rcf-cli
 
 ### 🚀 Usage
 
+| Command | Description |
+|:---|:---|
+| `rcf-cli init` | Initialize RCF in your project — generates `NOTICE.md` and `.rcfignore` |
+| `rcf-cli audit [path]` | Generate a cryptographic `RCF-AUDIT-REPORT.json` *(Requires License Key)* |
+| `rcf-cli verify [path]` | Verify file/directory integrity against the audit report |
+| `rcf-cli diff [path]` | Compare current markers vs audit report — ideal for CI/CD pipelines |
+| `rcf-cli protect [path]` | Auto-insert RCF markers into unprotected logic blocks |
+| `rcf-cli sentinel [path]` | Rank protected functions by surprisal mass (forensic watch-list) |
+| `rcf-cli build-corpus [path]` | Build a background language structure corpus (`p_nat.json`) |
+| `rcf-cli build-null [path]` | Calibrate a Monte Carlo null distribution for statistical proofs |
+| `rcf-cli prove <fileA> <fileB>` | Compute a court-grade similarity proof (Z-score, E-value) between two files |
+| `rcf-cli canary register` | Register a designed canary fingerprint to your registry |
+| `rcf-cli canary scan [path]` | Scan a codebase for canary matches (detects code theft via subgraph isomorphism) |
+| `rcf-cli noise [path]` | Inject adversarial AST noise into protected files to confuse AI models |
+| `rcf-cli gateway cloudflare` | Export a Cloudflare Workers WAF script (`cloudflare_worker.ts`) |
+| `rcf-cli gateway nginx` | Export Nginx Lua WAF script (`rcf_waf.lua`) and `nginx.conf` snippet |
+
 ```bash
-# Initialize RCF protections in your project (generates NOTICE.md & .rcfignore)
+# Examples:
 rcf-cli init --project "MyApp" --author "Your Name"
-
-# Scan a directory for RCF compliance
-rcf-cli .
-
-# Generate a premium RCF-Audit cryptographic report (Requires License Key)
 rcf-cli audit . --license-key RCF-AUDIT-XXXXXX
-# Or via environment variable:
-# RCF_LICENSE_KEY=RCF-AUDIT-XXXXXX rcf-cli audit .
-
-# Verify project integrity against the audit report (Detects tampering)
 rcf-cli verify .
-
-# Generate a JSON report
-rcf-cli . --format json
-
-# Show summary only  
-rcf-cli . --summary
+rcf-cli prove src/algo.py src/algo_copy.py --corpus corpus.json --null null_model.json
+rcf-cli canary scan . --registry rcf_canaries.json
+rcf-cli noise src/
+rcf-cli gateway cloudflare --out ./deploy
+rcf-cli gateway nginx --out ./deploy
 ```
 
 ---
@@ -151,7 +159,7 @@ rcf-cli . --summary
 
 | Directory | Description | Key Documents |
 |:---|:---|:---|
-| [**SPECIFICATION/**](SPECIFICATION/) | Technical protocol definition | [RCF-SPEC](SPECIFICATION/RCF-SPEC.md), [RCF-CORE](SPECIFICATION/RCF-CORE.md), [RCF-CORRELATION](SPECIFICATION/RCF-CORRELATION.md), [RCF-SIGMA](SPECIFICATION/RCF-SIGMA.md) |
+| [**SPECIFICATION/**](SPECIFICATION/) | Technical protocol definition | [RCF-SPEC](SPECIFICATION/RCF-SPEC.md), [RCF-CORE](SPECIFICATION/RCF-CORE.md), [RCF-CORRELATION](SPECIFICATION/RCF-CORRELATION.md), [RCF-SIGMA](SPECIFICATION/RCF-SIGMA.md), [RCF-ACTIVE-DEFENSE](SPECIFICATION/RCF-ACTIVE-DEFENSE.md) |
 | [**LEGAL/**](LEGAL/) | Legal framework and basis | [LEGAL](LEGAL/LEGAL.md), [JURISDICTION](LEGAL/JURISDICTION.md) |
 | [**IMPLEMENTATION/**](IMPLEMENTATION/) | Practical adoption tools | [MARKERS](IMPLEMENTATION/CODE-MARKERS.md), [MEASURES](IMPLEMENTATION/TECHNICAL-MEASURES.md) |
 | [**ADOPTION/**](ADOPTION/) | Guides for project authors | [ADOPTION-GUIDE](ADOPTION/ADOPTION-GUIDE.md), [FAQ](ADOPTION/FAQ.md) |

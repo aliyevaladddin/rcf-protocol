@@ -430,6 +430,7 @@ class LegalNoticeGenerator:
 ## 9. References
 
 - [RCF-SPEC.md](RCF-SPEC.md) — Protocol specification
+- [RCF-ACTIVE-DEFENSE.md](RCF-ACTIVE-DEFENSE.md) — Active defense: Canaries, AST Noise, and WAF Gateways
 - [TECHNICAL-MEASURES.md](TECHNICAL-MEASURES.md) — Implementation guide
 - [LEGAL/ENFORCEMENT.md](../LEGAL/ENFORCEMENT.md) — Legal enforcement procedures
 
