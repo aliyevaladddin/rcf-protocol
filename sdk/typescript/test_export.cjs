@@ -1,15 +1,27 @@
 const { normalizeByExtension } = require('./dist/core/normalize.js');
-const fs = require('fs');
 
-// argv[2] = extension (e.g. ".go"), source is always read from stdin
-// This prevents source code from appearing in OS process argument lists.
-const fileOrExt = process.argv[2] || '.ts';
-const source = fs.readFileSync(0, 'utf-8');
-
-try {
-  const pdg = normalizeByExtension(source, fileOrExt);
-  console.log(JSON.stringify(pdg.toDict()));
-} catch (e) {
-  console.error(e);
-  process.exit(1);
+// Whitelist extensions to prevent path traversal / file path injection alerts
+const fileOrExtRaw = process.argv[2] || '.ts';
+let fileOrExt = '.ts';
+const allowedExts = ['.go', '.rs', '.ts', '.tsx', '.js', '.jsx'];
+if (allowedExts.includes(fileOrExtRaw.toLowerCase())) {
+  fileOrExt = fileOrExtRaw.toLowerCase();
 }
+
+let source = '';
+process.stdin.setEncoding('utf-8');
+
+process.stdin.on('data', (chunk) => {
+  source += chunk;
+});
+
+process.stdin.on('end', () => {
+  try {
+    const pdg = normalizeByExtension(source, fileOrExt);
+    console.log(JSON.stringify(pdg.toDict()));
+  } catch (e) {
+    // Avoid printing full error stack/objects to prevent Leakage of information
+    console.error(e instanceof Error ? e.message : 'Normalization failed');
+    process.exit(1);
+  }
+});

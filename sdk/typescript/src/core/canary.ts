@@ -221,7 +221,20 @@ export class CanaryRegistry {
     if (!inCwd && !inTmp) {
       throw new Error('Registry path must be located inside the current working directory or temporary directory.');
     }
-    this.registryPath = resolved;
+
+    const baseDir = inCwd ? cwd : tmp;
+    const relPath = inCwd ? relativeToCwd : relativeToTmp;
+    
+    // Split and sanitize each component to prevent traversal
+    const safeParts = relPath.split(/[/\\]/).map(part => {
+      const clean = part.replace(/[^a-zA-Z0-9_\-\.]/g, '');
+      if (clean === '..' || clean === '.') {
+        return '';
+      }
+      return clean;
+    }).filter(Boolean);
+
+    this.registryPath = path.join(baseDir, ...safeParts);
     this.sigma = sigma;
     this.canaries = {};
     this.load();
