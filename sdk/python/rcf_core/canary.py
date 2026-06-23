@@ -231,8 +231,11 @@ class CanaryRegistry:
             self.canaries = {}
             return
         try:
-            with open(self.registry_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
+            path_str = str(self.registry_path)
+            if ".." in path_str or not _SAFE_PATH_RE.match(path_str):
+                raise ValueError("Invalid registry path: directory traversal or unsafe characters detected.")
+            content = self.registry_path.read_text(encoding="utf-8")
+            data = json.loads(content)
             records = data.get("canaries", [])
             for r in records:
                 # verify alphabet hash match before loading
@@ -252,8 +255,11 @@ class CanaryRegistry:
             "canaries": [c.to_dict() for c in self.canaries.values()]
         }
         self.registry_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.registry_path, "w", encoding="utf-8") as f:
-            json.dump(payload, f, indent=2, sort_keys=True)
+        path_str = str(self.registry_path)
+        if ".." in path_str or not _SAFE_PATH_RE.match(path_str):
+            raise ValueError("Invalid registry path: directory traversal or unsafe characters detected.")
+        content = json.dumps(payload, indent=2, sort_keys=True)
+        self.registry_path.write_text(content, encoding="utf-8")
 
     def register(self, name: str, source_code: str, description: str = "") -> None:
         """Parse source code, construct its PDG, and add to the registry."""
