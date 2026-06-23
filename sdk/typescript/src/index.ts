@@ -60,4 +60,4 @@ export {
   loadNull
 } from './core/proof.js';
 
-export const VERSION = '2.1.2';
+export const VERSION = '2.1.3';

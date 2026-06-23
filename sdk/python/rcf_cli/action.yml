@@ -22,7 +22,7 @@ inputs:
   rcf-version:
     description: 'Expected RCF protocol version'
     required: false
-    default: '2.1.2'
+    default: '2.1.3'
   license-key:
     description: 'RCF audit license key (required for verify mode)'
     required: false

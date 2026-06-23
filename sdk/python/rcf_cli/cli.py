@@ -920,7 +920,7 @@ def main():
         description=audit_banner + "\n\n" + 'RCF CLI — Active Protection Framework',
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    parser.add_argument('--version', action='version', version='rcf-cli 2.1.2')
+    parser.add_argument('--version', action='version', version='rcf-cli 2.1.3')
     subparsers = parser.add_subparsers(dest="command", metavar="<command>")
 
     # init

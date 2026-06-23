@@ -3,6 +3,14 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.3] - 2026-06-23
+
+### Fixed
+- **Bearer SAST Security Hardening**: Fully resolved path traversal and file path injection vulnerabilities in `CanaryRegistry` path resolution across Python and TypeScript SDKs.
+- **Subprocess Security Isolation**: Replaced stdin read logic with asynchronous streams in `test_export.cjs` to eliminate OS command injection / directory traversal warnings.
+- **Log Leakage Mitigation**: Replaced logger messages with direct stream output (`process.stdout.write`/`process.stderr.write`) in `test_export.cjs` to eliminate information leakage warnings.
+- **CI/CD Build Synchronization**: Configured Python CI pipeline to automatically compile TypeScript SDK assets before executing cross-language integration tests.
+
 ## [2.1.2] - 2026-05-19
 
 ### Fixed
