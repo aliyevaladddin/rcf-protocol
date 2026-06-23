@@ -92,9 +92,26 @@ def normalize_by_extension(
             f"Please ensure the repository structure is intact."
         )
 
+    # Map strictly to static literal strings to cut parameter taint and prevent OS command injection.
+    ext = Path(file_path).suffix.lower()
+    if ext == ".go":
+        safe_suffix = ".go"
+    elif ext == ".rs":
+        safe_suffix = ".rs"
+    elif ext == ".ts":
+        safe_suffix = ".ts"
+    elif ext == ".tsx":
+        safe_suffix = ".tsx"
+    elif ext == ".js":
+        safe_suffix = ".js"
+    elif ext == ".jsx":
+        safe_suffix = ".jsx"
+    else:
+        raise ValueError(f"Unsupported file extension: {ext}")
+
     # Run Node.js to normalize — source is passed via stdin (not a CLI arg)
     # to prevent OS command injection from untrusted source code content.
-    cmd = ["node", "test_export.cjs", Path(file_path).suffix]
+    cmd = ["node", "test_export.cjs", safe_suffix]
     try:
         res = subprocess.run(
             cmd,

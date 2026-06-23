@@ -204,6 +204,9 @@ export class CanaryRegistry {
   public canaries: Record<string, CanaryRecord>;
 
   constructor(registryPath: string, sigma: Sigma) {
+    if (registryPath.includes('..') || !/^[a-zA-Z0-9_\-\.\/\\ ]+$/.test(registryPath)) {
+      throw new Error('Invalid registry path: directory traversal or unsafe characters detected.');
+    }
     this.registryPath = path.resolve(registryPath);
     this.sigma = sigma;
     this.canaries = {};

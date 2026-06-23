@@ -25,13 +25,22 @@ from .normalize_python import normalize_python
 from .corpus import iter_function_units
 
 
+import re
+
+# Strict path validation pattern allowing only standard path characters and rejecting '..'
+_SAFE_PATH_RE = re.compile(r'^[a-zA-Z0-9_\-\.\/\\ ]+$')
+
 def _safe_resolve_registry(raw: Path | str) -> Path:
     """Resolve a registry path and validate it is a .json file.
 
-    Raises ``ValueError`` if the path has an unexpected suffix, preventing
-    path traversal into arbitrary files.
+    Raises ``ValueError`` if the path has an unexpected suffix or contains
+    unsafe traversal characters, preventing path traversal into arbitrary files.
     """
-    p = Path(raw).resolve()
+    raw_str = str(raw)
+    if ".." in raw_str or not _SAFE_PATH_RE.match(raw_str):
+        raise ValueError("Invalid registry path: directory traversal or unsafe characters detected.")
+    
+    p = Path(raw_str).resolve()
     if p.suffix.lower() != ".json":
         raise ValueError(
             f"Registry path must point to a .json file, got: '{p.suffix}'"
