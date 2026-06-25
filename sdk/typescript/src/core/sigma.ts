@@ -27,8 +27,10 @@ export class SigmaError extends Error {
 // Find repository root from current file context
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const REPO_ROOT = resolve(__dirname, '../../../../');
-const DEFAULT_SIGMA_PATH = join(REPO_ROOT, 'SPECIFICATION', 'sigma.json');
+
+const packagedPath = resolve(__dirname, '../../SPECIFICATION/sigma.json');
+const devPath = resolve(__dirname, '../../../../SPECIFICATION/sigma.json');
+const DEFAULT_SIGMA_PATH = existsSync(packagedPath) ? packagedPath : devPath;
 
 export function computeAlphabetHash(nodes: Record<string, any>, edges: Record<string, any>): string {
   const alphabet: Record<string, any> = {

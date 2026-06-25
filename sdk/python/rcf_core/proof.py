@@ -382,6 +382,10 @@ def freeze_null(null: NullModel, path: str | Path | None = None) -> Path:
     return p
 
 
+# Alias to match CLI expectations / corpus.py patterns
+freeze = freeze_null
+
+
 def load_null(
     path: str | Path | None = None,
     *,

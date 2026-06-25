@@ -29,7 +29,9 @@ class SigmaError(Exception):
 # Resolve SPECIFICATION/sigma.json relative to this file:
 # sdk/python/rcf_core/sigma.py -> repo_root/SPECIFICATION/sigma.json
 _REPO_ROOT = Path(__file__).resolve().parents[3]
-_DEFAULT_SIGMA_PATH = _REPO_ROOT / "SPECIFICATION" / "sigma.json"
+_PACKAGED_SIGMA_PATH = Path(__file__).resolve().parent / "data" / "sigma.json"
+_DEV_SIGMA_PATH = _REPO_ROOT / "SPECIFICATION" / "sigma.json"
+_DEFAULT_SIGMA_PATH = _PACKAGED_SIGMA_PATH if _PACKAGED_SIGMA_PATH.is_file() else _DEV_SIGMA_PATH
 
 
 def compute_alphabet_hash(nodes: dict, edges: dict) -> str:

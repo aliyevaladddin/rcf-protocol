@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "rcf-cli"
-version = "2.1.4"
+version = "2.1.5"
 authors = [
   { name="Aladdin Aliyev", email="aladdin@aliyev.site" },
 ]
@@ -24,10 +24,10 @@ rcf-protocol = "rcf_cli.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-# Both rcf_cli (CLI layer) and rcf_core (RCF v3 correlation engine) are shipped
-# together. Installing rcf-cli gives the user the full stack: CLI commands +
-# the PDG/surprisal/proof/canary engine.
 include = ["rcf_cli*", "rcf_core*"]
+
+[tool.setuptools.package-data]
+"rcf_core.data" = ["*.json"]
 
 [tool.pytest.ini_options]
 # CI runs `pip install -e .` which now includes both rcf_cli and rcf_core.

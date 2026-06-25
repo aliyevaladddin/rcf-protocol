@@ -73,7 +73,7 @@ const AUDIT_BANNER = `
 program
   .name('rcf-cli')
   .description('RCF Protocol — Restricted Correlation Framework')
-  .version('2.1.4')
+  .version('2.1.5')
   .addHelpText('before', AUDIT_BANNER)
   .arguments('[path]')
   .option('-v, --verbose', 'show details')
@@ -496,7 +496,7 @@ program
           if (['.ts', '.js', '.tsx', '.jsx', '.go', '.rs'].includes(ext)) {
             try {
               allSources.push(readFileSync(res.path, 'utf-8'));
-            } catch {}
+            } catch { }
           }
         }
       }
@@ -534,7 +534,7 @@ program
           if (['.ts', '.js', '.tsx', '.jsx'].includes(ext)) {
             try {
               allSources.push(readFileSync(res.path, 'utf-8'));
-            } catch {}
+            } catch { }
           }
         }
       }

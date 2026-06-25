@@ -1,6 +1,6 @@
 {
   "name": "rcf-protocol",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "RCF CLI — Active Integrity & Protection Framework (TypeScript Edition)",
   "type": "module",
   "author": "Aladdin Aliyev <aladdin@aliyev.site>",
@@ -18,7 +18,8 @@
   "files": [
     "dist/",
     "LICENSE",
-    "NOTICE.md"
+    "NOTICE.md",
+    "SPECIFICATION/sigma.json"
   ],
   "scripts": {
     "build": "tsc",

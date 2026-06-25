@@ -39,6 +39,9 @@ sdk/python/rcf_core/data/p_nat.json
 # RCF v3 null model — generated court exhibit (rebuild via python -m rcf_core.proof build-null)
 sdk/python/rcf_core/data/null_model.json
 
+# RCF v3 sigma.json — copied during Python packaging build
+sdk/python/rcf_core/data/sigma.json
+
 # Node.js build artifacts
 node_modules/
 dist/
