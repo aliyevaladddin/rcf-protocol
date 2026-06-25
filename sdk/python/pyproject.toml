@@ -24,15 +24,13 @@ rcf-protocol = "rcf_cli.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-# Only rcf_cli ships to PyPI. rcf_core is the RCF v3 research engine
-# ([RCF:PROTECTED], Draft) and is deliberately NOT packaged yet — see the
-# packaging roadmap before publishing it.
-include = ["rcf_cli*"]
+# Both rcf_cli (CLI layer) and rcf_core (RCF v3 correlation engine) are shipped
+# together. Installing rcf-cli gives the user the full stack: CLI commands +
+# the PDG/surprisal/proof/canary engine.
+include = ["rcf_cli*", "rcf_core*"]
 
 [tool.pytest.ini_options]
-# Make the in-tree rcf_core importable during tests WITHOUT shipping it in the
-# distribution. CI runs `pip install -e .` (rcf_cli only), then `pytest tests/`;
-# pythonpath="." puts the source root on sys.path so test_rcf_core / test_correlate
-# can import rcf_core locally.
+# CI runs `pip install -e .` which now includes both rcf_cli and rcf_core.
+# pythonpath="." keeps the source root on sys.path for local dev runs too.
 pythonpath = ["."]
 testpaths = ["tests"]
