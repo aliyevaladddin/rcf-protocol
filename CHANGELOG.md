@@ -3,6 +3,16 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.5] - 2026-06-25
+
+### Fixed
+- **`freeze` import error in CLI**: Added `freeze = freeze_null` alias in `rcf_core/proof.py`. The `build-null` command was failing with `ImportError: cannot import name 'freeze' from 'rcf_core.proof'`.
+- **`sigma.json` missing in installed packages (Python)**: `sigma.json` is now copied into `rcf_core/data/` during the CI/CD build and included via `package-data` rule in `pyproject.toml`. The loader now checks the packaged path first, falling back to the dev repo path — works both from source and after `pip install`.
+- **`sigma.json` missing in installed packages (TypeScript)**: `SPECIFICATION/sigma.json` added to `files` in `package.json` so it is bundled in the npm tarball. The loader now probes the packaged path (`../../SPECIFICATION/`) first, then the dev repo path (`../../../../SPECIFICATION/`).
+
+### Chore
+- Removed `sdk/python/.gitignore` and `sdk/typescript/.gitignore` — all rules consolidated into the single root `.gitignore`.
+
 ## [2.1.4] - 2026-06-25
 
 ### Fixed
