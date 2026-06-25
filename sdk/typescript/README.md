@@ -49,11 +49,6 @@ rcf-cli verify src/algo.ts --against RCF-AUDIT-REPORT.json
 ### 3. Generate an RCF-Audit Report
 
 ```bash
-# Provide license key via flag
-rcf-cli audit . --license-key RCF-AUDIT-XXXX-XXXX
-
-# Or use environment variable
-export RCF_LICENSE_KEY=RCF-AUDIT-XXXX-XXXX
 rcf-cli audit .
 ```
 

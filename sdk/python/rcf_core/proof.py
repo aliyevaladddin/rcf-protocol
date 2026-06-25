@@ -12,7 +12,7 @@ a DNA match:
     p-value = Pr[ corr ≥ s | independent ]
 
 That — "E-value = 1e-9, independent origin is statistically excluded" — is the
-legally durable claim the premium audit sells. This is the DETECT side turned
+legally durable claim the RCF audit delivers. This is the DETECT side turned
 outward: it answers "could a thief have re-invented this method by chance?".
 
 ────────────────────────────────────────────────────────────────────────────

@@ -70,20 +70,14 @@ RCF enables new paradigms for monetization and asset protection while maintainin
 ### 1. Protected Core — Open Edge
 The "**Protected Core — Open Edge**" model allows you to distribute open, accessible tools while monetizing the execution engine:
 - **Open SDK ([RCF:PUBLIC])**: Provide a free, open-source SDK for developers to build extensions, plugins, or integrations (e.g., smart home plugins).
-- **Protected Core ([RCF:RESTRICTED])**: The core execution engine (e.g., A-VM) remains restricted. To run the extensions quickly and securely, users or enterprise clients must purchase **License Keys** for the restricted core.
+- **Protected Core ([RCF:RESTRICTED])**: The core execution engine (e.g., A-VM) remains restricted. Access and usage rights are governed by the RCF-PL license terms.
 
 ### 2. RCF-Audit as a Service
 Independent developers and small studios are vulnerable to IP theft and unauthorized AI extraction. **RCF-Audit as a Service** lets you act as a protection consultant:
 - **Offer**: "AI is extracting your code. We will implement the RCF-protocol, mark your proprietary assets, and provide cryptographic audit capabilities."
-- **Action**: Use the `rcf-cli audit` tool to generate an immutable `RCF-AUDIT-REPORT.json` containing SHA-256 hashes of all protected methodologies, creating a verifiable snapshot of ownership.
-
-> **Pricing:** 
-> - **RCF-Audit Personal:** $19 (one-time per project)
-> - **RCF-Audit Professional:** $99/year (unlimited)
-> 
-> Visit [aliyev.site/rcf](https://aliyev.site/rcf) to obtain a license.
-
-> **Note:** The `audit` command is a **Premium Feature** that requires an `RCF-AUDIT` License Key.
+> **Action**: Use the `rcf-cli audit` tool to generate an immutable `RCF-AUDIT-REPORT.json` containing SHA-256 hashes of all protected methodologies, creating a verifiable snapshot of ownership.
+>
+> Learn more at [aliyev.site/rcf](https://aliyev.site/rcf)
 
 ---
 
@@ -102,7 +96,7 @@ RCF is specialized for dOS environments (like **Aurora Access**). See the [**dOS
 
 ## 🛠️ RCF CLI Tools (NPM & PyPI)
 
-We provide official Command Line Interfaces to verify compliance in your projects, available in both TypeScript/Node.js and Python ecosystems.
+We provide official Command Line Interfaces to verify compliance in your projects, available in both TypeScript/Node.js and Python ecosystems. **All computations (including scans, audits, and similarity proofs) run 100% locally and privately on your machine—no source code or cryptographic hashes are ever sent to external servers.**
 
 ### 🟨 Node.js (NPM)
 
@@ -127,7 +121,7 @@ pip install rcf-cli
 | Command | Description |
 |:---|:---|
 | `rcf-cli init` | Initialize RCF in your project — generates `NOTICE.md` and `.rcfignore` |
-| `rcf-cli audit [path]` | Generate a cryptographic `RCF-AUDIT-REPORT.json` *(Requires License Key)* |
+| `rcf-cli audit [path]` | Generate a cryptographic `RCF-AUDIT-REPORT.json` — fingerprint all protected assets |
 | `rcf-cli verify [path]` | Verify file/directory integrity against the audit report |
 | `rcf-cli diff [path]` | Compare current markers vs audit report — ideal for CI/CD pipelines |
 | `rcf-cli protect [path]` | Auto-insert RCF markers into unprotected logic blocks |
@@ -144,7 +138,7 @@ pip install rcf-cli
 ```bash
 # Examples:
 rcf-cli init --project "MyApp" --author "Your Name"
-rcf-cli audit . --license-key RCF-AUDIT-XXXXXX
+rcf-cli audit .
 rcf-cli verify .
 rcf-cli prove src/algo.py src/algo_copy.py --corpus corpus.json --null null_model.json
 rcf-cli canary scan . --registry rcf_canaries.json

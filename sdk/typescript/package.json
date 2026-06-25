@@ -1,6 +1,6 @@
 {
   "name": "rcf-protocol",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "RCF CLI — Active Integrity & Protection Framework (TypeScript Edition)",
   "type": "module",
   "author": "Aladdin Aliyev <aladdin@aliyev.site>",

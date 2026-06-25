@@ -213,7 +213,7 @@ If `p < 10⁻⁹`, this is not coincidence — the source is shared.
 
 This is exactly what **BLAST** does in bioinformatics: it reports an *E-value* for a
 DNA match — "this sequence did not arise by chance." RCF v3 does the same for code.
-This — not "87% similar" — is what the premium audit must sell:
+This — not "87% similar" — is what the RCF audit delivers:
 
 > **"E-value = 10⁻⁹. Independent origin is statistically excluded."**
 

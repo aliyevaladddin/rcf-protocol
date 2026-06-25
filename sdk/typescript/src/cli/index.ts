@@ -73,7 +73,7 @@ const AUDIT_BANNER = `
 program
   .name('rcf-cli')
   .description('RCF Protocol — Restricted Correlation Framework')
-  .version('2.1.6')
+  .version('2.1.7')
   .addHelpText('before', AUDIT_BANNER)
   .arguments('[path]')
   .option('-v, --verbose', 'show details')
@@ -134,95 +134,10 @@ program
 
 program
   .command('audit [path]')
-  .description('Generate RCF-AUDIT-REPORT.json (Premium Feature)')
-  .option('--license-key <key>', 'RCF audit license key')
+  .description('Generate RCF-AUDIT-REPORT.json — fingerprint and index all protected assets')
   .option('-v, --verbose', 'show details')
   .action(async (pathArg = '.', options) => {
-    const licenseKey = options.licenseKey ?? process.env['RCF_LICENSE_KEY'];
-    const adminKeyHash = '74bc881f2c077802'; // RCF Admin Slice
-    const providedKeyHash = licenseKey
-      ? createHash('sha256').update(licenseKey).digest('hex').slice(0, 16)
-      : '';
-
     const root = resolve(pathArg);
-
-    function detectProjectName(dir: string): string {
-      const noticePath = join(dir, 'NOTICE.md');
-      if (existsSync(noticePath)) {
-        try {
-          const content = readFileSync(noticePath, 'utf8');
-          const match = content.match(/This project \(\*\*(.*?)\*\*\)/);
-          if (match && match[1]) {
-            return match[1].trim();
-          }
-        } catch (e) { }
-      }
-      const pkgPath = join(dir, 'package.json');
-      if (existsSync(pkgPath)) {
-        try {
-          const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'));
-          if (pkg.name) return pkg.name;
-        } catch (e) { }
-      }
-      return basename(dir);
-    }
-
-    if (providedKeyHash !== adminKeyHash) {
-      if (!licenseKey) {
-        console.log(chalk.red("❌ RCF-PL ERROR: Audit token missing. 'audit' is a premium feature."));
-        console.log(chalk.gray('   Purchase a key at: https://aliyev.site/rcf'));
-        console.log(chalk.gray('   Then set the required CLI argument or environment variable.'));
-        process.exit(1);
-      }
-      if (!licenseKey.startsWith('RCF-AUDIT-')) {
-        console.log(chalk.red("❌ RCF-PL ERROR: Invalid audit token format. Must start with 'RCF-AUDIT-'."));
-        console.log(chalk.gray('   Purchase a valid key at: https://aliyev.site/rcf'));
-        process.exit(1);
-      }
-
-      const projectName = detectProjectName(root);
-
-      console.log(chalk.yellow('📡 Verifying audit status for \'' + projectName + '\' with aliyev.site...'));
-      const isOnlineValid = await new Promise<boolean>((resolveValidation) => {
-        const postData = JSON.stringify({ key: licenseKey, project: projectName });
-        const req = https.request({
-          hostname: 'aliyev.site',
-          port: 443,
-          path: '/api/rcf-verify',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(postData),
-          },
-        }, (res) => {
-          let data = '';
-          res.on('data', chunk => data += chunk);
-          res.on('end', () => {
-            try {
-              const json = JSON.parse(data);
-              resolveValidation(res.statusCode === 200 && json.valid === true);
-            } catch (e) {
-              resolveValidation(false);
-            }
-          });
-        });
-
-        req.on('error', () => {
-          console.log(chalk.red("❌ Network Error: Could not reach aliyev.site to verify credentials."));
-          resolveValidation(false);
-        });
-
-        req.write(postData);
-        req.end();
-      });
-
-      if (!isOnlineValid) {
-        console.log(chalk.red("❌ RCF-PL ERROR: Audit token is invalid, expired, or not found in database."));
-        console.log(chalk.gray('   Purchase a valid key at: https://aliyev.site/rcf'));
-        process.exit(1);
-      }
-      console.log(chalk.green("✅ Audit credentials verified successfully."));
-    }
     console.log(chalk.cyan('◈ Generating Audit Report for: ' + root));
 
     const parser = new MarkerParser(root);
@@ -243,6 +158,7 @@ program
 
     console.log(chalk.green('✅ Audit complete. ' + report.protected_assets.length + ' assets recorded.'));
     console.log(chalk.gray('   Report saved to: ' + reportPath));
+    console.log(chalk.gray('   Protocol docs  : https://aliyev.site/rcf'));
   });
 
 // ─── VERIFY ──────────────────────────────────────────────────────────────────

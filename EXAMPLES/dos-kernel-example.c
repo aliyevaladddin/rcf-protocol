@@ -10,15 +10,15 @@
 #include <linux/module.h>
 #include <linux/moduleparam.h>
 
-static char *rcf_license_key = "";
-module_param(rcf_license_key, charp, 0000);
-MODULE_PARM_DESC(rcf_license_key,
-                 "RCF-PL License Key for A-VM Restricted Core");
+static char *rcf_access_token = "";
+module_param(rcf_access_token, charp, 0000);
+MODULE_PARM_DESC(rcf_access_token,
+                 "RCF-PL Access Token for A-VM Restricted Core");
 
-int verify_license_key(const char *key) {
+int verify_access_token(const char *token) {
   // Mock verification logic
-  if (key && key[0] != '\0') {
-    return 1; // Valid key
+  if (token && token[0] != '\0') {
+    return 1; // Valid token
   }
   return 0; // Invalid
 }
@@ -35,14 +35,14 @@ int verify_license_key(const char *key) {
 int init_module(void) {
   printk(KERN_INFO "dOS Kernel Module Loaded. (Protected Core)\n");
 
-  if (!verify_license_key(rcf_license_key)) {
-    printk(KERN_ERR "RCF-PL ERROR: Missing or invalid license key for "
+  if (!verify_access_token(rcf_access_token)) {
+    printk(KERN_ERR "RCF-PL ERROR: Missing or invalid access token for "
                     "RESTRICTED core execution.\n");
     return -EPERM;
   }
 
   printk(KERN_INFO
-         "RCF-PL VALIDATED: License key accepted. Execution allowed.\n");
+         "RCF-PL VALIDATED: Access token verified. Execution allowed.\n");
   return 0;
 }
 

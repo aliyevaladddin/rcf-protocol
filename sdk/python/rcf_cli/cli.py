@@ -221,69 +221,6 @@ def detect_project_name(root: str) -> str:
 
 def audit_project(args):
     target = os.path.abspath(args.path)
-    license_key = args.license_key or os.environ.get("RCF_LICENSE_KEY", "")
-    admin_key_hash = "74bc881f2c077802" # RCF Admin Slice
-    provided_key_hash = hashlib.sha256(license_key.encode()).hexdigest()[:16] if license_key else ""
-
-    if provided_key_hash != admin_key_hash:
-        if not license_key:
-            print("❌ RCF-PL ERROR: Audit token missing. 'audit' is a premium feature.")
-            print("   Purchase a key at: https://aliyev.site/rcf")
-            print("   Then set the required CLI argument or environment variable.")
-            sys.exit(1)
-        if not license_key.startswith("RCF-AUDIT-"):
-            print("❌ RCF-PL ERROR: Invalid audit token format. Must start with 'RCF-AUDIT-'.")
-            print("   Purchase a valid key at: https://aliyev.site/rcf")
-            sys.exit(1)
-        project_name = detect_project_name(target)
-        print(f"📡 Verifying audit status for '{project_name}' with aliyev.site...")
-        try:
-            import ssl
-            context = ssl.create_default_context()
-        except Exception:
-            context = None
-
-        try:
-            url = "https://aliyev.site/api/rcf-verify"
-            post_data = json.dumps({"key": license_key, "project": project_name}).encode('utf-8')
-            req = urllib.request.Request(
-                url,
-                data=post_data,
-                headers={
-                    "Content-Type": "application/json",
-                    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-                },
-                method="POST"
-            )
-            
-            try:
-                # Try secure verified request first (fully production-ready & safe)
-                with urllib.request.urlopen(req, timeout=5, context=context) as response:
-                    if response.getcode() != 200:
-                        raise Exception("Invalid status code")
-                    body = response.read().decode('utf-8')
-            except Exception as ssl_err:
-                # Fall back dynamically only if verification fails due to missing CA bundle on host
-                import ssl
-                fallback_fn = getattr(ssl, "_create" + "_unverified_context", None)
-                if fallback_fn:
-                    fallback_context = fallback_fn()
-                    with urllib.request.urlopen(req, timeout=5, context=fallback_context) as response:
-                        if response.getcode() != 200:
-                            raise Exception("Invalid status code")
-                        body = response.read().decode('utf-8')
-                else:
-                    raise ssl_err
-
-            data = json.loads(body)
-            if data.get("valid") is not True:
-                raise Exception("JSON valid flag not true")
-        except Exception as e:
-            print("❌ RCF-PL ERROR: Audit token is invalid, expired, or not found in database.")
-            print("   Purchase a valid key at: https://aliyev.site/rcf")
-            sys.exit(1)
-        
-        print("✅ Audit credentials verified successfully.")
     scanner = RCFScanner(target, verbose=args.verbose)
     results = scanner.scan_directory(include_protected=True)
 
@@ -929,9 +866,8 @@ def main():
     p_init.add_argument("--author", metavar="NAME", help="Author name")
 
     # audit
-    p_audit = subparsers.add_parser("audit", help="Generate RCF-AUDIT-REPORT.json (premium)")
+    p_audit = subparsers.add_parser("audit", help="Generate RCF-AUDIT-REPORT.json")
     p_audit.add_argument("path", nargs="?", default=".", metavar="PATH")
-    p_audit.add_argument("--license-key", metavar="KEY", help="RCF audit license key")
     p_audit.add_argument("--verbose", "-v", action="store_true")
 
     # verify

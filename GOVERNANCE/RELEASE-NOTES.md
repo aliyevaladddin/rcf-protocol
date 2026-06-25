@@ -74,6 +74,33 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
 ```
 
+
+---
+
+## 4. TypeScript (NPM) Build & Publish
+
+To build and publish the Node.js/TypeScript package (`rcf-protocol`):
+
+### Prerequisites
+Make sure dependencies are installed:
+```bash
+npm install
+```
+
+### Build Command
+Run this command inside the `sdk/typescript` directory to compile TypeScript to JavaScript:
+```bash
+npm run build
+```
+
+### Publish to NPM
+Run this to publish the compiled package:
+```bash
+npm publish
+```
+*(Make sure you are logged into your npm account with `npm login`)*
+
 ---
 
 **© 2026 RCF Protocol**
+

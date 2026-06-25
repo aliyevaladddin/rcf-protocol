@@ -3,6 +3,12 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.7] - 2026-06-25
+
+### Changed
+- **Local Audit Optimization**: Refactored the `audit` command to run entirely locally. The cryptographic report generation (`RCF-AUDIT-REPORT.json`) is now completely decentralized and private on the host machine.
+- **Documentation Polish**: Standardized READMEs, whitepapers, and build guides to clarify CLI usage and directory structures.
+
 ## [2.1.6] - 2026-06-25
 
 ### Fixed

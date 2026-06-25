@@ -3,7 +3,7 @@ rcf-protocol/                           ← Repository root
 ├── README.md                             ← Main file (overview)
 ├── LICENSE                               ← RCF-PL license text
 ├── WHITE_PAPER.md                   ← Technical & Legal Whitepaper
-├── SOVEREIGN_CODE.html                   ← Premium Multi-lingual Manifesto
+├── SOVEREIGN_CODE.html                   ← Multi-lingual Manifesto
 ├── SOVEREIGN-CODE-MANIFESTO.md           ← Markdown version of the Manifesto
 │
 ├── SPECIFICATION/                        ← Technical documentation
@@ -14,12 +14,13 @@ rcf-protocol/                           ← Repository root
 │   ├── COMPARISON.md                    ← License Comparison Matrix
 │   └── RCF-DOS-ADOPTION.md              ← dOS-specific adoption guide
 │
+├── SECURITY.md                      ← Security policy
+│
 ├── LEGAL/                               ← Legal documentation
 │   ├── LEGAL.md                         ← Legal framework (Acceptance by Use)
 │   ├── DEFINITIONS.md                   ← Terminology glossary
 │   ├── ENFORCEMENT.md                   ← Enforcement procedures
-│   ├── JURISDICTION.md                  ← International applicability
-│   └── SECURITY.md                      ← Security policy
+│   └── JURISDICTION.md                  ← International applicability
 │
 ├── IMPLEMENTATION/                      ← Practical implementation
 │   ├── CODE-MARKERS.md                  ← Code markers guide
@@ -39,7 +40,6 @@ rcf-protocol/                           ← Repository root
 ├── GOVERNANCE/                          ← Protocol governance
 │   ├── GOVERNANCE.md                    ← Governance process
 │   ├── VERSIONING.md                    ← Versioning policy
-│   ├── CHANGELOG.md                     ← Change history
 │   └── RELEASE-NOTES.md                 ← Release details
 │
 ├── sdk/                                 ← SDK and CLI tools
