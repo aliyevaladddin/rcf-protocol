@@ -42,6 +42,9 @@ sdk/python/rcf_core/data/null_model.json
 # RCF v3 sigma.json — copied during Python packaging build
 sdk/python/rcf_core/data/sigma.json
 
+# RCF v3 sigma.json — copied during TypeScript packaging build
+sdk/typescript/SPECIFICATION/sigma.json
+
 # Node.js build artifacts
 node_modules/
 dist/

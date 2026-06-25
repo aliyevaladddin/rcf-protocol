@@ -59,6 +59,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
           cache-dependency-path: sdk/typescript/package-lock.json
+      - name: Copy sigma.json for packaging
+        run: |
+          mkdir -p sdk/typescript/SPECIFICATION
+          cp SPECIFICATION/sigma.json sdk/typescript/SPECIFICATION/sigma.json
       - name: Install & Publish
         working-directory: sdk/typescript
         run: |
