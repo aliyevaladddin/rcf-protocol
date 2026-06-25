@@ -3,6 +3,11 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.6] - 2026-06-25
+
+### Fixed
+- **`sigma.json` missing in npm package**: `SPECIFICATION/sigma.json` is now physically copied into `sdk/typescript/SPECIFICATION/` during the CI/CD build step before `npm publish`. Previously the file was listed in `package.json → files` but existed only at the repo root, outside the `sdk/typescript/` working directory, so `npm pack` could not find it.
+
 ## [2.1.5] - 2026-06-25
 
 ### Fixed
