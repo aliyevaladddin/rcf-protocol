@@ -3,6 +3,12 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.4] - 2026-06-25
+
+### Fixed
+- **Python packaging**: `rcf_core` (RCF v3 correlation engine — PDG, surprisal, corpus, proof, canary) is now included in the `rcf-cli` PyPI distribution. Previously it was excluded from the build and available only from source; `pip install rcf-cli` now ships the full stack.
+- **TypeScript packaging**: `tree-sitter`, `tree-sitter-go`, `tree-sitter-rust`, `tree-sitter-typescript` moved from `devDependencies` to `dependencies`. All four packages are imported at runtime by the language normalizers (`normalize_typescript.ts`, `normalize_go.ts`, `normalize_rust.ts`, `corpus.ts`, `noise.ts`); their absence in production caused `Module Not Found` errors on first run.
+
 ## [2.1.3] - 2026-06-23
 
 ### Fixed
