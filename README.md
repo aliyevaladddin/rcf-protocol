@@ -2,6 +2,7 @@
 ![Proof HTML](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml/badge.svg)
 [![GitHub stars](https://img.shields.io/github/stars/aliyevaladddin/rcf-protocol?style=social)](https://github.com/aliyevaladddin/rcf-protocol)
 [![](https://data.jsdelivr.com/v1/package/npm/rcf-protocol/badge)](https://www.jsdelivr.com/package/npm/rcf-protocol)
+[![OpenCollective](https://img.shields.io/opencollective/all/rcf-protocol?style=flat-square&color=4ecdc4&logo=opencollective&logoColor=white)](https://opencollective.com/rcf-protocol)
 
 ⭐ If you find this useful, a star helps others discover it
 # RCF Protocol — Restricted Correlation Framework
