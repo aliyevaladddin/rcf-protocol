@@ -66,7 +66,7 @@ export class TypeScriptNormalizer {
 
   public normalize(source: string): PDG {
     const parser = new Parser();
-    parser.setLanguage(TypeScript.typescript);
+    parser.setLanguage(TypeScript.typescript as any);
     const tree = parser.parse(source);
     
     // Walk the root node

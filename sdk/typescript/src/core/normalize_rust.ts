@@ -50,7 +50,7 @@ export class RustNormalizer {
 
   public normalize(source: string): PDG {
     const parser = new Parser();
-    parser.setLanguage(Rust);
+    parser.setLanguage(Rust as any);
     const tree = parser.parse(source);
     this.walk(tree.rootNode, null);
     return this.pdg;

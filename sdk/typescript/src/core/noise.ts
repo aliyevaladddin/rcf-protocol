@@ -4,7 +4,7 @@ import TypeScript from 'tree-sitter-typescript';
 
 export function injectAdversarialNoiseTypescript(source: string): string {
   const parser = new Parser();
-  parser.setLanguage(TypeScript.typescript);
+  parser.setLanguage(TypeScript.typescript as any);
   let tree;
   try {
     tree = parser.parse(source);

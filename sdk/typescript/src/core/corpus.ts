@@ -25,7 +25,7 @@ export function safeJoinWithin(basePath: string, rel: string): string {
 
 export function iterFunctionUnits(source: string): string[] {
   const parser = new Parser();
-  parser.setLanguage(TypeScript.typescript);
+  parser.setLanguage(TypeScript.typescript as any);
   let tree;
   try {
     tree = parser.parse(source);
