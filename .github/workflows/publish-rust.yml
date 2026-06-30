@@ -1,0 +1,19 @@
+# .github/workflows/publish-rust.yml
+name: Publish Rust SDK
+
+on:
+  push:
+    paths:
+      - 'sdk/rust/**'
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Publish to crates.io
+        working-directory: sdk/rust
+        run: cargo publish --token ${{ secrets.CARGO_REGISTRY_TOKEN }}
