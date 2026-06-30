@@ -136,10 +136,44 @@ jobs:
           pip install -e .
           pytest tests/
 
+test-rust:
+    name: 🦀 Rust CI
+    needs: [security-scan, codeql-analysis]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Format check
+        working-directory: ./sdk/rust
+        run: cargo fmt --check
+
+      - name: Clippy
+        working-directory: ./sdk/rust
+        run: cargo clippy -- -D warnings
+
+      - name: Test
+        working-directory: ./sdk/rust
+        run: cargo test
+
+      - name: Build
+        working-directory: ./sdk/rust
+        run: cargo build --release
+
+      - name: Security audit
+        working-directory: ./sdk/rust
+        run: |
+          cargo install cargo-audit
+          cargo audit
+
   # --- STAGE 3: COMPLIANCE AUDIT ---
   rcf-audit:
     name: ⚖️ RCF Compliance Audit
-    needs: [test-typescript, test-python]
+    needs: [test-typescript, test-python, test-rust]
     runs-on: ubuntu-latest
     # Dependabot PRs run with a restricted token and CANNOT read secrets
     # (RCF_LICENSE_KEY is empty there), so the premium `audit` gate would always
