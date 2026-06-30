@@ -136,7 +136,7 @@ jobs:
           pip install -e .
           pytest tests/
 
-test-rust:
+  test-rust:
     name: 🦀 Rust CI
     needs: [security-scan, codeql-analysis]
     runs-on: ubuntu-latest
