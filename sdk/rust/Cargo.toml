@@ -1,0 +1,9 @@
+[package]
+name = "rcf-protocol"
+version = "0.0.1"
+edition = "2021"
+license = "Apache-2.0"
+description = "Restricted Correlation Framework (RCF) — Rust SDK"
+repository = "https://github.com/aliyevaladddin/rcf-protocol"
+homepage = "https://aliyev.site/rcf"
+keywords = ["licensing", "ai", "security", "protocol"]
