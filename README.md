@@ -5,7 +5,7 @@
 [![OpenCollective](https://img.shields.io/opencollective/all/rcf-protocol?style=flat-square&color=4ecdc4&logo=opencollective&logoColor=white)](https://opencollective.com/rcf-protocol)
 
 ⭐ If you find this useful, a star helps others discover it
-# RCF Protocol — Restricted Correlation Framework
+# RCF: Restricted Correlation Framework Protocol
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
