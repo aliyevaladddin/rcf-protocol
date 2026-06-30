@@ -12,6 +12,7 @@
 [![License: RCF-PL](https://img.shields.io/npm/v/rcf-protocol?label=RCF-PL&color=red&style=flat-square)](https://aliyev.site/rcf)
 [![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 [![GitLab](https://img.shields.io/badge/GitLab-@aladdinaliyev-orange?logo=gitlab)](https://gitlab.com/aladdinaliyev)
+[![DOI](https://zenodo.org/badge/1174703393.svg)](https://doi.org/10.5281/zenodo.21085739)
 
 
 **Version:** see [`package.json`](package.json) / [`sigma.json`](SPECIFICATION/sigma.json) — single source of truth
