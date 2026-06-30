@@ -32,7 +32,7 @@
 
 ## 🛡️ What is RCF?
 
-**RCF (Restricted Correlation Framework)** is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. RCF-protected works are subject to protection under the Berne Convention and national copyright laws. The RCF-PL license serves as a conditional grant of visibility rights. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights**.
+**RCF: Restricted Correlation Framework Protocol** is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. RCF-protected works are subject to protection under the Berne Convention and national copyright laws. The RCF-PL license serves as a conditional grant of visibility rights. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights**.
 
 ### Core Principle: Visibility ≠ Rights
 
@@ -181,4 +181,4 @@ RCF provides specialized measures for dOS to ensure kernel transparency while pr
 ---
 
 **© 2026 Aladdin Aliyev**  
-**All rights reserved under RCF Protocol License**
+**All rights reserved under RCF: Restricted Correlation Framework Protocol**
