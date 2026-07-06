@@ -71,7 +71,7 @@ jobs:
             exit 1
           fi
           npm config set //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
-          npm ci --legacy-peer-deps
+          npm ci
           npm publish --access public --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_API_TOKEN }}

@@ -100,7 +100,7 @@ jobs:
       - name: Install & Test
         working-directory: ./sdk/typescript
         run: |
-          npm ci --legacy-peer-deps
+          npm ci
           npm test
 
   test-python:
@@ -120,7 +120,7 @@ jobs:
       - name: Build TypeScript SDK (required for cross-lang normalizer tests)
         working-directory: ./sdk/typescript
         run: |
-          npm ci --legacy-peer-deps
+          npm ci
           npm run build
 
       - name: Set up Python 3.9
