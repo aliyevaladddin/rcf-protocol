@@ -170,10 +170,50 @@ jobs:
           cargo install cargo-audit
           cargo audit
 
+  # --- STAGE 2.5: CROSS-SDK INTERCHANGEABILITY ---
+  # The two SDKs (pip + npm) are meant to be interchangeable: a project audited
+  # by one MUST verify clean under the other, in either direction, and both must
+  # agree byte-for-byte on which files are protected. Each SDK's own unit tests
+  # cannot catch a drift *between* them — only a round-trip across the language
+  # boundary can. This job is that round-trip.
+  cross-sdk:
+    name: 🔀 Cross-SDK Interchangeability
+    needs: [test-typescript, test-python]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: sdk/typescript/package-lock.json
+
+      - name: Build TypeScript SDK
+        working-directory: ./sdk/typescript
+        run: |
+          npm ci
+          npm run build
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.9"
+
+      - name: Install Python SDK
+        working-directory: ./sdk/python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Run cross-SDK interchangeability check
+        run: ./scripts/cross_sdk_check.sh
+
   # --- STAGE 3: COMPLIANCE AUDIT ---
   rcf-audit:
     name: ⚖️ RCF Compliance Audit
-    needs: [test-typescript, test-python, test-rust]
+    needs: [test-typescript, test-python, test-rust, cross-sdk]
     runs-on: ubuntu-latest
     # Dependabot PRs run with a restricted token and CANNOT read secrets
     # (RCF_LICENSE_KEY is empty there), so the premium `audit` gate would always
