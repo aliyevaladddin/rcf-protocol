@@ -3,7 +3,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/aliyevaladddin/rcf-protocol?style=social)](https://github.com/aliyevaladddin/rcf-protocol)
 [![](https://data.jsdelivr.com/v1/package/npm/rcf-protocol/badge)](https://www.jsdelivr.com/package/npm/rcf-protocol)
 [![OpenCollective](https://img.shields.io/opencollective/all/rcf-protocol?style=flat-square&color=4ecdc4&logo=opencollective&logoColor=white)](https://opencollective.com/rcf-protocol)
-![PyPI License](https://img.shields.io/pypi/l/rcf-cli)
+![PyPI License](https://img.shields.io/pypi/l/rcf-cli?color=8B5CF6)
 [![docs.rs](https://img.shields.io/docsrs/rcf-protocol)](https://docs.rs/rcf-protocol)
 
 
