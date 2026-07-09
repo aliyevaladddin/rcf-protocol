@@ -3,6 +3,22 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.8] - 2026-07-09
+
+### Changed
+- **RCF repositioned as a free, open sovereignty standard — not a product.** Removed all monetization framing: the README "RCF Business Models" section (monetization / Audit-as-a-Service / protection consultant) became "Applying RCF"; dropped "Commercial Tiers" from `RCF-CORE`; reworded "Commercial deployments" and "enterprise auditing" to neutral, ownership-focused language. The RCF-PL restriction on a *third party's* commercial exploitation of a protected work is unchanged — that is the substance of the license.
+- **Version bump to 2.1.8** across root, TypeScript (`rcf-protocol`), and Python (`rcf-cli`) packages. `sigma_version` intentionally stays at 2.1.3 — the correlation alphabet (Σ) is unchanged, so audit fingerprints remain comparable across versions.
+
+### Removed
+- **Phantom license-key gate.** The CLI already ran `audit`/`verify` locally without any key; the `--key` / `license-key` inputs were declared in docs and CI but never consumed by the code. Removed the `--key` examples and the non-existent `audit-protect` command from the TS README, and dropped `license-key` inputs and `RCF_LICENSE_KEY` env wiring from the composite actions, master pipeline, and workflow example. The compliance audit now runs on all PRs (the dependabot skip, which only existed to work around the missing secret, is gone).
+
+### Fixed
+- **`--version` reported the wrong number.** `rcf-cli --version` printed a hardcoded `2.1.3` regardless of the installed release; it now reports the actual version. Same hardcoded string fixed in the TypeScript CLI.
+- Corrected broken bold markdown in the TypeScript README intro.
+
+### Added
+- PyPI / NPM / CI / DOI / ORCID badges to both SDK READMEs, consistent with the root README.
+
 ## [2.1.7] - 2026-06-25
 
 ### Changed
