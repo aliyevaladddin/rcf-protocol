@@ -1,9 +1,6 @@
 name: 'RCF Audit'
 description: 'Run RCF Protocol Compliance Audit'
 inputs:
-  license-key:
-    description: 'RCF Audit License Key'
-    required: true
   path:
     description: 'Path to audit'
     required: false
@@ -26,7 +23,5 @@ runs:
 
     - name: Run RCF Audit
       shell: bash
-      env:
-        RCF_LICENSE_KEY: ${{ inputs.license-key }}
       run: |
         rcf-cli audit "${{ inputs.path }}"

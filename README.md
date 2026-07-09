@@ -69,20 +69,18 @@ RCF use semantic markers to define protection levels at the block or file level:
 
 ---
 
-## 💎 RCF Business Models
+## 🧩 Applying RCF
 
-RCF enables new paradigms for monetization and asset protection while maintaining ecosystem openness.
+RCF is a free, open protocol. Anyone may adopt it at no cost to declare the boundary between what may be read and what may be replicated — the way `robots.txt` is a free convention that each site applies to itself.
 
-### 1. Protected Core — Open Edge
-The "**Protected Core — Open Edge**" model allows you to distribute open, accessible tools while monetizing the execution engine:
-- **Open SDK ([RCF:PUBLIC])**: Provide a free, open-source SDK for developers to build extensions, plugins, or integrations (e.g., smart home plugins).
+### Protected Core — Open Edge
+A common way to structure a project under RCF:
+- **Open SDK ([RCF:PUBLIC])**: A free, open-source SDK for developers to build extensions, plugins, or integrations (e.g., smart home plugins).
 - **Protected Core ([RCF:RESTRICTED])**: The core execution engine (e.g., A-VM) remains restricted. Access and usage rights are governed by the RCF-PL license terms.
 
-### 2. RCF-Audit as a Service
-Independent developers and small studios are vulnerable to IP theft and unauthorized AI extraction. **RCF-Audit as a Service** lets you act as a protection consultant:
-- **Offer**: "AI is extracting your code. We will implement the RCF-protocol, mark your proprietary assets, and provide cryptographic audit capabilities."
-> **Action**: Use the `rcf-cli audit` tool to generate an immutable `RCF-AUDIT-REPORT.json` containing SHA-256 hashes of all protected methodologies, creating a verifiable snapshot of ownership.
->
+### Audit & Ownership Snapshot
+Use the `rcf-cli audit` tool to generate an immutable `RCF-AUDIT-REPORT.json` containing SHA-256 hashes of all protected methodologies — a verifiable snapshot of ownership that any author can produce for their own work.
+
 > Learn more at [aliyev.site/rcf](https://aliyev.site/rcf)
 
 ---
