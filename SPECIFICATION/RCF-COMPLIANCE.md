@@ -19,7 +19,7 @@ This document provides comprehensive checklists and procedures for verifying RCF
 |-------|-------------|-----------------|
 | **Basic** | Minimum RCF requirements | Individual developers |
 | **Standard** | Full RCF implementation | Production projects |
-| **Enterprise** | Enhanced with auditing | Commercial deployments |
+| **Enterprise** | Enhanced with auditing | Large-scale / high-value works |
 
 ---
 

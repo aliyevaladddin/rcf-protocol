@@ -1,6 +1,13 @@
 <!-- NOTICE: This file is protected under RCF-PL -->
 # RCF CLI — Python Edition 🛡️🐍
 
+[![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/rcf-cli?style=flat-square)](https://pypi.org/project/rcf-cli/)
+[![License: RCF-PL](https://img.shields.io/pypi/l/rcf-cli?label=RCF-PL&color=red&style=flat-square)](https://aliyev.site/rcf)
+[![CI](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml)
+[![DOI](https://zenodo.org/badge/1174703393.svg)](https://doi.org/10.5281/zenodo.21085739)
+[![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
+
 The official Python Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol Active Integrity & Audit Framework**.
 
 RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights** using cryptographic integrity chains.
@@ -19,7 +26,7 @@ pip install rcf-cli
 - **Project Initialization**: Instantly generate `NOTICE.md` and `.rcfignore` files to protect your project.
 - **Automated Scanning**: Quickly scan projects for RCF compliance and extract Audit Markers.
 - **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL` header.
-- **RCF-Audit**: Generate cryptographically signed compliance reports for enterprise auditing.
+- **RCF-Audit**: Generate cryptographically signed compliance reports for ownership and integrity auditing.
 - **Integrity Chains**: Compare current file hashes and Audit Markers against an audit report to detect unauthorized modifications or tampering.
 
 

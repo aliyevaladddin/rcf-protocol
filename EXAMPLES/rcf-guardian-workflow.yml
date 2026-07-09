@@ -25,7 +25,6 @@ jobs:
           path: '.'
           mode: 'diff'             # use 'verify' for full hash check
           fail-on-new-unprotected: 'false'
-          license-key: ${{ secrets.RCF_LICENSE_KEY }}
 
       - name: Comment on PR (on failure)
         if: failure() && github.event_name == 'pull_request'

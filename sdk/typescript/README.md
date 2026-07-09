@@ -1,9 +1,16 @@
 <!-- NOTICE: This file is protected under RCF-PL -->
 # RCF CLI — TypeScript Edition 🛡️⚡
 
+[![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
+[![jsDelivr](https://data.jsdelivr.com/v1/package/npm/rcf-protocol/badge)](https://www.jsdelivr.com/package/npm/rcf-protocol)
+[![License: RCF-PL](https://img.shields.io/npm/v/rcf-protocol?label=RCF-PL&color=red&style=flat-square)](https://aliyev.site/rcf)
+[![CI](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml)
+[![DOI](https://zenodo.org/badge/1174703393.svg)](https://doi.org/10.5281/zenodo.21085739)
+[![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
+
 The official TypeScript/Node.js Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol Active Integrity & Audit Framework**.
 
-RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights using cryptographic integrity chains.
+RCF is an author-defined licensing protocol designed to protect intellectual property in the age of automated extraction and AI/ML mass replication. It creates a clear legal and technical boundary between **Visibility** and **Usage Rights** using cryptographic integrity chains.
 
 ## Installation
 
@@ -19,7 +26,7 @@ npm install -g rcf-protocol
 - **Project Initialization**: Instantly generate `NOTICE.md` and `.rcfignore` files to protect your project.
 - **Automated Scanning**: Quickly scan projects for RCF compliance and extract Audit Markers.
 - **Header Validation**: Ensure files have the required `NOTICE: This file is protected under RCF-PL` header.
-- **RCF-Audit**: Generate cryptographically signed compliance reports for enterprise auditing.
+- **RCF-Audit**: Generate cryptographically signed compliance reports for ownership and integrity auditing.
 - **Integrity Chains**: Compare current file hashes and Audit Markers against an audit report to detect unauthorized modifications or tampering.
 
 
@@ -39,9 +46,6 @@ rcf-cli init --project "My awesome app" --author "Aladdin Aliyev"
 # Verify integrity against audit report
 rcf-cli verify .
 
-# Verify with secret key (HMAC integrity chain check)
-rcf-cli verify . --key YOUR_SECRET_KEY
-
 # Verify a single file against a specific report
 rcf-cli verify src/algo.ts --against RCF-AUDIT-REPORT.json
 ```
@@ -60,9 +64,7 @@ Compare current files with the latest audit report:
 
 ```bash
 rcf-cli verify .
-
-# With secret key for HMAC integrity chain verification
-rcf-cli verify . --key YOUR_SECRET_KEY --verbose
+rcf-cli verify . --verbose
 ```
 
 ### 5. Diff for CI/CD
@@ -84,14 +86,7 @@ rcf-cli protect . --dry-run
 rcf-cli protect .
 ```
 
-### 7. Apply Audit Integrity Markers (HMAC Integrity Chains)
-
-```bash
-rcf-cli audit-protect . --key YOUR_SECRET_KEY
-rcf-cli audit-protect . --key YOUR_SECRET_KEY --dry-run
-```
-
-### 8. Forensic Analysis & Code Similarity
+### 7. Forensic Analysis & Code Similarity
 
 The TypeScript SDK CLI includes commands to analyze code uniqueness, generate watch-lists (sentinels), and compute similarity proof reports.
 

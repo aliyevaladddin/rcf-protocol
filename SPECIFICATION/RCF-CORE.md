@@ -227,7 +227,6 @@ Users encountering RCF should:
 
 - **Time-Decay Protection:** Automatic transition to permissive license after N years
 - **Research License:** Streamlined authorization for academic use
-- **Commercial Tiers:** Standardized commercial licensing options
 - **Technical Standards:** Reference implementations of enforcement tools
 
 ### Community Governance
