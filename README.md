@@ -1,18 +1,24 @@
 <!-- NOTICE: This file is protected under RCF-PL -->
 ![Proof HTML](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml/badge.svg)
-[![GitHub stars](https://img.shields.io/github/stars/aliyevaladddin/rcf-protocol?style=social)](https://github.com/aliyevaladddin/rcf-protocol)
-[![](https://data.jsdelivr.com/v1/package/npm/rcf-protocol/badge)](https://www.jsdelivr.com/package/npm/rcf-protocol)
-[![OpenCollective](https://img.shields.io/opencollective/all/rcf-protocol?style=flat-square&color=4ecdc4&logo=opencollective&logoColor=white)](https://opencollective.com/rcf-protocol)
-![PyPI License](https://img.shields.io/pypi/l/rcf-cli?color=8B5CF6)
 [![docs.rs](https://img.shields.io/docsrs/rcf-protocol)](https://docs.rs/rcf-protocol)
-
+[![](https://data.jsdelivr.com/v1/package/npm/rcf-protocol/badge)](https://www.jsdelivr.com/package/npm/rcf-protocol)
+[![PyPI downloads](https://img.shields.io/badge/downloads-14k%2B-brightgreen?style=flat-square&logo=pypi&logoColor=white)](https://pypi.org/project/rcf-cli)
+[![npm downloads](https://img.shields.io/badge/npm-5%2C320%2B%20downloads-4ecdc4?style=flat-square&logo=npm&logoColor=red)](https://www.npmjs.com/package/rcf-protocol)
+![rating](https://img.shields.io/badge/rating-★★★★☆-brightgreen)
 
 ⭐ If you find this useful, a star helps others discover it
+
+[![GitHub stars](https://img.shields.io/github/stars/aliyevaladddin/rcf-protocol?style=social)](https://github.com/aliyevaladddin/rcf-protocol)
+[![OpenCollective](https://img.shields.io/opencollective/all/rcf-protocol?style=flat-square&color=4ecdc4&logo=opencollective&logoColor=white)](https://opencollective.com/rcf-protocol)
+<img src="https://img.shields.io/liberapay/goal/aladdinaliyev.svg?logo=liberapay">
+
+
 # RCF: Restricted Correlation Framework Protocol
 
 [![NPM Version](https://img.shields.io/npm/v/rcf-protocol?color=blue&style=flat-square)](https://www.npmjs.com/package/rcf-protocol)
 [![PyPI - Version](https://img.shields.io/pypi/v/rcf-cli?color=blue&style=flat-square)](https://pypi.org/project/rcf-cli/)
 [![License: RCF-PL](https://img.shields.io/npm/v/rcf-protocol?label=RCF-PL&color=red&style=flat-square)](https://aliyev.site/rcf)
+![PyPI License](https://img.shields.io/pypi/l/rcf-cli?color=8B5CF6)
 [![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 [![GitLab](https://img.shields.io/badge/GitLab-@aladdinaliyev-orange?logo=gitlab)](https://gitlab.com/aladdinaliyev)
 <a href="https://doi.org/10.5281/zenodo.21085740"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.21085740.svg" alt="DOI"></a>
