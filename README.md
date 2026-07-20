@@ -4,7 +4,6 @@
 [![](https://data.jsdelivr.com/v1/package/npm/rcf-protocol/badge)](https://www.jsdelivr.com/package/npm/rcf-protocol)
 [![PyPI downloads](https://img.shields.io/badge/downloads-14k%2B-brightgreen?style=flat-square&logo=pypi&logoColor=white)](https://pypi.org/project/rcf-cli)
 [![npm downloads](https://img.shields.io/badge/npm-5%2C320%2B%20downloads-4ecdc4?style=flat-square&logo=npm&logoColor=red)](https://www.npmjs.com/package/rcf-protocol)
-![rating](https://img.shields.io/badge/rating-★★★★☆-brightgreen)
 
 ⭐ If you find this useful, a star helps others discover it
 
