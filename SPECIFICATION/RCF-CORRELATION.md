@@ -2,7 +2,7 @@
 <!-- [RCF:PROTECTED] -->
 # RCF-CORRELATION — The Mathematical Core of Restricted Correlation
 
-**Status:** Research / Draft — theoretical core defined; §4–§5 implemented in the `rcf_core` reference engine (Python-only first ring), §6 (canary) and cross-language lowering still ahead
+**Status:** Active Specification — theoretical core defined; §4–§6 implemented in `rcf_core` (Python engine) and cross-language lowering (TypeScript, Rust, Go via tree-sitter) implemented in `sdk/typescript`
 **Document Type:** Mathematical Specification
 **Generation:** RCF v3 (the correlation core; not a release number)
 **Author:** Aladdin Aliyev
@@ -27,9 +27,9 @@ RCF v3 makes the protocol's middle name literal. It defines **correlation** as a
 measurable, language-invariant quantity, and turns "this looks similar" into
 **"independent origin is statistically excluded."** This document fixes that
 mathematics. It is normative for the *definitions* and the *invariants*; the
-reference implementation lives in `rcf_core/` (Python). §4 (surprisal corpus +
-measure) and §5 (p-value / E-value) are implemented as the first, Python-only
-ring; cross-language lowering (§8.1) and the canary (§6) are still ahead.
+reference implementation lives in `rcf_core/` (Python) and `sdk/typescript/src/core/`. §4 (surprisal corpus +
+measure), §5 (p-value / E-value), §6 (canary engine), and cross-language lowering for TypeScript,
+Rust, and Go (via tree-sitter) are fully implemented.
 
 ---
 
@@ -233,12 +233,10 @@ cross-language null is a later ring over the same interface.
 
 ## 6. Methodology Canary — Designed Evidence
 
-> **Implementation status:** the *designed* canary of this section is not yet
-> implemented in `rcf_core`. A weaker, free relative — the **natural sentinel**
-> (`sentinel.py`) — is implemented and described in §6.4; it is explicitly *not*
-> a designed canary. This section is a normative specification for the planned
-> canary mechanism. See §7 status table. The analysis below draws on the same
-> PDG/surprisal invariants that §4–§5 already implement.
+> **Implementation status:** the designed canary mechanism of this section is
+> implemented in `rcf_core` (`canary.py`), using subgraph isomorphism detection
+> over query PDGs. The **natural sentinel** (`sentinel.py`) is also implemented
+> as described in §6.4. See §7 status table.
 
 Surprisal (§4) exploits idiosyncrasy that *already exists* in the protected work.
 A **canary** *injects* it deliberately: a functionally-neutral, arbitrary choice
@@ -383,8 +381,8 @@ load-bearing:
 Because of the decay risk, `sentinel.py` never freezes its list: it re-measures
 live on every run, and its banner instructs re-running before each audit. A
 sentinel hit is a reason to run §5 (`proof.py`) against the suspect, not a
-finding on its own. The designed canary of §6.1–§6.3 remains the instrument for
-the legally decisive, convergence-proof claim, and is still to be built.
+finding on its own. The designed canary of §6.1–§6.3 (`canary.py`) is the instrument for
+the legally decisive, convergence-proof claim.
 
 ---
 
@@ -400,11 +398,11 @@ RCF v3  =   surprisal-weighted WL-kernel        (origin)
 
 | Component | Role | Status of art | In `rcf_core` |
 |-----------|------|---------------|---------------|
-| **PDG** | survives language translation | known; needs per-language lowering | ✅ Python (`normalize_python`) |
+| **PDG** | survives language translation | known | ✅ Python (`normalize_python`), TS, Rust, Go (`sdk/typescript` via tree-sitter) |
 | **WL-kernel** | computable, rename-invariant similarity | known | ✅ `wl.py` |
 | **surprisal weight** | turns similarity into *origin* | **RCF contribution** | ✅ `corpus.py` + `measure.py` |
 | **p-value / E-value** | turns score into court-grade proof | known (BLAST analogy) | ✅ `proof.py` |
-| **methodology canary** | near-zero-false-positive designed evidence | **RCF contribution** | ⏳ designed canary not yet; `sentinel.py` ranks *natural* signatures (weaker — see §6.4) |
+| **methodology canary** | near-zero-false-positive designed evidence | **RCF contribution** | ✅ `canary.py` (designed canary via subgraph isomorphism) + `sentinel.py` (natural signatures) |
 
 ---
 
@@ -422,10 +420,9 @@ This section is normative: RCF must not overclaim.
 4. **RCF cannot prevent an AI from learning.** This is physically impossible at the
    license layer. RCF v3 is a layer of **detection, proof, and deterrence** — not DRM.
    The proof *is* the market value.
-5. **Behavioral equivalence false-positives on convergent solutions.** When the
-   canary mechanism is implemented (§6, currently ahead), prefer it for legal
-   claims — its false-positive rate approaches zero by construction. Until then,
-   treat §3.3 as corroborating evidence only, not as standalone proof.
+5. **Behavioral equivalence false-positives on convergent solutions.** Prefer the
+   canary mechanism (§6, implemented in `canary.py`) for legal claims — its false-positive
+   rate approaches zero by construction. Treat §3.3 as corroborating evidence only, not as standalone proof.
 
 ---
 
@@ -457,7 +454,7 @@ This section is normative: RCF must not overclaim.
 ---
 
 **Document Control:**
-- Status: Research / Draft — theoretical core fixed; §4–§5 implemented in `rcf_core` (Python first ring), §6 + cross-language lowering ahead
+- Status: Active Specification — theoretical core fixed; §4–§6 implemented in `rcf_core` (Python) and `sdk/typescript` (TS, Rust, Go)
 - Generation: RCF v3 (correlation core)
 - Scope: Normative for definitions and invariants; non-normative for implementation
 
