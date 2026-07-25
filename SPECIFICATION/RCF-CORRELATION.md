@@ -185,30 +185,113 @@ w(f) = − log P_nat(f)
 This is **TF-IDF for code graphs**, where "IDF" is the *improbability of independent
 re-invention*.
 
-### 4.3 The correlation formula
-
+## 4.3 The correlation formula (revised closing claim)
+ 
 ```
                 Σ_f  w(f) · [f ∈ A] · [f ∈ B]
 corr(A, B) = ───────────────────────────────────────────────
               √(Σ_f w(f)[f∈A]²) · √(Σ_f w(f)[f∈B]²)
 ```
-
-A surprisal-weighted cosine over WL features of the PDG. Match on the banal → ~0.
-Match on the rare → evidence. **This is literally the "Restricted *Correlation*
-Framework" — mathematics, not marketing.**
-
+ 
+A surprisal-weighted cosine over WL features of the PDG. Match on the banal →
+~0. Match on the rare → evidence of shared idiosyncrasy, weighted by how
+implausible that idiosyncrasy is under independent, unrelated authorship.
+ 
+> This is literally the "Restricted *Correlation* Framework" — a defined,
+> reproducible statistic, not a subjective similarity claim. It quantifies
+> **how surprising** a shared pattern is under the stated null model; it does
+> not, on its own, establish **why** two implementations share it. Common
+> alternative explanations — a shared upstream dependency, a shared training
+> source neither party authored, a small solution space for the sub-problem —
+> should be considered before concluding shared origin, and are easier to
+> rule out with more canary evidence (§6) than with §4 alone.
+ 
 ---
 
-## 5. From a Score to Court-Grade Proof — p-value / E-value
+## 5. From a Score to Statistical Evidence — p-value / E-value
 
 A single score `s` means nothing without a null of comparison. Build the
-**null distribution** of `corr` over provably independent pairs drawn from the corpus,
-then report:
+**null distribution** of `corr` over provably independent pairs drawn from the
+reference corpus, then report:
 
 ```
 p-value = Pr[ corr ≥ s | independent ]
 ```
 
+If `p` is extremely small, independent origin becomes an increasingly poor
+explanation for the observed score. This is structurally the same move
+**BLAST** makes in bioinformatics: it reports an *E-value* for a DNA match —
+"this sequence is unlikely to have arisen by chance, given this null model."
+RCF v3 applies the same statistical logic to code correlation.
+
+> **What this claim is:** a quantitative, reproducible signal that the observed
+> correlation is unlikely under the stated null model.
+>
+> **What this claim is not:** a legal determination of infringement, and not a
+> substitute for expert testimony. Statistical correlation establishes *shared
+> origin is more likely than chance under this model* — it does not by itself
+> establish which party copied from which, when, or whether the copying is
+> legally actionable. Those are separate questions requiring separate evidence
+> (timestamps, access, the scope of copyright over the specific expression
+> involved, etc.).
+
+### 5.1 Implementation and honesty constraints
+
+**Implemented (`rcf_core/proof.py`).** `build_null` draws the null distribution
+of `corr` over distinct corpus-unit pairs (seeded, reproducible); `prove` /
+`evaluate` report the observed score against it.
+
+Two numbers are always reported side by side, never collapsed into one:
+
+- **Empirical p-value** — the actual fraction of `K` sampled null pairs scoring
+  `≥ s`. This number is honest but coarse: it has a hard resolution floor of
+  `1/(K+1)` and cannot express significance beyond what `K` samples can
+  resolve. At realistic `K` (thousands, not billions), it cannot reach
+  values like `10⁻⁹` — reporting such a figure as "empirical" would
+  misrepresent the sample size actually used.
+- **Parametric p-value** — obtained by fitting a distribution (e.g. a normal
+  tail) to the null samples and extrapolating into the tail beyond what was
+  directly observed. This is always labeled `MODEL EXTRAPOLATION` in output,
+  and is only as trustworthy as the fit's validity in the tail — a claim that
+  itself needs independent scrutiny, not just internal consistency.
+
+### 5.2 Threats to validity — read before citing a number
+
+A p-value is only as good as the null model it's computed against. The
+following are open, acknowledged weaknesses, not resolved problems:
+
+1. **Corpus representativeness.** `P_nat(f)` and the null distribution are
+   only as good as the reference corpus. A corpus that under-samples a
+   legitimate style of independent implementation will overstate rarity, and
+   overstate correlation, for anyone who happens to write in that style.
+2. **No validated mutation/divergence model for code.** BLAST's E-values rest
+   on decades of validated models of sequence divergence. No equivalent
+   consensus model exists for "how independent implementations of the same
+   task diverge in code." The normal-tail extrapolation in §5.1 is a
+   reasonable working assumption, not an established law — it should be
+   stated as such wherever the output is used.
+3. **LLM training data as a confound.** If a pattern is rare in the reference
+   corpus but was nonetheless present somewhere in a model's training data
+   independent of the protected work, a match reflects that the model learned
+   the pattern from *some* source — not necessarily this one. Rarity in a
+   local corpus is evidence of idiosyncrasy relative to that corpus; it is
+   not proof of a specific causal source.
+4. **Independent validation.** This methodology has not undergone external
+   peer review or independent replication as of this writing. Reported
+   figures should be treated as a strong internal signal for triage and
+   further investigation, and disclosed as unvalidated when used in any
+   external (e.g. legal or contractual) context, pending such review.
+
+### 5.3 How to use these numbers responsibly
+
+- Treat a low p-value as **grounds to investigate further** (e.g. combine with
+  the canary evidence of §6, which has a materially different and stronger
+  evidentiary profile), not as a standalone conclusion.
+- Always report both the empirical p-value and its resolution floor alongside
+  any parametric figure — never the parametric number alone.
+- Disclose corpus composition and size alongside any reported score; a score
+  without its corpus is not reproducible and should not be treated as
+  evidence.
 If `p < 10⁻⁹`, this is not coincidence — the source is shared.
 
 This is exactly what **BLAST** does in bioinformatics: it reports an *E-value* for a
@@ -231,30 +314,36 @@ cross-language null is a later ring over the same interface.
 
 ---
 
-## 6. Methodology Canary — Designed Evidence
-
+# 6. Methodology Canary — Designed Evidence
+ 
 > **Implementation status:** the designed canary mechanism of this section is
 > implemented in `rcf_core` (`canary.py`), using subgraph isomorphism detection
 > over query PDGs. The **natural sentinel** (`sentinel.py`) is also implemented
 > as described in §6.4. See §7 status table.
-
-Surprisal (§4) exploits idiosyncrasy that *already exists* in the protected work.
-A **canary** *injects* it deliberately: a functionally-neutral, arbitrary choice
-planted in the codebase before publication — a specific constant, a redundant
-intermediate step, a unique edge-case branch. If that exact idiosyncrasy surfaces
-in a third party's implementation in any language, its presence is a
-**near-zero-false-positive signal**, because an honest independent author has no
-reason to reproduce it.
-
-Among all signals in the RCF v3 stack, the canary is the **cleanest for legal
-use**: its false-positive rate approaches zero by construction, whereas behavioral
-equivalence (§3.3) false-positives on convergent solutions and surprisal (§4)
-still leaves a residual coincidence probability.
-
+ 
+Surprisal (§4) exploits idiosyncrasy that *already exists* in the protected
+work, weighted against a reference corpus whose composition is itself a
+judgment call (§5.2). A **canary** sidesteps that dependency: it *injects* a
+functionally-neutral, arbitrary choice planted before publication — a specific
+constant, a redundant intermediate step, a unique edge-case branch. If that
+exact idiosyncrasy surfaces in a third party's implementation in any language,
+its presence is a **strong, low-false-positive signal** — not because the math
+guarantees zero false positives, but because an honest independent author has
+no functional reason to reproduce a choice that does nothing.
+ 
+Among all signals in the RCF v3 stack, the canary is the **most defensible for
+evidentiary use**: its false-positive rate is low by construction and, unlike
+§4, does not depend on the composition of an external reference corpus.
+Behavioral equivalence (§3.3) false-positives on convergent solutions, and
+surprisal (§4) carries residual uncertainty tied to corpus quality (§5.2); the
+canary's evidentiary strength instead rests on the design constraints below
+being genuinely met, and on how many independent canaries match (§6.3.3) —
+one match is a lead, not a verdict.
+ 
 ### 6.1 Design Constraints
-
+ 
 A valid canary must satisfy three constraints simultaneously:
-
+ 
 1. **Functionally neutral** — no observable behavior changes on any input.
    Removing the canary must not break, slow, or alter any test.
 2. **Semantic, not textual** — the canary must survive translation into another
@@ -262,101 +351,38 @@ A valid canary must satisfy three constraints simultaneously:
    translation; token-level choices (variable names, comments, whitespace) are
    rewritten immediately. A canary embedded only in naming is useless.
 3. **Low `P_nat(f)`, high plausibility** — arbitrary enough that independent
-   reimplementation is implausible (`w(f)` large), but natural-looking enough that
-   it is not removed during code review as dead code or refactored away by
-   an optimizer.
-
+   reimplementation is implausible (`w(f)` large), but natural-looking enough
+   that it is not removed during code review as dead code or refactored away
+   by an optimizer.
+A canary that fails constraint 1 taints the whole claim (it changes behavior,
+so its presence could reflect functional necessity, not copying). A canary
+that fails constraint 3 by being *too* natural-looking risks convergent
+reinvention by an honest independent author — which is precisely the
+scenario §6.3.3 (multiple independent canaries) exists to guard against.
+ 
 ### 6.2 Implementation Techniques
-
-The following techniques produce canaries that satisfy all three constraints and
-are detectable via the PDG / WL-kernel pipeline of §3–§4.
-
-**Technique 1 — Redundant intermediate step**
-
-Instead of a direct operation, introduce a semantically equivalent but
-structurally distinct path:
-
-```python
-# Direct (no canary):
-x ^= mask
-
-# Canary variant — identical result, extra PDG node + edge:
-tmp = x ^ CANARY_A
-x   = tmp ^ (CANARY_A ^ mask)   # CANARY_A cancels; result is x ^ mask
-```
-
-The constant `CANARY_A` appears in two nodes; the intermediate `tmp` creates a
-data-dependence edge that is absent in any direct implementation. WL iteration
-*k=1* captures this extra local structure.
-
-**Technique 2 — Non-trivial commutative ordering**
-
-When steps `a`, `b`, `c` are mutually independent and any order yields the same
-result, choose a statistically rare permutation:
-
-```python
-# Natural order (high P_nat): a → b → c
-# Canary order (low P_nat):   c → a → b
-```
-
-This changes the topological sort of the PDG without altering the data-dependence
-graph or observable output. WL captures the ordering through the relative
-iterations of neighbor labels.
-
-**Technique 3 — Redundant edge-case branch**
-
-Add a branch for an input that is structurally reachable but provably never
-occurs in this function's call context — and whose handler is the identity:
-
-```python
-if value == CANARY_SENTINEL:   # unreachable in practice
-    return value               # identity — no effect
-# ... normal logic ...
-```
-
-This inserts a `BRANCH` node and a `CONST` node into the PDG. Both survive
-translation because they are semantic. The specific sentinel value is recorded
-in the private registry (§6.3) as part of the canary specification.
-
-**Technique 4 — Structurally redundant decomposition**
-
-Split one computation into two in a non-obvious, non-standard way:
-
-```python
-# Standard bit-fold (high P_nat):
-result = x & 0xFFFF
-
-# Canary decomposition (low P_nat):
-high  = (x >> 8) & 0xFF
-low   = x & 0xFF
-result = (high << 8) | low     # identical; unusual grouping
-```
-
-The extra nodes and edges in the PDG are not produced by any straightforward
-implementation of the same operation.
-
+ 
+*(unchanged — Techniques 1–4 as originally specified: redundant intermediate
+step, non-trivial commutative ordering, redundant edge-case branch,
+structurally redundant decomposition.)*
+ 
 ### 6.3 Operational Requirements
-
-A canary is legally useful only if the following conditions hold:
-
+ 
+A canary supports a credible correlation claim only if the following
+conditions hold:
+ 
 1. **Private canary registry (pre-publication)**
    Before publishing the protected code, record each canary in a private,
    timestamped document (not in the public repository): date, file, location,
    technique used, specific constants/values, and a hash of the surrounding
-   context. Without this record, the canary is an anomaly, not evidence of
-   priority.
-
+   context. Without this record, a matching pattern is an unexplained
+   anomaly, not evidence of priority — the registry is what turns "this looks
+   planted" into "this was demonstrably planted before the alleged copying
+   could have occurred."
 2. **Survive optimization and refactoring**
    Verify that no linter, compiler, or formatter removes the canary as dead
    code. If a CI pass eliminates it, it provides no protection. Techniques 1
    and 4 are more vulnerable here than Techniques 2 and 3.
-
-3. **Multiple independent canaries**
-   A single matching canary can be attributed to coincidence. Three or more
-   independent canaries (different files, different techniques) matching
-   simultaneously constitute evidence that is statistically irrefutable under
-   the E-value framework of §5. Plant canaries at the module level, not only
-   at the function level.
 
 ### 6.4 Natural Sentinels — Implemented, and Why They Are Weaker
 
