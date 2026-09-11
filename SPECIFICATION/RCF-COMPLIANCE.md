@@ -1,326 +1,664 @@
 <!-- NOTICE: This file is protected under RCF-PL -->
-# RCF-COMPLIANCE — Compliance Verification
+<!-- [RCF:PROTECTED] -->
+# RCF-CORRELATION — The Mathematical Core of Restricted Correlation
 
-**Version:** Active  
-**Document Type:** Compliance Checklist  
-**Status:** Active
-
----
-
-## 1. Overview
-
-### Purpose
-
-This document provides comprehensive checklists and procedures for verifying RCF compliance in projects. It serves as a reference for authors, auditors, and users.
-
-### Compliance Levels
-
-| Level | Description | Target Audience |
-|-------|-------------|-----------------|
-| **Basic** | Minimum RCF requirements | Individual developers |
-| **Standard** | Full RCF implementation | Production projects |
-| **Enterprise** | Enhanced with auditing | Large-scale / high-value works |
+**Status:** Active Specification — theoretical core defined; §4–§6 implemented in `rcf_core` (Python engine) and cross-language lowering (TypeScript, Rust, Go via tree-sitter) implemented in `sdk/typescript`. §8 (whole-repository extension) is a **theoretical proposal, not yet implemented** — see §8.5.
+**Document Type:** Mathematical Specification
+**Generation:** RCF v3 (the correlation core; not a release number)
+**Author:** Aladdin Aliyev
 
 ---
 
-## 2. Project-Level Compliance
+## 0. Why This Document Exists
 
-### Required Files Checklist
+Through RCF v1–v2 the protocol protected *bytes*: file markers (`[RCF:PROTECTED]`)
+and SHA-256 audit manifests. Both defenses share one blind spot, and it is the
+blind spot that matters most in the age of large language models:
 
-| File | Purpose | Priority | Status |
-|------|---------|----------|--------|
-| `LICENSE` | RCF-PL legal text | Required | [ ] |
-| `NOTICE.md` | Project-specific warnings | Required | [ ] |
-| `README.md` | RCF adoption documentation | Required | [ ] |
-| `.rcfignore` | Exclusions from protection | Optional | [ ] |
+> **The real threat is not that an AI copies the code. It is that an AI trains on
+> a unique codebase, learns the *method*, and re-emits the same method in another
+> language — with not a single original token surviving.**
 
-### File Content Verification
+A SHA-256 hash sees nothing. A marker comment is stripped on the first translation.
+Token-level similarity is zero. Yet the intellectual property — the *methodology* —
+has been replicated completely.
 
-#### LICENSE File
-- [ ] Contains complete RCF-PL text
-- [ ] Includes copyright notice
-- [ ] Includes author contact information
-- [ ] Dated with effective year
-
-#### NOTICE.md File
-- [ ] References RCF Protocol version
-- [ ] Lists allowed activities
-- [ ] Lists prohibited activities
-- [ ] Provides contact for authorization
-- [ ] Links to full LICENSE
-
-#### README.md File
-- [ ] Mentions RCF protection
-- [ ] Links to NOTICE.md
-- [ ] Links to LICENSE
-- [ ] Includes quick summary of restrictions
+RCF v3 makes the protocol's middle name literal. It defines **correlation** as a
+measurable, language-invariant quantity, and turns "this looks similar" into
+**"independent origin is statistically excluded."** This document fixes that
+mathematics. It is normative for the *definitions* and the *invariants*; the
+reference implementation lives in `rcf_core/` (Python) and `sdk/typescript/src/core/`. §4 (surprisal corpus +
+measure), §5 (p-value / E-value), §6 (canary engine), and cross-language lowering for TypeScript,
+Rust, and Go (via tree-sitter) are fully implemented. §8 extends the model from a
+single code unit to an entire repository and is currently design-only.
 
 ---
 
-## 3. Code-Level Compliance
+## 1. The Object of Protection — What Survives Translation
 
-### File Header Requirements
+### 1.1 The translation-invariance question
 
-Every protected file must include:
+Any defense must answer one question: **what survives when code is translated from
+one language to another?**
 
-```python
-# ==============================================================================
-# NOTICE: This file is protected under RCF-PL
-# Restricted Correlation Framework — https://aliyev.site/rcf
-# 
-# VISIBILITY ALLOWED: Manual reading and study
-# USAGE RESTRICTED: See LICENSE for prohibited activities
-#
-# [RCF:NOTICE][RCF:PROTECTED]
-# ==============================================================================
+| Representation | Survives translation? | Why |
+|----------------|:---:|-----|
+| Source tokens / SHA-256 | ❌ | Entirely rewritten |
+| Comments / markers | ❌ | Stripped or rewritten first |
+| AST (syntax tree) | ❌ | Syntax is language-specific |
+| CFG (control flow) | ⚠️ partial | Survives, but refactoring-fragile |
+| **PDG (dependence graph)** | ✅ | **Semantic, not syntactic** |
+| Behavior (I/O mapping) | ✅ | Invariant by definition |
+
+The winner is the **Program Dependence Graph (PDG)**. An edge "value `X` flows into
+operation `Y`" is *semantic*: when an AI translates Python → Rust, it **must**
+preserve which value feeds which operation, or the program is wrong. Names, syntax,
+and tokens change freely; the topology of data and control dependence does not,
+because the *task itself* dictates it.
+
+### 1.2 Formal object
+
+A code unit is reduced to a labeled directed graph:
+
 ```
----
-
-### Checklist per file:
-
-- [ ] Header notice present
-- [ ] RCF version specified
-- [ ] Website link included
-- [ ] Visibility rights stated
-- [ ] Usage restrictions stated
-- [ ] Appropriate marker assigned
-
-### Marker Usage Verification
-
-| Marker | Usage Correct? | Count |
-|--------|----------------|-------|
-| `[RCF:PUBLIC]` | Architecture, safe to discuss | ___ |
-| `[RCF:PROTECTED]` | Core methodology | ___ |
-| `[RCF:RESTRICTED]` | Sensitive implementation | ___ |
-| `[RCF:NOTICE]` | Combined with others | ___ |
-
-### Marker Placement Rules
-
-- [ ] Markers appear at section boundaries
-- [ ] No unmarked protected code
-- [ ] No markers on trivial code (getters, setters)
-- [ ] Consistent marker style throughout project
-
----
-
-## 4. Technical Enforcement Compliance
-
-### Minimum Requirements
-
-| Component | Implemented | Tested | Documented |
-|-----------|-------------|--------|------------|
-| Rate limiting | [ ] | [ ] | [ ] |
-| Access logging | [ ] | [ ] | [ ] |
-| Automation detection | [ ] | [ ] | [ ] |
-| Violation logging | [ ] | [ ] | [ ] |
-
-### Standard Requirements
-
-| Component | Implemented | Tested | Documented |
-|-----------|-------------|--------|------------|
-| Behavioral analysis | [ ] | [ ] | [ ] |
-| Challenge system | [ ] | [ ] | [ ] |
-| Tiered rate limits | [ ] | [ ] | [ ] |
-| Alerting system | [ ] | [ ] | [ ] |
-
-### Enterprise Requirements
-
-| Component | Implemented | Tested | Documented |
-|-----------|-------------|--------|------------|
-| ML-based detection | [ ] | [ ] | [ ] |
-| Code obfuscation | [ ] | [ ] | [ ] |
-| Watermarking | [ ] | [ ] | [ ] |
-| Forensic preservation | [ ] | [ ] | [ ] |
-
----
-
-## 5. Documentation Compliance
-
-### Public Documentation
-
-- [ ] Architecture overview (RCF:PUBLIC)
-- [ ] API reference (without implementation details)
-- [ ] Usage examples (safe scenarios)
-- [ ] Contribution guidelines (if applicable)
-
-### Restricted Documentation
-
-- [ ] Methodology documentation marked
-- [ ] Algorithm descriptions protected
-- [ ] Internal architecture diagrams restricted
-- [ ] No exposed credentials or keys
-
----
-
-## 6. Verification Tools
-
-### Automated Compliance Checker
-
-# Install RCF CLI
-pip install rcf-cli
-
-# Run compliance check
-rcf-cli check-compliance /path/to/project
-
-# Generate report
-rcf-cli generate-report --format markdown --output compliance-report.md
-
-### Manual Verification
-
-```python
-#!/usr/bin/env python3
-"""
-RCF Compliance Verification Script
-"""
-
-import os
-import re
-from pathlib import Path
-
-class RCFComplianceChecker:
-    def __init__(self, project_path):
-        self.project_path = Path(project_path)
-        self.issues = []
-        self.warnings = []
-    
-    def check_required_files(self):
-        """Verify required files exist"""
-        required = ['LICENSE', 'NOTICE.md', 'README.md']
-        for file in required:
-            path = self.project_path / file
-            if not path.exists():
-                self.issues.append(f"Missing required file: {file}")
-            else:
-                self.check_file_content(file, path)
-    
-    def check_file_content(self, filename, filepath):
-        """Verify file content requirements"""
-        content = filepath.read_text()
-        
-        if filename == 'LICENSE':
-            if 'RCF-PL' not in content:
-                self.issues.append("LICENSE missing RCF-PL reference")
-            if 'Copyright' not in content:
-                self.issues.append("LICENSE missing copyright notice")
-        
-        elif filename == 'NOTICE.md':
-            if 'RCF' not in content:
-                self.issues.append("NOTICE.md missing RCF reference")
-            if 'aladdin@aliyev.site' not in content:
-                self.warnings.append("NOTICE.md missing contact email")
-    
-    def check_code_markers(self):
-        """Verify RCF markers in source files"""
-        source_extensions = ['.py', '.js', '.ts', '.java', '.go', '.rs']
-        
-        for ext in source_extensions:
-            for file_path in self.project_path.rglob(f'*{ext}'):
-                content = file_path.read_text()
-                
-                # Check for header
-                if 'RCF-PL' not in content and 'RCF:' not in content:
-                    self.warnings.append(f"No RCF header: {file_path}")
-                    continue
-                
-                # Validate markers
-                markers = re.findall(r'\[RCF:(\w+)\]', content)
-                invalid = [m for m in markers if m not in 
-                           ['PUBLIC', 'PROTECTED', 'RESTRICTED', 'NOTICE']]
-                if invalid:
-                    self.issues.append(
-                        f"Invalid markers in {file_path}: {invalid}"
-                    )
-    
-    def generate_report(self):
-        """Generate compliance report"""
-        return {
-            'issues': self.issues,
-            'warnings': self.warnings,
-            'compliant': len(self.issues) == 0,
-            'score': self.calculate_score()
-        }
-    
-    def calculate_score(self):
-        """Calculate compliance score (0-100)"""
-        base = 100
-        base -= len(self.issues) * 10
-        base -= len(self.warnings) * 2
-        return max(0, base)
+G = (V, E, ℓ)
 ```
 
-# Usage
+- `V` — operations and values (nodes).
+- `E ⊆ V × V` — data- and control-dependence edges.
+- `ℓ : V → Σ` — a **semantic label** from a language-independent alphabet `Σ`
+  (e.g. `ARITH`, `COMPARE`, `MEMORY`, `CALL`, `BRANCH`, `CONST`).
 
-```python
-if __name__ == '__main__':
-    checker = RCFComplianceChecker('/path/to/project')
-    checker.check_required_files()
-    checker.check_code_markers()
-    report = checker.generate_report()
-    print(f"Compliance Score: {report['score']}/100")
-    print(f"Compliant: {report['compliant']}")
-``` 
----
+**Identifiers are discarded.** What remains is structure + semantics. This `G` is
+the canonical object on which all of RCF v3 operates. The pipeline that produces it:
 
-## 7. Audit Procedures
-
-### Self-Audit (Monthly)
-
-| Task | Owner | Evidence |
-|------|-------|----------|
-| Verify all files have headers | Developer | Screenshot |
-| Check NOTICE.md is current | Developer | Date stamp |
-| Review access logs | Admin | Log summary |
-| Test enforcement systems | QA | Test results |
-
-### External Audit (Annual)
-
-| Area | Auditor | Deliverable |
-|------|---------|-------------|
-| Legal compliance | Legal counsel | Opinion letter |
-| Technical measures | Security firm | Penetration test |
-| Code marking | RCF expert | Compliance report |
-| Documentation | Technical writer | Review document |
-
-## 8. Non-Compliance Remediation
-
-### Critical Issues (Fix Immediately)
-
-| Issue | Impact | Fix |
-|------|--------|-----|
-| Missing LICENSE | Legal invalidity | Add LICENSE file |
-| Unmarked protected code | IP exposure | Add RCF headers |
-| Broken enforcement | Security risk | Repair systems |
-
-### Warning Issues (Fix Within 30 Days)
-
-| Issue | Impact | Fix |
-|------|--------|-----|
-| Outdated NOTICE.md | Confusion | Update content |
-| Inconsistent markers | Ambiguity | Standardize |
-| Missing documentation | Adoption barrier | Add docs |
-
-## 9. Compliance Certification
-
-### Self-Certification Statement
-
-```python
-I, [Name], certify that this project complies with RCF-PL as of [Date].
-
-Signed: ________________________
-
-Date: ________________________
+```
+source ──parse──► language-specific AST ──lower──► semantic IR ──build──► PDG (G)
+   (tree-sitter)                         (Σ-labeled)
 ```
 
-### Third-Party Certification
+The `lower` stage — one normalizer per supported language into a shared `Σ`-labeled
+IR — is the principal engineering cost of RCF v3 (see §9).
 
-Organizations can request third-party certification by contacting aladdin@aliyev.site.
+Note on scope: `G` as defined here is *intraprocedural* — one function, one
+procedure. §8 extends this object across function and file boundaries.
+
+---
+
+## 2. The Correlation Problem, Stated
+
+Given two code units `A`, `B` reduced to `G_A`, `G_B`, define a function
+
+```
+corr(G_A, G_B) ∈ [0, 1]
+```
+
+required to be:
+
+1. **Invariant** to identifier renaming, target language, and minor refactoring.
+2. **Sensitive** to *idiosyncrasy* — the author's arbitrary, non-functional choices.
+
+Exact graph isomorphism is NP-hard, but we do not need it. We need a fast,
+rename-invariant *kernel* over graphs, re-weighted by a measure of origin. The next
+sections build it from three bricks, then the v3 contribution that fuses them.
+
+---
+
+## 3. Three Bricks (with honest limits)
+
+### 3.1 Weisfeiler–Lehman graph kernel — the workhorse
+
+Iteratively relabel each node by a hash of `(its label, sorted multiset of neighbor
+labels)`, repeated `k` times; then compare label-frequency histograms:
+
+```
+k_WL(G_A, G_B) = Σ_{i=0..k}  ⟨ φ_i(G_A), φ_i(G_B) ⟩
+```
+
+where `φ_i` is the WL-label frequency vector at iteration `i`.
+
+- ✅ Rename-invariant (operates on labels, not IDs); captures local structure of
+  radius `k`; computable in `O(k · |E|)`.
+- ⚠️ Large `k` → global → refactoring-fragile; small `k` → local → robust but
+  near-sighted. `k` is a calibration knob, not a constant.
+
+### 3.2 Laplacian spectrum — permutation-invariant baseline
+
+With `L = D − A` (degree minus adjacency), the eigenvalues
+`λ₁ ≤ … ≤ λ_n` are **permutation-invariant by construction**:
+
+```
+d_spec(G_A, G_B) = ‖ λ(G_A) − λ(G_B) ‖₂
+```
+
+Use the *normalized* Laplacian `ℒ = I − D^{−1/2} A D^{−1/2}` so the spectrum lies in
+`[0, 2]` and is comparable across graph sizes.
+
+- ✅ Fully language-invariant; cheap.
+- ⚠️ *Cospectral* graphs (different, same spectrum) cause false matches; size-sensitive.
+  **Use only as a pre-filter, never as sole evidence.**
+
+### 3.3 Behavioral signature — an orthogonal axis
+
+For a function `f`, fix a canonical probe set `X`; the signature is a hash of the
+mapping `{ x ↦ f(x) }`.
+
+- ✅ Language-invariant *by definition*.
+- ⚠️ Proves "same function", not "same origin" — two honest authors converge here.
+
+Bricks §3.1–§3.3 are essentially the known field of cross-language clone detection.
+They measure **similarity**. The v3 contribution turns similarity into **origin**.
+
+---
+
+## 4. The RCF Contribution — Surprisal-Weighted Correlation
+
+### 4.1 The core idea
+
+Separate any methodology into two layers:
+
+- **Functional core** — what *anyone* solving the task converges to. Protecting it is
+  meaningless; an independent implementation reproduces it.
+- **Idiosyncratic layer** — the author's arbitrary choices, which exist *for no reason
+  other than that the author chose them*: an unusual constant, a specific ordering of
+  steps, a peculiar edge-case handling, a non-obvious module split.
+
+The decisive principle:
+
+> **An independent, honest implementation will NOT reproduce your arbitrary choices.**
+> Two people solving a task from scratch converge in the core and diverge in the
+> idiosyncrasy. So if your *functionally-unnecessary* choice appears in someone else's
+> Rust — it is not coincidence, it is **evidence the source is you.**
+
+Idiosyncrasy passes through language translation because it is **semantic, not
+syntactic**: the AI learned the *solution*, and your fingerprints are baked into it.
+
+### 4.2 The weight — surprisal
+
+For each substructure (WL feature) `f`, let `P_nat(f)` be the probability that an
+*independent* implementation produces `f`, estimated over a large reference corpus.
+The idiosyncrasy weight is the **self-information (surprisal)**:
+
+```
+w(f) = − log P_nat(f)
+```
+
+- A banal pattern (sum-a-list loop) → `P_nat` high → `w ≈ 0`.
+- A strange specific choice → `P_nat` tiny → `w` large.
+
+This is **TF-IDF for code graphs**, where "IDF" is the *improbability of independent
+re-invention*.
+
+## 4.3 The correlation formula (revised closing claim)
+ 
+```
+                Σ_f  w(f) · [f ∈ A] · [f ∈ B]
+corr(A, B) = ───────────────────────────────────────────────
+              √(Σ_f w(f)[f∈A]²) · √(Σ_f w(f)[f∈B]²)
+```
+ 
+A surprisal-weighted cosine over WL features of the PDG. Match on the banal →
+~0. Match on the rare → evidence of shared idiosyncrasy, weighted by how
+implausible that idiosyncrasy is under independent, unrelated authorship.
+ 
+> This is literally the "Restricted *Correlation* Framework" — a defined,
+> reproducible statistic, not a subjective similarity claim. It quantifies
+> **how surprising** a shared pattern is under the stated null model; it does
+> not, on its own, establish **why** two implementations share it. Common
+> alternative explanations — a shared upstream dependency, a shared training
+> source neither party authored, a small solution space for the sub-problem —
+> should be considered before concluding shared origin, and are easier to
+> rule out with more canary evidence (§6) than with §4 alone.
+ 
+---
+
+## 5. From a Score to Statistical Evidence — p-value / E-value
+
+A single score `s` means nothing without a null of comparison. Build the
+**null distribution** of `corr` over provably independent pairs drawn from the
+reference corpus, then report:
+
+```
+p-value = Pr[ corr ≥ s | independent ]
+```
+
+If `p` is extremely small, independent origin becomes an increasingly poor
+explanation for the observed score. This is structurally the same move
+**BLAST** makes in bioinformatics: it reports an *E-value* for a DNA match —
+"this sequence is unlikely to have arisen by chance, given this null model."
+RCF v3 applies the same statistical logic to code correlation.
+
+> **What this claim is:** a quantitative, reproducible signal that the observed
+> correlation is unlikely under the stated null model.
+>
+> **What this claim is not:** a legal determination of infringement, and not a
+> substitute for expert testimony. Statistical correlation establishes *shared
+> origin is more likely than chance under this model* — it does not by itself
+> establish which party copied from which, when, or whether the copying is
+> legally actionable. Those are separate questions requiring separate evidence
+> (timestamps, access, the scope of copyright over the specific expression
+> involved, etc.).
+
+### 5.1 Implementation and honesty constraints
+
+**Implemented (`rcf_core/proof.py`).** `build_null` draws the null distribution
+of `corr` over distinct corpus-unit pairs (seeded, reproducible); `prove` /
+`evaluate` report the observed score against it.
+
+Two numbers are always reported side by side, never collapsed into one:
+
+- **Empirical p-value** — the actual fraction of `K` sampled null pairs scoring
+  `≥ s`. This number is honest but coarse: it has a hard resolution floor of
+  `1/(K+1)` and cannot express significance beyond what `K` samples can
+  resolve. At realistic `K` (thousands, not billions), it cannot reach
+  values like `10⁻⁹` — reporting such a figure as "empirical" would
+  misrepresent the sample size actually used.
+- **Parametric p-value** — obtained by fitting a distribution (e.g. a normal
+  tail) to the null samples and extrapolating into the tail beyond what was
+  directly observed. This is always labeled `MODEL EXTRAPOLATION` in output,
+  and is only as trustworthy as the fit's validity in the tail — a claim that
+  itself needs independent scrutiny, not just internal consistency.
+
+### 5.2 Threats to validity — read before citing a number
+
+A p-value is only as good as the null model it's computed against. The
+following are open, acknowledged weaknesses, not resolved problems:
+
+1. **Corpus representativeness.** `P_nat(f)` and the null distribution are
+   only as good as the reference corpus. A corpus that under-samples a
+   legitimate style of independent implementation will overstate rarity, and
+   overstate correlation, for anyone who happens to write in that style.
+2. **No validated mutation/divergence model for code.** BLAST's E-values rest
+   on decades of validated models of sequence divergence. No equivalent
+   consensus model exists for "how independent implementations of the same
+   task diverge in code." The normal-tail extrapolation in §5.1 is a
+   reasonable working assumption, not an established law — it should be
+   stated as such wherever the output is used.
+3. **LLM training data as a confound.** If a pattern is rare in the reference
+   corpus but was nonetheless present somewhere in a model's training data
+   independent of the protected work, a match reflects that the model learned
+   the pattern from *some* source — not necessarily this one. Rarity in a
+   local corpus is evidence of idiosyncrasy relative to that corpus; it is
+   not proof of a specific causal source.
+4. **Independent validation.** This methodology has not undergone external
+   peer review or independent replication as of this writing. Reported
+   figures should be treated as a strong internal signal for triage and
+   further investigation, and disclosed as unvalidated when used in any
+   external (e.g. legal or contractual) context, pending such review.
+
+### 5.3 How to use these numbers responsibly
+
+- Treat a low p-value as **grounds to investigate further** (e.g. combine with
+  the canary evidence of §6, which has a materially different and stronger
+  evidentiary profile), not as a standalone conclusion.
+- Always report both the empirical p-value and its resolution floor alongside
+  any parametric figure — never the parametric number alone.
+- Disclose corpus composition and size alongside any reported score; a score
+  without its corpus is not reproducible and should not be treated as
+  evidence.
+If `p < 10⁻⁹`, this is not coincidence — the source is shared.
+
+This is exactly what **BLAST** does in bioinformatics: it reports an *E-value* for a
+DNA match — "this sequence did not arise by chance." RCF v3 does the same for code.
+This — not "87% similar" — is what the RCF audit delivers:
+
+> **"E-value = 10⁻⁹. Independent origin is statistically excluded."**
+
+That is the legally durable claim.
+
+**Implemented (`rcf_core/proof.py`).** `build_null` draws the null distribution
+of `corr` over distinct corpus-unit pairs (seeded, reproducible); `prove` /
+`evaluate` report the score against it. Honesty is built in: the *empirical*
+p-value has a hard resolution floor of `1/(K+1)` and cannot reach `10⁻⁹` at any
+realistic `K`, so the headline rides a *parametric* normal-tail model that is
+always labeled `MODEL EXTRAPOLATION`, with the empirical p and its floor reported
+beside it — never collapsed into one unlabeled number. The null is built from
+Python units, so it judges independence *within Python* (first ring); a
+cross-language null is a later ring over the same interface.
+
+---
+
+# 6. Methodology Canary — Designed Evidence
+ 
+> **Implementation status:** the designed canary mechanism of this section is
+> implemented in `rcf_core` (`canary.py`), using subgraph isomorphism detection
+> over query PDGs. The **natural sentinel** (`sentinel.py`) is also implemented
+> as described in §6.4. See §7 status table.
+ 
+Surprisal (§4) exploits idiosyncrasy that *already exists* in the protected
+work, weighted against a reference corpus whose composition is itself a
+judgment call (§5.2). A **canary** sidesteps that dependency: it *injects* a
+functionally-neutral, arbitrary choice planted before publication — a specific
+constant, a redundant intermediate step, a unique edge-case branch. If that
+exact idiosyncrasy surfaces in a third party's implementation in any language,
+its presence is a **strong, low-false-positive signal** — not because the math
+guarantees zero false positives, but because an honest independent author has
+no functional reason to reproduce a choice that does nothing.
+ 
+Among all signals in the RCF v3 stack, the canary is the **most defensible for
+evidentiary use**: its false-positive rate is low by construction and, unlike
+§4, does not depend on the composition of an external reference corpus.
+Behavioral equivalence (§3.3) false-positives on convergent solutions, and
+surprisal (§4) carries residual uncertainty tied to corpus quality (§5.2); the
+canary's evidentiary strength instead rests on the design constraints below
+being genuinely met, and on how many independent canaries match (§6.3.3) —
+one match is a lead, not a verdict.
+ 
+### 6.1 Design Constraints
+ 
+A valid canary must satisfy three constraints simultaneously:
+ 
+1. **Functionally neutral** — no observable behavior changes on any input.
+   Removing the canary must not break, slow, or alter any test.
+2. **Semantic, not textual** — the canary must survive translation into another
+   language. As §1.1 establishes, only PDG topology and semantic labels survive
+   translation; token-level choices (variable names, comments, whitespace) are
+   rewritten immediately. A canary embedded only in naming is useless.
+3. **Low `P_nat(f)`, high plausibility** — arbitrary enough that independent
+   reimplementation is implausible (`w(f)` large), but natural-looking enough
+   that it is not removed during code review as dead code or refactored away
+   by an optimizer.
+A canary that fails constraint 1 taints the whole claim (it changes behavior,
+so its presence could reflect functional necessity, not copying). A canary
+that fails constraint 3 by being *too* natural-looking risks convergent
+reinvention by an honest independent author — which is precisely the
+scenario §6.3.3 (multiple independent canaries) exists to guard against.
+ 
+### 6.2 Implementation Techniques
+ 
+*(unchanged — Techniques 1–4 as originally specified: redundant intermediate
+step, non-trivial commutative ordering, redundant edge-case branch,
+structurally redundant decomposition.)*
+ 
+### 6.3 Operational Requirements
+ 
+A canary supports a credible correlation claim only if the following
+conditions hold:
+ 
+1. **Private canary registry (pre-publication)**
+   Before publishing the protected code, record each canary in a private,
+   timestamped document (not in the public repository): date, file, location,
+   technique used, specific constants/values, and a hash of the surrounding
+   context. Without this record, a matching pattern is an unexplained
+   anomaly, not evidence of priority — the registry is what turns "this looks
+   planted" into "this was demonstrably planted before the alleged copying
+   could have occurred."
+2. **Survive optimization and refactoring**
+   Verify that no linter, compiler, or formatter removes the canary as dead
+   code. If a CI pass eliminates it, it provides no protection. Techniques 1
+   and 4 are more vulnerable here than Techniques 2 and 3.
+
+### 6.4 Natural Sentinels — Implemented, and Why They Are Weaker
+
+A **designed canary** (§6.1–§6.3) must be *authored*: an arbitrary,
+functionally-neutral choice planted on purpose. A cheaper relative is available
+for free from the §4 machinery, and is implemented in `rcf_core/sentinel.py`:
+rank a project's existing protected functions by surprisal mass
+(`measure_project`) and watch the heaviest. No new code is written — you simply
+select the functions that *already* stand out (e.g. a hand-rolled bit-mixer).
+
+This is **not** a designed canary, and the tool says so. The distinction is
+load-bearing:
+
+| | Designed canary (§6.1–§6.3) | Natural sentinel (§6.4) |
+|---|---|---|
+| Origin | authored, functionally **neutral** | a real, load-bearing function |
+| Convergence | immune — no reason to reproduce | **vulnerable** — an independent author can converge on a similar shape |
+| Proof strength | near-zero false-positive ("impossible by chance") | a lead, not a verdict ("unlikely by chance") |
+| Cost | must be planted | free — pick from what exists |
+| Over-time stability | stable — useless code never appears naturally | **decays silently** — surprisal is corpus-relative; if the pattern spreads (a future stdlib, a popular library), the sentinel ages out without warning |
+
+Because of the decay risk, `sentinel.py` never freezes its list: it re-measures
+live on every run, and its banner instructs re-running before each audit. A
+sentinel hit is a reason to run §5 (`proof.py`) against the suspect, not a
+finding on its own. The designed canary of §6.1–§6.3 (`canary.py`) is the instrument for
+the legally decisive, convergence-proof claim.
+
+---
+
+## 7. The v3 Core, Synthesized
+
+```
+RCF v3  =   surprisal-weighted WL-kernel        (origin)
+            ───────over───────
+            PDG                                  (language-invariant)
+            + p-value / E-value                  (proof)
+            + methodology canary                 (designed evidence)
+```
+
+| Component | Role | Status of art | In `rcf_core` |
+|-----------|------|---------------|---------------|
+| **PDG** | survives language translation | known | ✅ Python (`normalize_python`), TS, Rust, Go (`sdk/typescript` via tree-sitter) |
+| **WL-kernel** | computable, rename-invariant similarity | known | ✅ `wl.py` |
+| **surprisal weight** | turns similarity into *origin* | **RCF contribution** | ✅ `corpus.py` + `measure.py` |
+| **p-value / E-value** | turns score into court-grade proof | known (BLAST analogy) | ✅ `proof.py` |
+| **methodology canary** | near-zero-false-positive designed evidence | **RCF contribution** | ✅ `canary.py` (designed canary via subgraph isomorphism) + `sentinel.py` (natural signatures) |
+
+§1–§7 define correlation for **one code unit** — a function or a small file —
+compared against another single unit. §8 addresses what happens when the
+methodology under protection is not one function but an architecture: logic
+that only exists as the arrangement of many functions across many files.
+
+---
+
+## 8. Scaling to a Whole Repository — System Dependence Graph
+
+> **Implementation status: theoretical, not yet in `rcf_core`.** Everything in
+> §1–§7 is implemented and operates on a pair of code units chosen by the
+> auditor (typically one function or one file against another). This section
+> specifies how the same mathematics extends when the protected methodology is
+> *distributed* — no single function is the "theft," only the arrangement of
+> several is. Nothing below has a corresponding module yet; it is recorded
+> here so the extension is designed before it is built, not improvised
+> during a real audit.
+
+### 8.0 The problem
+
+§1.2 defines `G` as *intraprocedural*: one function, one graph. Real
+methodologies are frequently not contained in one function — a caching
+strategy, a validation pipeline, a particular way of splitting responsibility
+across modules is expressed by *how functions call each other*, not only by
+what happens inside any one of them. Comparing file-by-file or
+function-by-function misses this: each individual function may look
+unremarkable, while the *wiring between them* is the actual idiosyncrasy.
+
+This is not a new problem in the field — it is the classical jump from a
+**Program Dependence Graph** (one procedure) to a **System Dependence Graph**
+(a whole program), first formalized by Horwitz, Reps, and Binkley for
+interprocedural program slicing. RCF v3 reuses that construction rather than
+inventing a new one.
+
+### 8.1 Building the SDG — linking PDGs across calls
+
+An SDG is produced by taking the per-function PDGs of §1.2 and adding three
+edge types at every call site, connecting the caller's PDG to the callee's:
+
+1. **Call edge** — a control-dependence edge from the call-site node to the
+   entry node of the called function.
+2. **Parameter-in edge** — a data-dependence edge from each actual-in
+   argument at the call site to the corresponding formal-in parameter inside
+   the called function.
+3. **Parameter-out edge** — a data-dependence edge from each formal-out value
+   in the called function back to the corresponding actual-out (return
+   target) at the call site.
+
+The result is one connected, labeled graph spanning the whole repository
+(or the whole reachable call graph from a chosen entry set), built from
+exactly the same Σ-labeled primitives as §1.2. No new node or edge
+vocabulary is introduced — §8 is a *linking* rule over the objects §1–§7
+already define, not a new graph theory.
+
+### 8.2 Two levels, not one — micro and macro
+
+Running WL (§3.1) and surprisal (§4) directly on the full SDG is possible in
+principle but wastes the structure of the problem: it treats "this function's
+internal logic" and "how functions are wired together" as the same kind of
+signal, when they are two *independent* axes of idiosyncrasy. RCF v3 splits
+them:
+
+- **Micro level (unchanged, §1–§7).** Each function keeps its own
+  intraprocedural PDG, WL fingerprint, and surprisal mass, exactly as
+  specified above.
+- **Macro level (new).** Build a second, much smaller graph `M`:
+  - nodes = functions/modules,
+  - edges = call/import relationships between them,
+  - each node's label = that function's micro-level WL fingerprint from
+    §3.1/§4 (not a Σ-primitive — a *fingerprint*, one level up).
+
+  `M` is then itself a labeled graph, and the same WL-kernel machinery of
+  §3.1 applies to it unmodified, now measuring "does the *shape of the
+  architecture* — who calls whom, in what pattern — correlate," using each
+  node's own idiosyncrasy as its label instead of a raw operation type.
+
+A suspect that matches only at the micro level (the same odd helper function
+appears, wired differently) is weaker evidence than one that matches at
+*both* levels — the same functions, connected the same way. The two levels
+are designed to corroborate, not replace, each other.
+
+### 8.3 Scalability — a repository is not two files
+
+Exact subgraph isomorphism (used by the canary engine, §6) on a
+whole-repository SDG is combinatorially far worse than on the pair of small
+graphs §6 was designed for. RCF v3 does not propose running exact matching
+at repository scale directly. Instead, following the same principle GPLAG
+used for the same reason (a *lossy statistical filter* to prune the search
+space before expensive matching):
+
+1. Compute the cheap, coarse signal first — the macro-level WL histogram of
+   §8.2, or the spectral filter of §3.2 — over the *whole* candidate graph.
+2. Only for the pairs (or sub-regions) that clear a threshold on the coarse
+   signal, run the expensive per-function surprisal correlation (§4) and, if
+   warranted, canary subgraph isomorphism (§6) on that narrowed candidate set.
+
+This keeps §4–§6 exactly as specified — they still operate on pairs of
+manageable units — while §8.3 is only the *search strategy* for finding
+which units are worth comparing in a large repository.
+
+### 8.4 Combining distributed evidence — a meta-analysis, not a single score
+
+If a methodology is scattered, the honest output of an audit is not one
+`corr(A, B)` for the whole repository — it is a *set* of independent
+per-fragment results from §5, `p₁, p₂, …, pₙ`, one per matched
+function/canary pair found via §8.3. Forcing these into a single combined
+score by concatenating the whole repository into one graph would violate
+§5.1's honesty constraints (the resulting p-value would not correspond to
+any actual null model that was sampled).
+
+Instead, RCF v3 proposes combining the independent p-values with **Fisher's
+method**, the standard statistical tool for exactly this situation:
+
+```
+χ² = −2 · Σᵢ ln(pᵢ)         (i = 1..n independent fragment matches)
+```
+
+Under the null hypothesis that all `n` fragments matched independently by
+chance, this statistic follows a χ² distribution with `2n` degrees of
+freedom. This gives a principled way to say "no single fragment was
+individually conclusive, but the joint probability that all `n` matched
+independently is vanishingly small" — the same intuition already present,
+informally, in §6.3.3's "one canary match is a lead, not a verdict; several
+independent ones are stronger." §8.4 is that intuition made into an actual
+statistic, applicable to any mix of surprisal (§5) and canary (§6) fragment
+results, not only to canaries.
+
+As with §5.1, the combined figure must be reported alongside its inputs
+(the individual `pᵢ` and which fragments they came from) — a single
+aggregated number without its constituent evidence is exactly the kind of
+unreproducible collapse §5.1 and §5.3 already prohibit for the single-unit
+case, and the prohibition carries over unchanged.
+
+### 8.5 Status and open questions
+
+This section is deliberately marked theoretical. Before any of it enters
+`rcf_core`, at minimum the following need resolving — recorded here so they
+are not lost:
+
+1. **Entry-set selection.** An SDG requires a reachable call graph from some
+   entry point(s). Libraries with many independent public entry points, or
+   dynamic dispatch (interfaces, virtual calls, reflection), complicate
+   "which calls exist" in exactly the way flagged for a single function in
+   §8.1's source, Horwitz–Reps–Binkley's own treatment of dynamic dispatch.
+   This is unresolved here, not solved.
+2. **Independence of fragments for §8.4.** Fisher's method assumes the `n`
+   combined p-values are independent. Fragments drawn from the same
+   repository are not obviously independent of each other (shared style,
+   shared helper functions) — this needs either a justified independence
+   argument or a correlated-evidence variant of the combination step before
+   the resulting combined figure can be trusted at face value.
+3. **Macro-level corpus.** §4's surprisal machinery needs a reference corpus
+   of *architectures* (call-graph shapes), not just of functions, to give
+   `P_nat` any meaning at the macro level of §8.2. No such corpus currently
+   exists in `rcf_core`; building one is a separate, non-trivial effort
+   parallel to §8's own engineering cost, on top of the per-language
+   normalizer cost already noted in §9.
+
+---
+
+## 9. Honest Limits — What Is Hard
+
+This section is normative: RCF must not overclaim.
+
+1. **Cross-language PDG needs a normalizer per language.** `parse (tree-sitter) →
+   shared semantic IR → PDG`. This is the core engineering effort. Without it,
+   language-invariance does not hold.
+2. **`P_nat(f)` needs a corpus.** Proof quality equals corpus quality. A small or
+   biased corpus yields weak surprisal weights.
+3. **Robustness vs. sensitivity is a genuine tension.** It lives in the choice of `k`
+   and feature granularity. This is real research, not a weekend's work.
+4. **RCF cannot prevent an AI from learning.** This is physically impossible at the
+   license layer. RCF v3 is a layer of **detection, proof, and deterrence** — not DRM.
+   The proof *is* the market value.
+5. **Behavioral equivalence false-positives on convergent solutions.** Prefer the
+   canary mechanism (§6, implemented in `canary.py`) for legal claims — its false-positive
+   rate approaches zero by construction. Treat §3.3 as corroborating evidence only, not as standalone proof.
+6. **Whole-repository correlation (§8) is unimplemented and unvalidated.**
+   The SDG construction, the two-level split, the lossy pre-filter, and the
+   Fisher's-method aggregation are a design proposal only. None of §8's
+   open questions (§8.5) are resolved. Until they are, and until §8 has an
+   implementation in `rcf_core`, no repository-scale correlation claim
+   should be made — only the per-unit claims of §1–§7, which remain fully
+   implemented and independently valid regardless of §8's status.
+
+---
+
+## 10. Glossary
+
+| Term | Meaning |
+|------|---------|
+| **PDG** | Program Dependence Graph — nodes are operations/values, edges are data/control dependence (one procedure) |
+| **SDG** | System Dependence Graph — PDGs of multiple procedures linked at call sites (§8.1) |
+| **Σ (semantic alphabet)** | language-independent node labels (`ARITH`, `CALL`, `BRANCH`, …) |
+| **WL feature `f`** | a Weisfeiler–Lehman subtree label; a local structural fingerprint |
+| **`P_nat(f)`** | probability an independent implementation produces `f` |
+| **surprisal `w(f)`** | `−log P_nat(f)`; weight of idiosyncrasy |
+| **`corr(A,B)`** | surprisal-weighted cosine over PDG WL features |
+| **E-value / p-value** | probability the observed `corr` arises under independent origin |
+| **canary** | injected, functionally-neutral idiosyncratic choice used as designed evidence |
+| **macro graph `M`** | call/import graph over functions, each node labeled by its own micro-level fingerprint (§8.2) |
+| **Fisher's method** | statistic combining several independent p-values into one joint significance figure (§8.4) |
+
+---
+
+## 11. References
+
+- `RCF-SPEC.md` — protocol specification (markers, compliance)
+- `RCF-CORE.md` — conceptual overview
+- `RCF-ENFORCEMENT.md` — enforcement mechanisms
+- `../WHITE_PAPER.md` — research framing
+- External: Weisfeiler–Lehman graph kernels; spectral graph theory (normalized
+  Laplacian); program dependence graphs (Ferrante, Ottenstein, Warren); BLAST
+  E-value statistics (Altschul et al.) as the proof-of-origin analogue;
+  System Dependence Graphs and interprocedural slicing (Horwitz, Reps,
+  Binkley, 1988–1990) as the basis for §8's whole-repository extension;
+  Fisher's method for combining independent p-values (R. A. Fisher, 1925)
+  as the basis for §8.4's evidence aggregation.
 
 ---
 
 **Document Control:**
-- Version: Active
-- Last Updated: 2026
-- Status: Active
+- Status: Active Specification — theoretical core fixed; §4–§6 implemented in `rcf_core` (Python) and `sdk/typescript` (TS, Rust, Go); §8 (whole-repository extension) is design-only, not yet implemented
+- Generation: RCF v3 (correlation core)
+- Scope: Normative for definitions and invariants; non-normative for implementation
 
-**© 2026 RCF Protocol**  
-**All rights reserved.**
+**© 2026 Aladdin Aliyev**
+**All rights reserved under RCF Protocol License**
