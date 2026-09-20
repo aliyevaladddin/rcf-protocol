@@ -5,7 +5,7 @@
 [![jsDelivr](https://data.jsdelivr.com/v1/package/npm/rcf-protocol/badge)](https://www.jsdelivr.com/package/npm/rcf-protocol)
 [![License: RCF-PL](https://img.shields.io/npm/v/rcf-protocol?label=RCF-PL&color=red&style=flat-square)](https://aliyev.site/rcf)
 [![CI](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml/badge.svg)](https://github.com/aliyevaladddin/rcf-protocol/actions/workflows/master-pipeline.yml)
-[![DOI](https://zenodo.org/badge/1174703393.svg)](https://doi.org/10.5281/zenodo.21085739)
+<a href="https://doi.org/10.5281/zenodo.21085740"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.21085740.svg" alt="DOI"></a>
 [![ORCID: Aladdin Aliyev](https://img.shields.io/badge/ORCID-Aladdin%20Aliyev-A6CE39?logo=orcid&logoColor=white)](https://orcid.org/0009-0004-5230-2278)
 
 The official TypeScript/Node.js Command Line Interface for the **RCF (Restricted Correlation Framework) Protocol Active Integrity & Audit Framework**.
