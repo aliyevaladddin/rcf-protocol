@@ -12,8 +12,46 @@ permissions:
   packages: write
 
 jobs:
+  verify-version:
+    name: ✅ Verify Versions Match Tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check package versions against release tag
+        run: |
+          if [ "${{ github.event_name }}" != "release" ]; then
+            echo "Manual run — skipping tag/version check."
+            exit 0
+          fi
+          TAG="${GITHUB_REF#refs/tags/}"
+          EXPECTED="${TAG#v}"
+          echo "Release tag: $TAG → expected version: $EXPECTED"
+          fail=0
+          check() {
+            local label="$1" file="$2" actual="$3"
+            if [ "$actual" = "$EXPECTED" ]; then
+              echo "✅ $label ($file): $actual"
+            else
+              echo "❌ $label ($file): $actual — expected $EXPECTED (from $TAG)"
+              fail=1
+            fi
+          }
+          ROOT=$(node -p "require('./package.json').version")
+          check "Root" "package.json" "$ROOT"
+          TS=$(node -p "require('./sdk/typescript/package.json').version")
+          check "TypeScript SDK" "sdk/typescript/package.json" "$TS"
+          PY=$(grep -m1 '^version' sdk/python/pyproject.toml | sed 's/version *= *"\(.*\)"/\1/')
+          check "Python SDK" "sdk/python/pyproject.toml" "$PY"
+          RS=$(grep -m1 '^version' sdk/rust/Cargo.toml | sed 's/version *= *"\(.*\)"/\1/')
+          check "Rust SDK" "sdk/rust/Cargo.toml" "$RS"
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::Version mismatch with release tag $TAG. Bump all manifests before publishing."
+          fi
+          exit $fail
+
   publish-pypi:
     name: 🚀 Publish PyPI & Attest
+    needs: verify-version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -50,6 +88,7 @@ jobs:
 
   publish-npm:
     name: 🚀 Publish NPM & Attest
+    needs: verify-version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -78,6 +117,7 @@ jobs:
 
   publish-crates:
     name: 🚀 Publish Crates.io
+    needs: verify-version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

@@ -3,6 +3,15 @@
 
 All notable changes to the RCF Protocol project will be documented in this file.
 
+## [2.1.9] - 2026-09-29
+
+### Changed
+- **Version bump to 2.1.9** across root, TypeScript (`rcf-protocol`), and Python (`rcf-cli`) packages. `sigma_version` intentionally stays at 2.1.3 — the correlation alphabet (Σ) is unchanged, so audit fingerprints remain comparable across versions.
+- **Rust SDK aligned to the common version scheme**: `sdk/rust/Cargo.toml` moved from the placeholder `0.0.1` to `2.1.9`, so all three SDKs now release under one version number.
+
+### Fixed
+- **v2.1.9 release pipeline ran before the version bumps landed.** The GitHub Release was published while every manifest still read 2.1.8, so the npm publish job attempted to re-upload the already-published `rcf-protocol@2.1.8` and failed (`npm publish` has no `--skip-existing`; the PyPI job silently skipped for the same reason via twine). All manifests, lockfile, and CLI `--version` strings are now aligned at 2.1.9 before the release is re-cut.
+
 ## [2.1.8] - 2026-07-09
 
 ### Changed
