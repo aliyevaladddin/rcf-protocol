@@ -9,8 +9,6 @@
 ⭐ If you find this useful, a star helps others discover it
 
 [![GitHub stars](https://img.shields.io/github/stars/aliyevaladddin/rcf-protocol?style=social)](https://github.com/aliyevaladddin/rcf-protocol)
-[![OpenCollective](https://img.shields.io/opencollective/all/rcf-protocol?style=flat-square&color=4ecdc4&logo=opencollective&logoColor=white)](https://opencollective.com/rcf-protocol)
-<img src="https://img.shields.io/liberapay/goal/aladdinaliyev.svg?logo=liberapay">
 
 
 # RCF: Restricted Correlation Framework Protocol
@@ -184,9 +182,35 @@ RCF provides specialized measures for dOS to ensure kernel transparency while pr
 
 - **Website:** [aliyev.site/rcf](https://aliyev.site/rcf)
 - **Contact:** [aladdin@aliyev.site](mailto:aladdin@aliyev.site)
-- **Projects:** [Aurora Access](https://auroraid.site), [Aliyev OSINT](https://aliyev.site/osint)
+- **Projects:** [Aurora Access](https://auroraid.site), [Aliyev OSINT](https://aliyev.site/osint), [AladdinAI](https://aladdinai.cc), [WebMesh](https://webmesh.cc)
 
 ---
+
+## ⚖️ Citation & Academic Reference
+
+If you utilize this software, audit methodologies, or the underlying mathematical framework for restricted correlation in your research, production systems, or AI safety benchmarks, please cite the framework using the following academic metadata:
+
+### Academic Preprints
+* **SSRN (Elsevier):** Aliyev, A. (2026). *Restricted Correlation Framework (RCF): A Licensing Protocol and Technical System for Protecting Software Methodology from AI Extraction.* [Available at SSRN](https://ssrn.com/abstract=7023638)
+* **Zenodo (Network Neuroscience Core):** Aliyev, A. (2026). *Restricted Correlation as a Neuromodulation Paradigm: Applying Brain Network Control Theory to AI Intellectual Property Protection.* [https://doi.org](https://doi.org/10.5281/zenodo.21085740)
+
+### BibTeX (APA / IEEE Integration)
+```bibtex
+@software{Aliyev_Restricted_Correlation_Framework_2026,
+  author       = {Aliyev, Aladdin},
+  title        = {{Restricted Correlation Framework (RCF) Protocol}},
+  month        = aug,
+  year         = {2026},
+  version      = {1.0.0},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.21085740},
+  url          = {https://github.com},
+  note         = {ORCID: 0009-0004-5230-2278. Pending SPDX Identifier: RCF-PL}
+}
+```
+
+---
+
 
 **© 2026 Aladdin Aliyev**  
 **All rights reserved under RCF: Restricted Correlation Framework Protocol**
